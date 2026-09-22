@@ -1,0 +1,91 @@
+% Locked core references (anatomiae research spec). Entries below are
+% verified against arXiv / ACL Anthology directly (2026-09-22), not
+% recalled from training data - see docs/RESEARCH_AUDIT.md for full
+% per-paper audit notes (methodology, limitations, what we reuse/reject).
+
+@article{hagendorff2026inevitability,
+  title   = {On the Inevitability of Left-Leaning Political Bias in Aligned Language Models},
+  author  = {Hagendorff, Thilo},
+  journal = {arXiv preprint arXiv:2507.15328},
+  year    = {2026},
+  doi     = {10.1007/s43681-026-01235-8},
+  note    = {Motivating / related work, not a takedown target - see docs/PRIOR_WORK_MATRIX.md.
+             arXiv v1 submitted 2025-07-21; DOI indicates a forthcoming/accepted version in
+             AI and Ethics (Springer, 2026). Short position piece (~6pp body, literature
+             synthesis + philosophical argument), not an empirical study - author calls it
+             "this comment." Explicitly concedes HHH terms are not neutral primitives.}
+}
+
+@inproceedings{feng2023pretrails,
+  title     = {From Pretraining Data to Language Models to Downstream Tasks: Tracking the Trails of Political Biases Leading to Unfair {NLP} Models},
+  author    = {Feng, Shangbin and Park, Chan Young and Liu, Yuhan and Tsvetkov, Yulia},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year      = {2023},
+  eprint    = {2305.08283},
+  note      = {Verified: arXiv:2305.08283v3. ACL 2023 Best Paper Award. Code MIT-licensed:
+               github.com/BunsenFeng/PoliLean. Uses the Political Compass Test as its
+               measurement instrument (in tension with anatomiae's own rule against PCT as
+               primary measurement, §74) but its controlled partisan-corpus continued-pretraining
+               design is the strongest causal-intervention precedent among the locked papers -
+               see docs/PRIOR_WORK_MATRIX.md.}
+}
+
+@inproceedings{santurkar2023opinionqa,
+  title     = {Whose Opinions Do Language Models Reflect?},
+  author    = {Santurkar, Shibani and Durmus, Esin and Ladhak, Faisal and Lee, Cinoo and Liang, Percy and Hashimoto, Tatsunori},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2023},
+  eprint    = {2303.17548},
+  note      = {Verified: arXiv:2303.17548v1.}
+}
+
+@inproceedings{faulborn2025littleleft,
+  title     = {Only a Little to the Left: A Theory-grounded Measure of Political Bias in Large Language Models},
+  author    = {Faulborn, Mats and Sen, Indira and Pellert, Max and Spitz, Andreas and Garcia, David},
+  booktitle = {Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year      = {2025},
+  eprint    = {2503.16148},
+  note      = {Verified: arXiv:2503.16148v2. Code CC-BY-4.0: github.com/MaFa211/theory_grounded_pol_bias.}
+}
+
+@inproceedings{lim2026biaseastwest,
+  title     = {Bias in the East, Bias in the West: A Bilingual Analysis of {LLM} Political Bias on {U.S.}- and {China}-Related Issues},
+  author    = {Lim, Ying Ying and R{\"o}ttger, Paul},
+  booktitle = {Findings of the Association for Computational Linguistics: EACL 2026},
+  pages     = {2301--2326},
+  address   = {Rabat, Morocco},
+  year      = {2026},
+  doi       = {10.18653/v1/2026.findings-eacl.122},
+  note      = {Verified via ACL Anthology 2026.findings-eacl.122. Not on arXiv as of 2026-09-22
+               (searched, no match) - source it from the Anthology PDF, not arXiv. Code:
+               github.com/yingslim/political_bias. Data:
+               huggingface.co/datasets/yingslim/political_bias (CC BY 4.0). 36k prompts / 144k
+               precomputed responses. NOTE: items are single-source-per-issue, human-translated
+               into the second language, NOT independently native-bilingual - see
+               docs/PRIOR_WORK_MATRIX.md. NB: an earlier placeholder in this file guessed the
+               wrong first author given name ("Sean"); corrected to "Ying Ying" after
+               verification.}
+}
+
+@misc{datadecide,
+  title = {DataDecide},
+  author = {{Allen Institute for AI}},
+  howpublished = {\url{https://huggingface.co/datasets/allenai/DataDecide}},
+  note  = {Controlled pretraining-data-recipe x scale x seed x checkpoint resource.}
+}
+
+@article{llm360amber,
+  title   = {LLM360: Towards Fully Transparent Open-Source LLMs},
+  author  = {Liu, Zhengzhong and others},
+  journal = {arXiv preprint arXiv:2312.06550},
+  year    = {2023},
+  note    = {Amber model family; HF org since renamed LLM360 -> IFM, see docs/MODEL_AUDIT.md.}
+}
+
+@techreport{olmo2,
+  title       = {OLMo 2},
+  author      = {{Allen Institute for AI}},
+  institution = {AI2},
+  year        = {2024},
+  note        = {allenai/OLMo-2-1124-13B family: Base/SFT/DPO/RM/RLVR1/RLVR2/Instruct.}
+}

@@ -1,0 +1,28 @@
+family: olmo2
+provider: allenai
+checkpoint: allenai/OLMo-2-1124-13B-DPO
+revision: main
+parameters_total: "13B"
+architecture: dense
+training_stage: dpo
+parent_checkpoint: "olmo2-13b-sft"
+
+transparency:
+  tier: T1
+  pretraining_data_reconstructable: true
+  training_code_available: true
+  intermediate_checkpoints_available: true
+
+license:
+  name: apache-2.0
+  gated: false
+
+inference:
+  backend: vllm
+  dtype: bfloat16
+  tensor_parallel_size: 1
+
+locked_anchor: true
+scientific_role: >
+  Locked anchor A (DPO stage). Third link in the OLMo Base -> SFT -> DPO ->
+  RLVR lineage.

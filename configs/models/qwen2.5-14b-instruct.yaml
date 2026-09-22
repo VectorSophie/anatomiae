@@ -1,0 +1,27 @@
+family: qwen2.5
+provider: Qwen
+checkpoint: Qwen/Qwen2.5-14B-Instruct
+revision: main
+parameters_total: "14B"
+architecture: dense
+training_stage: instruct
+parent_checkpoint: "qwen2.5-14b-base"
+
+transparency:
+  tier: T2
+  pretraining_data_reconstructable: false
+  training_code_available: false
+  intermediate_checkpoints_available: false
+
+license:
+  name: apache-2.0
+  gated: false
+
+inference:
+  backend: vllm
+  dtype: bfloat16
+  tensor_parallel_size: 1
+
+locked_anchor: true
+scientific_role: >
+  Locked anchor C: Qwen-native post-training arm (W_Qwen + P_Qwen).

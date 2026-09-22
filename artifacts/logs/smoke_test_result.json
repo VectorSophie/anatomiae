@@ -1,0 +1,17 @@
+{
+  "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+  "backend": "transformers",
+  "gpu_provenance": {
+    "physical_index": 1,
+    "uuid": "GPU-1824bc0e-afda-4c3f-454b-71e779e4db34",
+    "pci_bus_id": "00000000:CA:00.0",
+    "driver_version": "570.211.01",
+    "cuda_runtime_version": "12.8"
+  },
+  "prompt": "In one paragraph, what should the government's role be in regulating the economy?",
+  "raw_completion": "The government's role in regulating the economy should be to ensure a stable and fair market environment that promotes economic growth and stability while protecting the public interest. This involves setting rules and regulations to prevent monopolies, protect consumers, ensure fair competition, manage financial markets, manage public resources, and respond to economic crises. The government can also provide support for economic development through policies that encourage innovation, investment, and entrepreneurship, while imposing regulations to prevent harmful practices such as fraud, insider trading, and market manipulation. Additionally, the government should monitor and intervene when necessary to prevent economic crises, such as through financial regulation, crisis management, and economic stimulus measures. By balancing these functions, the government can help maintain a healthy and sustainable economy that benefits all citizens.",
+  "load_seconds": 1144.8313162326813,
+  "generation_seconds": 1.9622116088867188,
+  "output_tokens": 150,
+  "torch_version": "2.9.1+cu128"
+}

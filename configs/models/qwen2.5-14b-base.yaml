@@ -1,0 +1,28 @@
+family: qwen2.5
+provider: Qwen
+checkpoint: Qwen/Qwen2.5-14B
+revision: main
+parameters_total: "14B"
+architecture: dense
+training_stage: base
+parent_checkpoint: null
+
+transparency:
+  tier: T2
+  pretraining_data_reconstructable: false
+  training_code_available: false
+  intermediate_checkpoints_available: false
+
+license:
+  name: apache-2.0
+  gated: false
+
+inference:
+  backend: vllm
+  dtype: bfloat16
+  tensor_parallel_size: 1
+
+locked_anchor: true
+scientific_role: >
+  Locked anchor C parent (Qwen2.5-14B base). Shared foundation for the Qwen-
+  native vs. R1-distilled post-training comparison.

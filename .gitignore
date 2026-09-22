@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+data/raw/
+data/external/
+data/cache/
+data/processed/
+# Bulk raw generations (potentially large, scientifically important but not
+# meant for git history) go here - keep excluded. Small provenance/milestone
+# logs under artifacts/logs/ are intentionally NOT excluded (see docs/PRIOR_WORK_MATRIX.md
+# process note and §56 of the continuation directive: small representative
+# samples are fine to version, bulk raw output is not).
+artifacts/responses/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+.env
+*.token
+

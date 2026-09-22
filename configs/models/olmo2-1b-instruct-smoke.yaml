@@ -1,0 +1,29 @@
+family: olmo2
+provider: allenai
+checkpoint: allenai/OLMo-2-0425-1B-Instruct
+revision: main
+parameters_total: "1B"
+architecture: dense
+training_stage: instruct
+parent_checkpoint: null
+
+transparency:
+  tier: T1
+  pretraining_data_reconstructable: true
+  training_code_available: true
+  intermediate_checkpoints_available: true
+
+license:
+  name: apache-2.0
+  gated: false
+
+inference:
+  backend: vllm
+  dtype: bfloat16
+  tensor_parallel_size: 1
+
+locked_anchor: false
+scientific_role: >
+  Tier-1 smoke-test model only, not part of the locked 13B lineage. Used to
+  validate the download -> GPU-guard -> generation -> raw-output chain
+  (PASS) and the vLLM/Transformers backend-divergence check.

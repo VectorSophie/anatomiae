@@ -1,0 +1,277 @@
+# Download manifest for the anatomiae pilot.
+# Tiers follow the research spec (§34): Tier 1 = smoke test, Tier 2 = locked
+# anchors, Tier 3 = control families, Tier 4+ = future longitudinal/lineage
+# expansion. `status` is updated as downloads happen; nothing here is
+# fetched automatically just by editing this file.
+#
+# HF cache reused: HF_HOME=/data/jackb/krasis/huggingface (existing,
+# jackb-owned, already has partial model metadata cached; avoids a
+# duplicate multi-hundred-GB cache under /home). See docs/MODEL_AUDIT.md.
+
+artifacts:
+  # ---- Tier 1: smoke test ----
+  - id: olmo2-1b-instruct-smoke
+    repository: allenai/OLMo-2-0425-1B-Instruct
+    revision: main
+    type: model
+    tier: 1
+    estimated_size_gb: 2
+    destination: hf_cache
+    status: done
+    scientific_purpose: >
+      Smoke-test the download -> GPU-guard -> Transformers-backend ->
+      generation -> raw-output-capture chain end to end before committing
+      to 13B-scale downloads. Used 1B instead of the originally planned 7B
+      to get a result faster given the measured ~2.3 MB/s link bandwidth
+      (see docs/MODEL_AUDIT.md). Result: PASS - real generation captured
+      at artifacts/logs/smoke_test_result.json, GPU isolation verified
+      live (physical index 1, UUID matched). vLLM backend smoke test on a
+      small model is still pending (transformers-only so far).
+
+  # ---- Tier 2: locked model anchors ----
+  - id: olmo2-13b-base
+    repository: allenai/OLMo-2-1124-13B
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 26
+    destination: hf_cache
+    status: downloading
+    scientific_purpose: "Locked anchor A: pretrained base state (§6)."
+
+  - id: olmo2-13b-sft
+    repository: allenai/OLMo-2-1124-13B-SFT
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 26
+    destination: hf_cache
+    status: downloading
+    scientific_purpose: "Locked anchor A: SFT stage."
+
+  - id: olmo2-13b-dpo
+    repository: allenai/OLMo-2-1124-13B-DPO
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 26
+    destination: hf_cache
+    status: downloading
+    scientific_purpose: "Locked anchor A: DPO stage."
+
+  - id: olmo2-13b-instruct-rlvr2
+    repository: allenai/OLMo-2-1124-13B-Instruct-RLVR2
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 26
+    destination: hf_cache
+    status: downloading
+    scientific_purpose: >
+      Locked anchor A: final RLVR-post-trained state. RLVR1 also exists
+      (allenai/OLMo-2-1124-13B-Instruct-RLVR1) as an intermediate RLVR
+      checkpoint; download if stage-wise RLVR movement is analyzed.
+
+  - id: olmo2-13b-rm
+    repository: allenai/OLMo-2-1124-13B-RM
+    revision: main
+    type: model
+    tier: 4
+    estimated_size_gb: 26
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Reward model used in PO stage; deferred past pilot."
+
+  - id: amber-final
+    repository: IFM/Amber
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 14
+    destination: hf_cache
+    status: pending
+    scientific_purpose: >
+      Locked anchor B: final Amber checkpoint. NOTE: org renamed from
+      LLM360 -> IFM (LLM360/Amber returns HTTP 307 redirect); this is a
+      confirmed rename, not an anchor replacement (see docs/MODEL_AUDIT.md).
+      License apache-2.0, ungated.
+
+  - id: amber-ckpt-early
+    repository: IFM/Amber
+    revision: ckpt_020
+    type: model
+    tier: 2
+    estimated_size_gb: 14
+    destination: hf_cache
+    status: pending
+    scientific_purpose: >
+      Locked anchor B: early-training checkpoint (branch ckpt_020 of 360
+      available branches ckpt_000..ckpt_359) for D_t -> W_t -> B_t pilot
+      analysis. Exact indices to be finalized after loss-curve inspection
+      of IFM/Amber/amber-*-curve.* artifacts.
+
+  - id: amber-ckpt-mid
+    repository: IFM/Amber
+    revision: ckpt_180
+    type: model
+    tier: 2
+    estimated_size_gb: 14
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Locked anchor B: mid-training checkpoint for pilot."
+
+  - id: amber-datasets
+    repository: IFM/AmberDatasets
+    revision: main
+    type: dataset
+    tier: 2
+    estimated_size_gb: null
+    destination: hf_cache
+    status: pending
+    scientific_purpose: >
+      Locked training-data resource (§18): exact data/chunk sequence
+      backing the Amber checkpoints. Size to be determined before full
+      pull; may require partial/streaming access given scale.
+
+  - id: qwen2.5-14b-base
+    repository: Qwen/Qwen2.5-14B
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 28
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Locked anchor C parent: Qwen2.5-14B base."
+
+  - id: qwen2.5-14b-instruct
+    repository: Qwen/Qwen2.5-14B-Instruct
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 28
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Locked anchor C parent: Qwen-native post-training, for W_Qwen+P_Qwen arm."
+
+  - id: deepseek-r1-distill-qwen-14b
+    repository: deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
+    revision: main
+    type: model
+    tier: 2
+    estimated_size_gb: 28
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Locked anchor C child: R1-distillation onto the same Qwen2.5-14B foundation."
+
+  # ---- Tier 3: control families (Qwen3 + gated controls) ----
+  - id: qwen3-14b-base
+    repository: Qwen/Qwen3-14B-Base
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 28
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Qwen3 base/post-trained pair, modern pretraining pipeline (§9)."
+
+  - id: qwen3-14b-instruct
+    repository: Qwen/Qwen3-14B
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 28
+    destination: hf_cache
+    status: pending
+    scientific_purpose: "Qwen3 post-trained counterpart (thinking/instruct default)."
+
+  - id: llama-3.1-8b-base
+    repository: meta-llama/Llama-3.1-8B
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 16
+    destination: hf_cache
+    status: blocked_on_human
+    scientific_purpose: "Control family: Llama Base/Instruct comparison. See docs/HUMAN_ACTION_REQUIRED.md #1."
+
+  - id: llama-3.1-8b-instruct
+    repository: meta-llama/Llama-3.1-8B-Instruct
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 16
+    destination: hf_cache
+    status: blocked_on_human
+    scientific_purpose: "Control family: Llama Base/Instruct comparison. See docs/HUMAN_ACTION_REQUIRED.md #1."
+
+  - id: gemma-3-12b-pt
+    repository: google/gemma-3-12b-pt
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 24
+    destination: hf_cache
+    status: blocked_on_human
+    scientific_purpose: "Control family: Gemma Base/Instruct comparison. See docs/HUMAN_ACTION_REQUIRED.md #1."
+
+  - id: gemma-3-12b-it
+    repository: google/gemma-3-12b-it
+    revision: main
+    type: model
+    tier: 3
+    estimated_size_gb: 24
+    destination: hf_cache
+    status: blocked_on_human
+    scientific_purpose: "Control family: Gemma Base/Instruct comparison. See docs/HUMAN_ACTION_REQUIRED.md #1."
+
+  # ---- Tier 1: pilot benchmark data ----
+  - id: lim-rottger-bilingual
+    repository: yingslim/political_bias
+    revision: main
+    type: dataset
+    tier: 1
+    estimated_size_gb: null
+    destination: data/raw
+    status: pending
+    scientific_purpose: >
+      Locked core paper Lim & Rottger EACL 2026 bilingual EN/ZH political
+      benchmark. Confirmed via deep-read audit: code at
+      github.com/yingslim/political_bias, data at
+      huggingface.co/datasets/yingslim/political_bias (CC BY 4.0),
+      36,000 prompts (60 issues x 3 framings x 100 IssueBench-derived
+      templates x 2 languages), 144,000 precomputed model responses from
+      the original 4 models. IMPORTANT: items are single-source-per-issue,
+      human-translated into the second language, NOT independently
+      native-bilingual - see docs/PRIOR_WORK_MATRIX.md for why this means
+      anatomiae must add its own translation-provenance tagging rather
+      than presenting this as parallel-native data if reused as-is.
+
+  - id: faulborn-theory-grounded
+    repository: MaFa211/theory_grounded_pol_bias
+    revision: TBD
+    type: dataset+code
+    tier: 1
+    estimated_size_gb: null
+    destination: data/raw
+    status: needs_source_verification
+    scientific_purpose: "Locked core paper Faulborn et al. ACL 2025; reproduce a subset of released methodology."
+
+  - id: opinions-qa
+    repository: tatsu-lab/opinions_qa
+    revision: TBD
+    type: dataset
+    tier: 1
+    estimated_size_gb: null
+    destination: data/raw
+    status: needs_source_verification
+    scientific_purpose: "Locked core paper Santurkar et al. ICML 2023; population-distribution scoring."
+
+  - id: datadecide
+    repository: allenai/DataDecide
+    revision: TBD
+    type: dataset+models
+    tier: 4
+    estimated_size_gb: null
+    destination: hf_cache
+    status: needs_source_verification
+    scientific_purpose: "Locked control/causal resource (§16); controlled corpus-recipe interventions."

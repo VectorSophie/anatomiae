@@ -1,0 +1,28 @@
+family: qwen3
+provider: Qwen
+checkpoint: Qwen/Qwen3-14B-Base
+revision: main
+parameters_total: "14B"
+architecture: dense
+training_stage: base
+parent_checkpoint: null
+
+transparency:
+  tier: T2
+  pretraining_data_reconstructable: false
+  training_code_available: false
+  intermediate_checkpoints_available: false
+
+license:
+  name: apache-2.0
+  gated: false
+
+inference:
+  backend: vllm
+  dtype: bfloat16
+  tensor_parallel_size: 1
+
+locked_anchor: true
+scientific_role: >
+  Important-but-replaceable control (§9): modern Chinese-developed open-weight
+  family, Base/post-trained pair.
