@@ -1,3 +1,5 @@
+import importlib.util
+
 import pytest
 
 from anatomiae.provenance.gpu_guard import (
@@ -96,11 +98,16 @@ def test_expected_index_is_overridable_for_other_hardware(monkeypatch):
     """The maintainers' physical-GPU-1 rule is a local workstation setting,
     not a portable scientific requirement - external reproducers must be
     able to point the guard at their own hardware. Uses a fictitious NVML
-    snapshot (not the real machine's) and disables the torch cross-check
-    so this test can never touch real hardware, including physical GPU 0
-    on the machine actually running the test suite."""
+    snapshot (not the real machine's) and, when torch is installed,
+    disables its CUDA cross-check so this test can never touch real
+    hardware, including physical GPU 0 on the machine actually running the
+    test suite. torch is optional (see pyproject.toml's `ml` extra - CI
+    runs without it), so only patch it if it's actually importable;
+    verify_gpu_isolation itself already skips the torch cross-check via
+    its own `except ImportError` when torch is absent."""
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0")
-    monkeypatch.setattr("torch.cuda.is_available", lambda: False, raising=False)
+    if importlib.util.find_spec("torch") is not None:
+        monkeypatch.setattr("torch.cuda.is_available", lambda: False, raising=False)
     prov = verify_gpu_isolation(
         nvml_snapshot=_other_hardware_snapshot, expected_physical_index=0
     )
