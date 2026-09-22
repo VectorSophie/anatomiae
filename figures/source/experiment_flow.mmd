@@ -1,0 +1,15 @@
+flowchart LR
+    DS[Dataset Item] --> PC[Prompt Constructor]
+    PC --> GEN[Generator<br/>Transformers / vLLM]
+    GEN --> RAW[(Immutable Raw Response)]
+    RAW --> PARSE[Parser]
+    PARSE --> EA[Evaluator A]
+    PARSE --> EB[Evaluator B]
+    PARSE --> EC[Evaluator C]
+    EA --> AN[Analysis]
+    EB --> AN
+    EC --> AN
+    AN --> TAB[Tables]
+    AN --> FIG[Figures]
+
+    style RAW fill:#f5f5f5,stroke:#333,stroke-width:2px

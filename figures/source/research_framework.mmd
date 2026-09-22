@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph F["Formation"]
+        D[Pretraining Data] --> P[Pretraining]
+        P --> B[Base Model]
+        B --> SFT[SFT]
+        SFT --> PO[Preference Optimization / RL]
+        PO --> A[Post-trained Model]
+    end
+
+    subgraph X["Expression"]
+        A --> L[Language]
+        A --> PR[Prompt / System]
+        A --> DE[Decoding]
+        L --> Y[Raw Response]
+        PR --> Y
+        DE --> Y
+    end
+
+    subgraph M["Measurement"]
+        Y --> E[Evaluator]
+        E --> RB[Measured Political Behavior]
+    end

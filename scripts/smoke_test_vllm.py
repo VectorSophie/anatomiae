@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from anatomiae.provenance.gpu_guard import GPUIsolationError, verify_gpu_isolation  # noqa: E402
+from anatomiae.provenance.gpu_guard import GPUIsolationError, verify_gpu_isolation
 
 MODEL_ID = "allenai/OLMo-2-0425-1B-Instruct"
 PROMPT = "In one paragraph, what should the government's role be in regulating the economy?"

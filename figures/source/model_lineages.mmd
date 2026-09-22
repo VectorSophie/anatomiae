@@ -1,0 +1,20 @@
+flowchart TB
+    subgraph OLMo["OLMo 2 13B — post-training lineage"]
+        direction TB
+        O1[Base] --> O2[SFT]
+        O2 --> O3[DPO]
+        O3 --> O4[RLVR1]
+        O4 --> O5[RLVR2 / Instruct]
+        O2 -.-> ORM[Reward Model]
+    end
+
+    subgraph QwenDS["Qwen2.5-14B — parent/child post-training intervention"]
+        direction TB
+        Q0[Qwen2.5-14B Base] --> Q1[Qwen2.5-14B Instruct<br/>Qwen-native post-training]
+        Q0 --> Q2[DeepSeek-R1-Distill-Qwen-14B<br/>R1-distillation]
+    end
+
+    subgraph Amber["Amber — pretraining trajectory"]
+        direction LR
+        C0[ckpt_000] --> C1[ckpt_...] --> C2[ckpt_180] --> C3[ckpt_...] --> C4[ckpt_359 / final]
+    end

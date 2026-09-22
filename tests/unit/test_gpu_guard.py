@@ -43,7 +43,7 @@ def test_multiple_devices_aborts(monkeypatch):
 
 def test_physical_gpu_0_aborts(monkeypatch):
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0")
-    with pytest.raises(GPUIsolationError, match="locked to physical GPU 1"):
+    with pytest.raises(GPUIsolationError, match="configured for physical GPU 1"):
         verify_gpu_isolation(nvml_snapshot=_snapshot)
 
 
@@ -71,6 +71,72 @@ def test_garbage_token_aborts(monkeypatch):
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "not-a-gpu")
     with pytest.raises(GPUIsolationError, match="Cannot parse"):
         verify_gpu_isolation(nvml_snapshot=_snapshot)
+
+
+# Deliberately fictitious - unrelated to any real hardware on the machine
+# running these tests, so an override test can never accidentally resolve
+# to (and thus, via the torch cross-check, transiently touch) a real GPU
+# index the guard is supposed to forbid.
+OTHER_HARDWARE_SYSTEM = {
+    0: {
+        "uuid": "GPU-00000000-0000-0000-0000-000000000000",
+        "pci_bus_id": "00000000:01:00.0",
+        "name": "Fictitious Test GPU 0",
+        "driver_version": "000.00.00",
+        "total_memory_mib": 24576,
+    },
+}
+
+
+def _other_hardware_snapshot():
+    return OTHER_HARDWARE_SYSTEM
+
+
+def test_expected_index_is_overridable_for_other_hardware(monkeypatch):
+    """The maintainers' physical-GPU-1 rule is a local workstation setting,
+    not a portable scientific requirement - external reproducers must be
+    able to point the guard at their own hardware. Uses a fictitious NVML
+    snapshot (not the real machine's) and disables the torch cross-check
+    so this test can never touch real hardware, including physical GPU 0
+    on the machine actually running the test suite."""
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0")
+    monkeypatch.setattr("torch.cuda.is_available", lambda: False, raising=False)
+    prov = verify_gpu_isolation(
+        nvml_snapshot=_other_hardware_snapshot, expected_physical_index=0
+    )
+    assert prov.physical_index == 0
+
+
+def test_expected_index_env_var_override():
+    """ANATOMIAE_EXPECTED_GPU_INDEX is read once at module import time, so
+    this must run in a fresh subprocess rather than via importlib.reload()
+    in-process: reload() re-executes the module against its *same*
+    __dict__, which rebinds module-level classes (GPUIsolationError etc.)
+    to new objects while other already-imported references in this test
+    file keep pointing at the old ones - a real bug hit once already,
+    where a reload here silently broke `pytest.raises(GPUIsolationError)`
+    in an unrelated, later-running test via an isinstance mismatch between
+    the pre- and post-reload exception classes."""
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    code = (
+        "import os; "
+        "os.environ['ANATOMIAE_EXPECTED_GPU_INDEX'] = '0'; "
+        "from anatomiae.provenance.gpu_guard import DEFAULT_EXPECTED_PHYSICAL_INDEX; "
+        "assert DEFAULT_EXPECTED_PHYSICAL_INDEX == 0, DEFAULT_EXPECTED_PHYSICAL_INDEX; "
+        "print('OK')"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", code],
+        capture_output=True,
+        text=True,
+        cwd=str(Path(__file__).resolve().parents[2]),
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout
 
 
 def test_tensor_parallel_rejected():

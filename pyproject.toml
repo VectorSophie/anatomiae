@@ -5,25 +5,31 @@ description = "Causal Anatomy of Political Behavior in Language Models"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+  # Core: schema, config, orchestration - cheap to install, no GPU/CUDA.
+  # CI installs only this + dev, so it stays fast and GPU-free (§41/§68 of
+  # the continuation directive: public CI must not need GPU or huge
+  # downloads). Everything CUDA/model-related lives in the `ml` extra.
+  "pydantic>=2.9",
+  "pyyaml>=6.0",
+  "tqdm>=4.66",
+  "tenacity>=9.0",
+  "typer>=0.13",
+]
+
+[project.optional-dependencies]
+ml = [
   "torch>=2.5",
   "transformers>=4.46",
   "vllm>=0.6.3",
   "datasets>=3.0",
   "huggingface-hub>=0.26",
   "hf-transfer>=0.1.8",
-  "pydantic>=2.9",
-  "pyyaml>=6.0",
   "pyarrow>=17.0",
   "duckdb>=1.1",
   "pandas>=2.2",
   "numpy>=1.26,<2.0",
-  "tqdm>=4.66",
-  "tenacity>=9.0",
-  "typer>=0.13",
   "nvidia-ml-py>=12.560",
 ]
-
-[project.optional-dependencies]
 dev = [
   "pytest>=8.3",
   "pytest-cov>=5.0",

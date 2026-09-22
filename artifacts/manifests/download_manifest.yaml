@@ -34,9 +34,11 @@ artifacts:
     revision: main
     type: model
     tier: 2
-    estimated_size_gb: 26
+    estimated_size_gb: 52  # CORRECTED: weights are fp32, not bf16 as first assumed (13B*4B=52GB, matches exactly)
+    actual_size_gb: 52
     destination: hf_cache
-    status: downloading
+    status: done
+    elapsed_seconds: 22837
     scientific_purpose: "Locked anchor A: pretrained base state (§6)."
 
   - id: olmo2-13b-sft
@@ -44,7 +46,10 @@ artifacts:
     revision: main
     type: model
     tier: 2
-    estimated_size_gb: 26
+    estimated_size_gb: 27  # HF safetensors metadata unavailable for this specific repo (checked);
+                            # DPO/RLVR2 in the same lineage are confirmed BF16 (~27GB) - only the
+                            # Base checkpoint is fp32 (52GB). Using the DPO/RLVR2 figure as the
+                            # working estimate until this one finishes and the real size is known.
     destination: hf_cache
     status: downloading
     scientific_purpose: "Locked anchor A: SFT stage."
@@ -54,9 +59,9 @@ artifacts:
     revision: main
     type: model
     tier: 2
-    estimated_size_gb: 26
+    estimated_size_gb: 27  # verified via HF safetensors metadata: BF16, 13.7B params
     destination: hf_cache
-    status: downloading
+    status: pending
     scientific_purpose: "Locked anchor A: DPO stage."
 
   - id: olmo2-13b-instruct-rlvr2
@@ -64,9 +69,9 @@ artifacts:
     revision: main
     type: model
     tier: 2
-    estimated_size_gb: 26
+    estimated_size_gb: 27  # verified via HF safetensors metadata: BF16, 13.7B params
     destination: hf_cache
-    status: downloading
+    status: pending
     scientific_purpose: >
       Locked anchor A: final RLVR-post-trained state. RLVR1 also exists
       (allenai/OLMo-2-1124-13B-Instruct-RLVR1) as an intermediate RLVR
@@ -77,7 +82,7 @@ artifacts:
     revision: main
     type: model
     tier: 4
-    estimated_size_gb: 26
+    estimated_size_gb: 27  # assumed BF16 like DPO/RLVR2, not directly verified
     destination: hf_cache
     status: pending
     scientific_purpose: "Reward model used in PO stage; deferred past pilot."

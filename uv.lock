@@ -8,12 +8,12 @@ resolution-markers = [
     "python_full_version >= '3.14' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "(python_full_version >= '3.14' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.14' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
     "python_full_version == '3.13.*' and sys_platform == 'win32'",
-    "python_full_version < '3.13' and sys_platform == 'win32'",
     "python_full_version == '3.13.*' and sys_platform == 'emscripten'",
-    "python_full_version < '3.13' and sys_platform == 'emscripten'",
     "python_full_version == '3.13.*' and sys_platform == 'darwin'",
     "python_full_version == '3.13.*' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "(python_full_version == '3.13.*' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.13.*' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
+    "python_full_version < '3.13' and sys_platform == 'win32'",
+    "python_full_version < '3.13' and sys_platform == 'emscripten'",
     "python_full_version < '3.13' and sys_platform == 'darwin'",
     "python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform == 'linux'",
     "(python_full_version < '3.13' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.13' and sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32')",
@@ -155,22 +155,11 @@ name = "anatomiae"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "datasets" },
-    { name = "duckdb" },
-    { name = "hf-transfer" },
-    { name = "huggingface-hub" },
-    { name = "numpy" },
-    { name = "nvidia-ml-py" },
-    { name = "pandas" },
-    { name = "pyarrow" },
     { name = "pydantic" },
     { name = "pyyaml" },
     { name = "tenacity" },
-    { name = "torch" },
     { name = "tqdm" },
-    { name = "transformers" },
     { name = "typer" },
-    { name = "vllm" },
 ]
 
 [package.optional-dependencies]
@@ -185,18 +174,31 @@ dev = [
     { name = "pytest-cov" },
     { name = "ruff" },
 ]
+ml = [
+    { name = "datasets" },
+    { name = "duckdb" },
+    { name = "hf-transfer" },
+    { name = "huggingface-hub" },
+    { name = "numpy" },
+    { name = "nvidia-ml-py" },
+    { name = "pandas" },
+    { name = "pyarrow" },
+    { name = "torch" },
+    { name = "transformers" },
+    { name = "vllm" },
+]
 
 [package.metadata]
 requires-dist = [
-    { name = "datasets", specifier = ">=3.0" },
-    { name = "duckdb", specifier = ">=1.1" },
-    { name = "hf-transfer", specifier = ">=0.1.8" },
-    { name = "huggingface-hub", specifier = ">=0.26" },
+    { name = "datasets", marker = "extra == 'ml'", specifier = ">=3.0" },
+    { name = "duckdb", marker = "extra == 'ml'", specifier = ">=1.1" },
+    { name = "hf-transfer", marker = "extra == 'ml'", specifier = ">=0.1.8" },
+    { name = "huggingface-hub", marker = "extra == 'ml'", specifier = ">=0.26" },
     { name = "matplotlib", marker = "extra == 'analysis'", specifier = ">=3.9" },
-    { name = "numpy", specifier = ">=1.26,<2.0" },
-    { name = "nvidia-ml-py", specifier = ">=12.560" },
-    { name = "pandas", specifier = ">=2.2" },
-    { name = "pyarrow", specifier = ">=17.0" },
+    { name = "numpy", marker = "extra == 'ml'", specifier = ">=1.26,<2.0" },
+    { name = "nvidia-ml-py", marker = "extra == 'ml'", specifier = ">=12.560" },
+    { name = "pandas", marker = "extra == 'ml'", specifier = ">=2.2" },
+    { name = "pyarrow", marker = "extra == 'ml'", specifier = ">=17.0" },
     { name = "pydantic", specifier = ">=2.9" },
     { name = "pyright", marker = "extra == 'dev'", specifier = ">=1.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
@@ -206,13 +208,13 @@ requires-dist = [
     { name = "scipy", marker = "extra == 'analysis'", specifier = ">=1.14" },
     { name = "statsmodels", marker = "extra == 'analysis'", specifier = ">=0.14" },
     { name = "tenacity", specifier = ">=9.0" },
-    { name = "torch", specifier = ">=2.5" },
+    { name = "torch", marker = "extra == 'ml'", specifier = ">=2.5" },
     { name = "tqdm", specifier = ">=4.66" },
-    { name = "transformers", specifier = ">=4.46" },
+    { name = "transformers", marker = "extra == 'ml'", specifier = ">=4.46" },
     { name = "typer", specifier = ">=0.13" },
-    { name = "vllm", specifier = ">=0.6.3" },
+    { name = "vllm", marker = "extra == 'ml'", specifier = ">=0.6.3" },
 ]
-provides-extras = ["dev", "analysis"]
+provides-extras = ["ml", "dev", "analysis"]
 
 [[package]]
 name = "annotated-doc"

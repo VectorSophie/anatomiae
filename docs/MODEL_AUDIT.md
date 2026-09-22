@@ -160,13 +160,33 @@ Measured directly on 2026-09-22/23, three independent ways:
   throttle. Concurrency tuning does not meaningfully help.
 
 **Consequence for the pilot:** at ~2.3-2.6 MB/s, the Tier 2 locked-anchor
-set alone (~230 GB: OLMo-2-13B x4 checkpoints, Amber x3, Qwen2.5-14B x2,
-DeepSeek-R1-Distill-Qwen-14B) is roughly **24-28 hours of continuous
-transfer**; Tier 3's unblocked Qwen3-14B pair adds ~6 hours; Llama/Gemma
-(pending license) would add another ~9 hours. This reframes "download the
-real artifacts" from an afternoon task to a multi-day background job and
-should be reflected directly in the compute projection section of
+set alone is roughly **24-28 hours of continuous transfer**; Tier 3's
+unblocked Qwen3-14B pair adds ~7 hours; Llama/Gemma (pending license)
+would add another ~10 hours. This reframes "download the real artifacts"
+from an afternoon task to a multi-day background job and should be
+reflected directly in the compute projection section of
 `docs/PILOT_RESULTS_AND_FEASIBILITY.md`.
+
+**Size estimates corrected against real per-checkpoint dtype metadata**
+(HF `safetensors` API field, not assumed) - a real gotcha worth
+recording: only `allenai/OLMo-2-1124-13B` (Base) is stored in **fp32**
+(**52 GB confirmed by actual completed download**, 13.7B params x 4
+bytes). Every other Tier 2/3 checkpoint is BF16:
+`OLMo-2-1124-13B-{DPO,Instruct-RLVR2}` ~27 GB each (13.7B params x 2
+bytes; SFT unconfirmed via API but assumed the same family), `Qwen2.5-14B{,-Instruct}`
+and `DeepSeek-R1-Distill-Qwen-14B` ~29.5 GB each (14.77B params x 2
+bytes), `Qwen3-14B{,-Base}` ~29.5 GB each (14.77B params x 2 bytes),
+`IFM/Amber` ~13.5 GB (6.74B params x 2 bytes). An earlier pass of this
+document briefly (and wrongly) doubled *every* Tier 2/3 estimate after
+seeing the Base checkpoint's fp32 size - corrected here: it's one
+checkpoint's dtype choice, not a lineage-wide pattern. Total Tier 2
+volume: ~263 GB (52 + 27x3 + 13.5x3 + 29.5x3), close to the original
+~230 GB estimate.
+
+**First real measurement:** `allenai/OLMo-2-1124-13B` (Base) finished
+downloading in 22,837s (6.3 hours) for 52 GB = 2.32 MB/s average,
+confirming the bandwidth ceiling directly rather than just extrapolating
+from the earlier small-file benchmarks.
 
 **Response:** downloads are run sequentially (not concurrently - measured
 to not help) via `scripts/bulk_download.py`, ordered by scientific

@@ -25,7 +25,12 @@ re-delegating. Net effect on content quality was positive - the forks
 that did write directly produced good, well-sourced material, and one
 caught a real error in this document's own first-pass Lim & Röttger note
 (see below) - but the reliability of "don't write files, just report" as
-an instruction to forks should not be assumed going forward.
+an instruction to forks should not be assumed going forward. **Fixed
+structurally, not just by instruction:** research subagents now write to
+isolated per-task files under `artifacts/research_agents/` (many-writer
+safe by construction - each owns a distinct path), and only the
+orchestrator merges into canonical `docs/` files. See
+`artifacts/research_agents/README.md` for the policy.
 
 See `docs/PRIOR_WORK_MATRIX.md` for the structured per-paper table and
 `CITATIONS.bib` for verified bibliographic entries.
