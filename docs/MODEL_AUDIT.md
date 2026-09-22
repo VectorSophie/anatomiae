@@ -116,11 +116,12 @@ account. See docs/HUMAN_ACTION_REQUIRED.md #1.**
 - `google/gemma-3-12b-pt`, `google/gemma-3-12b-it` — gated
   (`gated: manual`, license `gemma`).
 
-An HF OAuth token already exists locally
-(`/data/jackb/krasis/huggingface/token`, user `VectorSophie`, expires
+An HF OAuth token already exists locally on this workstation (expires
 2026-10-13) and resolves model metadata (HTTP 200) but gets HTTP 403 on
 actual weight files for both families — license not yet accepted under this
-account. This does not block the locked-anchor pilot arms.
+account. This does not block the locked-anchor pilot arms. (Account
+identity intentionally omitted from this public document; see the private
+maintainer notes referenced in `docs/HUMAN_ACTION_REQUIRED.md` if needed.)
 
 ---
 
@@ -135,11 +136,14 @@ account. This does not block the locked-anchor pilot arms.
   itself is left untouched.
 - A separate, smaller `~/.cache/huggingface` (30G) also exists from before
   `HF_HOME` was set; not used going forward, left as-is.
-- `/data` is a shared 3.6T volume (39% used, 2.1T free) with multiple other
-  users' model caches (`cr`, `gyu`, `lsj`, ...). `/data/jackb/` is the
-  jackb-owned subtree; large anatomiae-specific artifacts that don't belong
-  in the shared HF cache should go under `/data/jackb/anatomiae/` (created
-  as needed), not the git repo at `/home/jackb/workspace/anatomiae`.
+- `/data` is a shared multi-tenant volume (3.6T, 39% used at time of
+  writing) also used by other accounts on this workstation for their own
+  unrelated model caches (other users' account names intentionally
+  omitted here - this is a shared machine, not project-specific
+  infrastructure). `/data/jackb/` is the jackb-owned subtree; large
+  anatomiae-specific artifacts that don't belong in the shared HF cache
+  should go under `/data/jackb/anatomiae/` (created as needed), not the
+  git repo at `/home/jackb/workspace/anatomiae`.
 
 ## Download bandwidth (measured, important for feasibility)
 
