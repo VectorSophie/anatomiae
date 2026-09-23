@@ -35,6 +35,18 @@ export CUDA_VISIBLE_DEVICES=<your index>
 `src/anatomiae/provenance/gpu_guard.py` will abort rather than run on an
 unverified device.
 
+**Power-limit note:** on the maintainer workstation, `anatomiae` sets
+physical GPU 1 to its device-reported *minimum* supported power limit
+before any CUDA workload starts (`src/anatomiae/provenance/gpu_power.py`,
+run via `scripts/gpu_preflight.sh`) — the minimum is queried live from
+`nvidia-smi`, never assumed. **Every maintainer throughput number in this
+project's docs (tokens/sec, latency, download-adjacent GPU timing) was
+measured under this power cap**, not the card's default or max power
+draw, and should be read accordingly — a reproducer running at a higher
+power limit should expect higher throughput than what's reported here.
+This is a maintainer measurement-conditions disclosure, not something
+external reproducers need to replicate.
+
 **Maintainer-specific note:** the anatomiae maintainers' own workstation
 is restricted, as a local safety rule, to physical GPU index 1 only (a
 shared multi-tenant machine where GPU 0 is reserved for other work). This

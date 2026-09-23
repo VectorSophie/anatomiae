@@ -127,23 +127,24 @@ maintainer notes referenced in `docs/HUMAN_ACTION_REQUIRED.md` if needed.)
 
 ## Environment / cache notes
 
-- `HF_HOME=/data/jackb/krasis/huggingface` is already set in the shell
-  environment and points to an existing jackb-owned cache (part of a prior
-  "krasis" project setup under `/home/jackb/local-ai`, `/home/jackb/.krasis`).
-  Per download-engineering guidance (§31-32: avoid duplicate downloads,
-  reuse cache across environments), anatomiae reuses this same `HF_HOME`
-  rather than creating a second multi-hundred-GB cache. The krasis project
-  itself is left untouched.
-- A separate, smaller `~/.cache/huggingface` (30G) also exists from before
-  `HF_HOME` was set; not used going forward, left as-is.
-- `/data` is a shared multi-tenant volume (3.6T, 39% used at time of
-  writing) also used by other accounts on this workstation for their own
-  unrelated model caches (other users' account names intentionally
-  omitted here - this is a shared machine, not project-specific
-  infrastructure). `/data/jackb/` is the jackb-owned subtree; large
+**Public/maintainer-only split:** this section states scientifically
+relevant facts only. Exact cache paths, GPU UUIDs/PCI IDs, and other
+workstation fingerprinting live in `.local/` (gitignored, maintainer-only
+- see `.local/workstation.yaml`, `.local/gpu_provenance.json`) rather than
+here, per the project's public/private provenance policy.
+
+- The maintainer workstation reuses a pre-existing Hugging Face cache from
+  an earlier, unrelated project on the same machine, rather than creating
+  a second multi-hundred-GB cache (standard download-engineering practice:
+  avoid duplicate downloads, reuse cache across environments). That prior
+  project is left untouched.
+- Model weights are stored on a shared multi-tenant volume also used by
+  other accounts on this workstation for unrelated work; large
   anatomiae-specific artifacts that don't belong in the shared HF cache
-  should go under `/data/jackb/anatomiae/` (created as needed), not the
-  git repo at `/home/jackb/workspace/anatomiae`.
+  get their own subdirectory there, separate from the git repository
+  itself (which stays small - see `.gitignore`).
+- External reproducers set their own `HF_HOME`/cache location; none of
+  this is anatomiae-specific configuration.
 
 ## Download bandwidth (measured, important for feasibility)
 
@@ -233,10 +234,17 @@ saved at `artifacts/logs/backend_divergence_result.json`.
 
 ## GPU baseline
 
-- `nvidia-smi -L`: GPU 0 = `GPU-fce8b8f8-013c-de7a-bcc3-3b9f651d097b`
-  (PCI 00000000:4A:00.0), GPU 1 = `GPU-1824bc0e-afda-4c3f-454b-71e779e4db34`
-  (PCI 00000000:CA:00.0). Both RTX PRO 6000 Blackwell Max-Q, 97887 MiB.
-- `CUDA_VISIBLE_DEVICES=1` is already pre-set in the shell environment.
+- Two RTX PRO 6000 Blackwell Max-Q GPUs (97887 MiB each) are physically
+  present; anatomiae uses physical index 1 exclusively (device
+  min/max/default power limits and exact UUID/PCI identity are recorded
+  in `.local/gpu_provenance.json`, gitignored - see the public/maintainer
+  provenance-split note above). `CUDA_VISIBLE_DEVICES=1` is pre-set in the
+  maintainer shell environment.
+- Physical GPU 1 is kept at its device-reported **minimum power limit**
+  before any CUDA workload runs (`src/anatomiae/provenance/gpu_power.py`;
+  see `docs/reproducibility.md` for why this matters for throughput
+  numbers). On this workstation the minimum happens to equal the current
+  default operating point.
 - **Observed quirk:** GPU 1 reports persistent 100% `utilization.gpu` and
   ~93W power draw with 0 MiB memory used and no visible compute process
   (`nvidia-smi pmon` shows no process on either GPU). Sampled repeatedly

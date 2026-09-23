@@ -21,3 +21,10 @@ artifacts/responses/
 .env
 *.token
 
+# Exact maintainer-workstation provenance (GPU UUIDs/PCI IDs, cache paths,
+# auth-expiry detail) - scientifically useful facts derived from these live
+# in public docs/ in abstracted form; the exact fingerprinting stays local.
+# See docs/reproducibility.md and the "public vs maintainer-only
+# provenance" note in docs/MODEL_AUDIT.md.
+.local/
+

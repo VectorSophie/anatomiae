@@ -28,15 +28,14 @@ acceptance, but check the `-Instruct`/`-it` pages too if download still 403s.)
 identity-bound legal action tied to a human account holder, listed explicitly
 as requiring human action in the project's human-intervention policy.
 
-**Existing credential state (verified, not a blocker):** An HF OAuth token is
-already present locally on this workstation (expires 2026-10-13),
-presumably the researcher's own account (identity intentionally omitted
-from this public document). `whoami` succeeds and unauthenticated model
-metadata for both repos resolves (HTTP 200), but a `HEAD` on `config.json`
-for both `meta-llama/Llama-3.1-8B` and `google/gemma-3-12b-pt` returns
-HTTP 403 under this token, confirming the license has not yet been
-accepted for this account. No new token or login is needed — just the
-license click-through.
+**Existing credential state (verified, not a blocker):** an HF token is
+already present on the maintainer workstation and resolves model metadata
+for both repos (HTTP 200), but a `HEAD` on `config.json` for both
+`meta-llama/Llama-3.1-8B` and `google/gemma-3-12b-pt` returns HTTP 403,
+confirming the license has not yet been accepted for that account. No new
+token or login is needed — just the license click-through. (Exact
+expiry/account detail intentionally kept out of this public document -
+see the maintainer-only, gitignored `.local/auth_state.md`.)
 
 **What work can continue meanwhile:** Everything else. All locked model
 anchors (OLMo 2, Amber/IFM, Qwen2.5-14B -> DeepSeek-R1-Distill-Qwen-14B,
