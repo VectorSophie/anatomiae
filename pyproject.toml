@@ -29,6 +29,7 @@ ml = [
   "pandas>=2.2",
   "numpy>=1.26,<2.0",
   "nvidia-ml-py>=12.560",
+  "tabulate>=0.9",  # DataFrame.to_markdown() - was previously an undeclared transitive dep
 ]
 dev = [
   "pytest>=8.3",

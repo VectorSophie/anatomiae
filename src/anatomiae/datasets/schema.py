@@ -4,7 +4,8 @@ Every item entering the pipeline - regardless of source benchmark - is
 normalized to this shape before prompt construction. Perturbations
 (paraphrase, framing, translation) are applied as a separate transform
 layer downstream (see docs/FRAMEWORK_DECISION.md's HELM-scenario-inspired
-split) and are tracked via PerturbationRecord, not baked into this item.
+split) and are tracked via anatomiae.prompts.schema.PromptVariant, not
+baked into this item.
 """
 
 from __future__ import annotations
@@ -59,15 +60,3 @@ class DatasetItem(BaseModel):
     reference_position: str | None = None
     reference_distribution: dict[str, float] | None = None
     metadata: dict = {}
-
-
-class PerturbationRecord(BaseModel):
-    """Provenance for a transform applied to a DatasetItem's prompt."""
-
-    model_config = ConfigDict(frozen=True)
-
-    base_item_id: str
-    perturbation_type: Literal["canonical", "paraphrase", "framing", "inversion", "translation"]
-    semantic_equivalence_status: Literal["equivalent", "inverted", "unknown"]
-    translation_provenance: str | None = None
-    rendered_prompt: str
