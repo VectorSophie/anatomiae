@@ -1,0 +1,14 @@
+{
+  "model": "olmo1b_instruct",
+  "model_id": "allenai/OLMo-2-0425-1B-Instruct",
+  "revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+  "backend": "vllm",
+  "n_new_generations": 60,
+  "n_errors": 0,
+  "total_output_tokens": 12000,
+  "total_generation_seconds": 66.7425365447998,
+  "tokens_per_second_sequential": 179.79538419168713,
+  "gpu_power_limit_w": 250.0,
+  "note": "one request at a time on both backends (no batching), GPU at its minimum power limit",
+  "ts": 1790136178.7003856
+}

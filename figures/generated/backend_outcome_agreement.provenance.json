@@ -1,0 +1,13 @@
+{
+  "description": "Transformers vs vLLM outcome agreement per evaluator and model",
+  "source_artifact": "artifacts/tables/backend_equivalence_summary.parquet",
+  "source_artifact_sha256": "92871c068218c46cf3db02d438c0bd0540cc61cb8650e203a53b73865f4eef61",
+  "generated_by": "make_figures.py",
+  "anatomiae_git_commit": "94cafa59bfc20945a8dd2f3afc41c3da68c7ce97",
+  "generated_at": "2026-09-23T13:19:51+0900",
+  "outputs": [
+    "backend_outcome_agreement.svg",
+    "backend_outcome_agreement.pdf",
+    "backend_outcome_agreement.png"
+  ]
+}

@@ -1,0 +1,17 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+300 generation records from artifacts/cache/backend_equivalence.jsonl (no generation performed)
+deterministic_stance_v1: 300 new
+faulborn_nli_zeroshot: 300 new
+faulborn_nli_reconstructed_as_written_seed42: 300 new
+faulborn_nli_reconstructed_as_written_seed43: 300 new
+faulborn_nli_reconstructed_as_written_seed44: 300 new
+faulborn_nli_reconstructed_leakage_free_seed42: 300 new
+faulborn_nli_reconstructed_leakage_free_seed43: 300 new
+faulborn_nli_reconstructed_leakage_free_seed44: 300 new
+store now holds: {'deterministic_stance_v1': 300, 'faulborn_nli_zeroshot': 300, 'faulborn_nli_reconstructed_as_written_seed42': 300, 'faulborn_nli_reconstructed_as_written_seed43': 300, 'faulborn_nli_reconstructed_as_written_seed44': 300, 'faulborn_nli_reconstructed_leakage_free_seed42': 300, 'faulborn_nli_reconstructed_leakage_free_seed43': 300, 'faulborn_nli_reconstructed_leakage_free_seed44': 300}

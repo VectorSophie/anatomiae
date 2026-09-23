@@ -90,7 +90,7 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | Gate A2 — Faulborn stance classifier | Released weights missing (exact reproduction blocked); procedure reconstructed and validated on their test split — [`faulborn_classifier_reproduction.md`](docs/results/faulborn_classifier_reproduction.md) |
 | Gate A3 — Evaluator / elicitation dependence | Done on a small slice — [`faulborn_evaluator_agreement.md`](docs/results/faulborn_evaluator_agreement.md) |
 | OLMo FP32-vs-BF16 precision-sensitivity check | Done — [`precision_sensitivity.md`](docs/results/precision_sensitivity.md) |
-| Gate B — Backend-equivalence study | Not started (single-pair smoke comparison only) |
+| Gate B — Backend-equivalence study | Done on 3 OLMo checkpoints × 60 prompts — [`backend_equivalence.md`](docs/results/backend_equivalence.md) |
 | Gate C — ≥3 model lineages end-to-end | Not started (1 lineage smoke-tested) |
 | Full pilot | Not started (blocked on Gates A–C) |
 
@@ -175,6 +175,7 @@ any model's politics.
 | Classifier training seed (same procedure) | 17–26% | [A3](docs/results/faulborn_evaluator_agreement.md) |
 | Truncation: same greedy text at 100 vs 250 tokens | 9–18% | [A3](docs/results/faulborn_evaluator_agreement.md) |
 | Inference precision FP32 vs BF16 (OLMo-2-13B Base) | 2–7% | [precision](docs/results/precision_sensitivity.md) |
+| Backend Transformers vs vLLM (3 OLMo checkpoints, BF16) | 0–10% (non-zero-shot evaluators) | [Gate B](docs/results/backend_equivalence.md) |
 
 The Faulborn classifier reconstruction also indicates that its reported
 held-out F1 is consistent with train/test contamination (0.875 as written

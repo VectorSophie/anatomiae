@@ -130,7 +130,7 @@ def confusion_heatmap(wide: pd.DataFrame, col_a: str, col_b: str, *, label_a: st
         s.set_visible(False)
     ax.tick_params(colors=INK_2, labelsize=9, length=0)
     ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
-    ax.text(0, 1.02, subtitle, transform=ax.transAxes, fontsize=9, color=INK_2)
+    ax.annotate(subtitle, xy=(0, 1), xycoords="axes fraction", xytext=(0, 6), textcoords="offset points", fontsize=9, color=INK_2)
     return fig
 
 
@@ -167,11 +167,12 @@ def agreement_dotplot(summary: pd.DataFrame, *, category_col: str, series_col: s
     ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
     ax.set_xlabel(xlabel)
     ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
-    ax.text(0, 1.02, subtitle, transform=ax.transAxes, fontsize=9, color=INK_2)
+    ax.annotate(subtitle, xy=(0, 1), xycoords="axes fraction", xytext=(0, 6), textcoords="offset points", fontsize=9, color=INK_2)
     if len(series) >= 2:
         # below the x-axis label: inside the plot it collides with data labels
         ax.legend(frameon=False, fontsize=9, labelcolor=INK_2, loc="upper center",
-                  bbox_to_anchor=(0.5, -0.12), ncol=len(series))
+                  bbox_to_anchor=(0.5, -48 / (fig.get_size_inches()[1] * ax.get_position().height * 72)),
+                  ncol=len(series))
     return fig
 
 
@@ -204,7 +205,7 @@ def outcome_stack(long: pd.DataFrame, *, group_col: str, title: str, subtitle: s
     ax.set_xlim(0, 1)
     ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0], ["0%", "25%", "50%", "75%", "100%"])
     ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
-    ax.text(0, 1.02, subtitle, transform=ax.transAxes, fontsize=9, color=INK_2)
+    ax.annotate(subtitle, xy=(0, 1), xycoords="axes fraction", xytext=(0, 6), textcoords="offset points", fontsize=9, color=INK_2)
     ax.legend(frameon=False, fontsize=8.5, ncol=4, loc="upper center",
               bbox_to_anchor=(0.5, -0.12), labelcolor=INK_2)
     return fig

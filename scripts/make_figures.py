@@ -167,6 +167,21 @@ def stance_first() -> None:
          description="Outcome shares per elicitation condition and evaluator")
 
 
+def backend() -> None:
+    src = T / "backend_equivalence_summary.parquet"
+    if not need(src):
+        return
+    s = pd.read_parquet(src)
+    s = s[s["stratum"] == "all"].copy()
+    s["evaluator"] = (s["evaluator_id"].str.replace("faulborn_nli_reconstructed_", "recon ")
+                      .str.replace("faulborn_nli_", "").str.replace("deterministic_stance_v1", "deterministic"))
+    fig = agreement_dotplot(s, category_col="evaluator", series_col="model",
+                            title="Transformers vs vLLM: does the backend change the measured outcome?",
+                            subtitle="60 paired prompts per model; same revision, rendered prompt, BF16, greedy decoding")
+    save(fig, OUT / "backend_outcome_agreement", source_artifact=src,
+         description="Transformers vs vLLM outcome agreement per evaluator and model")
+
+
 if __name__ == "__main__":
-    for f in (amber_curves, classifier_validation, evaluator_agreement, precision, stance_first):
+    for f in (amber_curves, classifier_validation, evaluator_agreement, precision, stance_first, backend):
         f()
