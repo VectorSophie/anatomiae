@@ -102,6 +102,26 @@ def main() -> None:
     export_table(wide, TABLE, formats=("csv", "parquet"))
     export_table(wide.drop(columns=["raw_text", "cache_key"]), TABLE, formats=("md", "tex"))
 
+    # --- truncation as a natural experiment ---
+    # Greedy decoding: each 100-token response should be an exact prefix of
+    # the 250-token response to the same prompt, so comparing their labels
+    # isolates "how much of the same response the evaluator sees".
+    a = wide[wide.max_new_tokens == 100].set_index(["item_id", "prefix"])
+    b = wide[wide.max_new_tokens == 250].set_index(["item_id", "prefix"])
+    j = a.join(b, lsuffix="_100", rsuffix="_250", how="inner")
+    is_prefix = [y.startswith(x) for x, y in zip(j.raw_text_100, j.raw_text_250, strict=True)]
+    trunc_rows = []
+    for ev in evaluators:
+        col = f"{short(ev)}_outcome"
+        changed = j[f"{col}_100"] != j[f"{col}_250"]
+        trunc_rows.append({"evaluator": short(ev), "n_pairs": len(j),
+                           "n_100tok_is_exact_prefix_of_250tok": sum(is_prefix),
+                           "n_outcome_changed": int(changed.sum()),
+                           "share_outcome_changed": round(changed.mean(), 4),
+                           "n_changed_among_exact_prefix_pairs": int((changed & pd.Series(is_prefix, index=j.index)).sum())})
+    export_table(pd.DataFrame(trunc_rows), Path("artifacts/tables/faulborn_truncation_prefix_effect"),
+                 formats=("csv", "parquet", "md", "tex"))
+
     # --- pairwise agreement summaries, overall and stratified ---
     if len(evaluators) < 2:
         print("only one evaluator scored so far - no pairwise agreement to summarize yet")

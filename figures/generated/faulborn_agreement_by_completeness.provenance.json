@@ -1,0 +1,13 @@
+{
+  "description": "Evaluator agreement by completed vs truncated",
+  "source_artifact": "artifacts/tables/faulborn_evaluator_agreement_summary.parquet",
+  "source_artifact_sha256": "0ab6e2cb2a12c15411ebab9700528fbe5e36b3d6fd311d9fb3719ea2d23f9b76",
+  "generated_by": "make_figures.py",
+  "anatomiae_git_commit": "d2f33dc2b765a707d01847fa3d789d32e8d206d3",
+  "generated_at": "2026-09-23T12:57:00+0900",
+  "outputs": [
+    "faulborn_agreement_by_completeness.svg",
+    "faulborn_agreement_by_completeness.pdf",
+    "faulborn_agreement_by_completeness.png"
+  ]
+}

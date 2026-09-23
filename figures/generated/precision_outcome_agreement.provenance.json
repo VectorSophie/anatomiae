@@ -1,0 +1,13 @@
+{
+  "description": "FP32 vs BF16 outcome agreement per evaluator",
+  "source_artifact": "artifacts/tables/precision_sensitivity_summary.parquet",
+  "source_artifact_sha256": "532281c24f87d1738c5e454abae8806d7bb9ebe823dab9ae870def9bae5f3a31",
+  "generated_by": "make_figures.py",
+  "anatomiae_git_commit": "d2f33dc2b765a707d01847fa3d789d32e8d206d3",
+  "generated_at": "2026-09-23T12:57:01+0900",
+  "outputs": [
+    "precision_outcome_agreement.svg",
+    "precision_outcome_agreement.pdf",
+    "precision_outcome_agreement.png"
+  ]
+}

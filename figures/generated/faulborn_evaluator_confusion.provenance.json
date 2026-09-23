@@ -1,0 +1,13 @@
+{
+  "description": "Confusion of deterministic vs reconstructed Faulborn classifier outcomes",
+  "source_artifact": "artifacts/tables/faulborn_evaluator_agreement.parquet",
+  "source_artifact_sha256": "1328e99ba7ca987e899ae30b7bb9b909dcf49e8a079de6d34e883cfa5ba4da60",
+  "generated_by": "make_figures.py",
+  "anatomiae_git_commit": "d2f33dc2b765a707d01847fa3d789d32e8d206d3",
+  "generated_at": "2026-09-23T12:57:00+0900",
+  "outputs": [
+    "faulborn_evaluator_confusion.svg",
+    "faulborn_evaluator_confusion.pdf",
+    "faulborn_evaluator_confusion.png"
+  ]
+}

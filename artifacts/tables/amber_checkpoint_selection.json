@@ -1,0 +1,9 @@
+{
+  "rule": "earliest ckpt with HellaSwag acc_norm >= ckpt_000 + 50% of (last - ckpt_000), not a >2pt dip vs previous sampled ckpt; MID = ckpt_180; FINAL = main",
+  "hellaswag_first": 0.24825731925911174,
+  "hellaswag_last": 0.7404899422425811,
+  "threshold": 0.4943736307508464,
+  "early": "ckpt_010",
+  "mid": "ckpt_180",
+  "final": "main"
+}

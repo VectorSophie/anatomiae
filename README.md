@@ -86,10 +86,12 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | Bilingual/multilingual provenance schema | Complete |
 | Prompt → generation → immutable cache → evaluator → analysis pipeline | Complete, real end-to-end run verified — see `scripts/pipeline_smoke_test.py` |
 | OLMo 2 13B lineage download (Base→SFT→DPO→RLVR2) | In progress (Base, SFT done; DPO in progress; RLVR2 queued) |
-| Gate A — Faulborn reproduction | Methodological reproduction done on a real 15-item slice; exact reproduction (their model set + classifier) not attempted — see `docs/results/faulborn_reproduction.md` |
+| Gate A1 — Faulborn items/prefixes through the pipeline | Passed — [`faulborn_reproduction.md`](docs/results/faulborn_reproduction.md) |
+| Gate A2 — Faulborn stance classifier | Released weights missing (exact reproduction blocked); procedure reconstructed and validated on their test split — [`faulborn_classifier_reproduction.md`](docs/results/faulborn_classifier_reproduction.md) |
+| Gate A3 — Evaluator / elicitation dependence | Done on a small slice — [`faulborn_evaluator_agreement.md`](docs/results/faulborn_evaluator_agreement.md) |
+| OLMo FP32-vs-BF16 precision-sensitivity check | Done — [`precision_sensitivity.md`](docs/results/precision_sensitivity.md) |
 | Gate B — Backend-equivalence study | Not started (single-pair smoke comparison only) |
 | Gate C — ≥3 model lineages end-to-end | Not started (1 lineage smoke-tested) |
-| OLMo FP32-vs-BF16 precision-sensitivity check | Not started |
 | Full pilot | Not started (blocked on Gates A–C) |
 
 No fabricated progress here — an item is only marked complete once a real
@@ -161,15 +163,24 @@ list exact commands to reproduce it from a fresh clone.
 
 ## Results
 
-No full-pilot results yet — nothing here is fabricated or placeholder.
-One real, in-progress result exists: **[Gate A's Faulborn methodological
-reproduction](docs/results/faulborn_reproduction.md)**, run on a real
-15-item slice of the paper's actual released data. It surfaced a genuine
-finding (not a bug): the tested model consistently produces discursive
-analytical responses rather than declarative agree/disagree stances on
-these prompts, which is itself informative for evaluator design before
-the full pilot scales. Once Gates B and C also pass, this section will
-link to `docs/results/pilot.md` and embed a small curated set of figures.
+No full-pilot results yet. Results so far are measurement-validity
+checks on small slices — they bound how much of a measured "stance" is
+the model versus the measurement apparatus. Nothing here is a claim about
+any model's politics.
+
+| Factor varied (everything else fixed) | Share of measured outcomes that change | Source |
+|---|---|---|
+| Elicitation: stance-first vs Faulborn's released prompts | position rate 0.2–0.4 → ≈1.0 | [A3](docs/results/faulborn_evaluator_agreement.md) |
+| Evaluator: rule-based vs Faulborn-procedure classifier | 30–40% (κ ≈ 0) | [A3](docs/results/faulborn_evaluator_agreement.md) |
+| Classifier training seed (same procedure) | 17–26% | [A3](docs/results/faulborn_evaluator_agreement.md) |
+| Truncation: same greedy text at 100 vs 250 tokens | 9–18% | [A3](docs/results/faulborn_evaluator_agreement.md) |
+| Inference precision FP32 vs BF16 (OLMo-2-13B Base) | 2–7% | [precision](docs/results/precision_sensitivity.md) |
+
+The Faulborn classifier reconstruction also indicates that its reported
+held-out F1 is consistent with train/test contamination (0.875 as written
+vs 0.749 leakage-free) — see [A2](docs/results/faulborn_classifier_reproduction.md).
+
+![Outcome distribution by evaluator on identical responses](figures/generated/faulborn_outcome_by_evaluator.png)
 
 ## Repository structure
 

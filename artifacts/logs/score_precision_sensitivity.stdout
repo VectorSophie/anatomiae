@@ -1,0 +1,17 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+120 generation records from artifacts/cache/precision_sensitivity.jsonl (no generation performed)
+deterministic_stance_v1: 0 new
+faulborn_nli_zeroshot: 120 new
+faulborn_nli_reconstructed_as_written_seed42: 120 new
+faulborn_nli_reconstructed_as_written_seed43: 120 new
+faulborn_nli_reconstructed_as_written_seed44: 120 new
+faulborn_nli_reconstructed_leakage_free_seed42: 120 new
+faulborn_nli_reconstructed_leakage_free_seed43: 120 new
+faulborn_nli_reconstructed_leakage_free_seed44: 120 new
+store now holds: {'deterministic_stance_v1': 120, 'faulborn_nli_zeroshot': 120, 'faulborn_nli_reconstructed_as_written_seed42': 120, 'faulborn_nli_reconstructed_as_written_seed43': 120, 'faulborn_nli_reconstructed_as_written_seed44': 120, 'faulborn_nli_reconstructed_leakage_free_seed42': 120, 'faulborn_nli_reconstructed_leakage_free_seed43': 120, 'faulborn_nli_reconstructed_leakage_free_seed44': 120}

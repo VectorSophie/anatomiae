@@ -1,0 +1,17 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+90 generation records from artifacts/cache/stance_first_extension.jsonl (no generation performed)
+deterministic_stance_v1: 90 new
+faulborn_nli_zeroshot: 90 new
+faulborn_nli_reconstructed_as_written_seed42: 90 new
+faulborn_nli_reconstructed_as_written_seed43: 90 new
+faulborn_nli_reconstructed_as_written_seed44: 90 new
+faulborn_nli_reconstructed_leakage_free_seed42: 90 new
+faulborn_nli_reconstructed_leakage_free_seed43: 90 new
+faulborn_nli_reconstructed_leakage_free_seed44: 90 new
+store now holds: {'deterministic_stance_v1': 90, 'faulborn_nli_zeroshot': 90, 'faulborn_nli_reconstructed_as_written_seed42': 90, 'faulborn_nli_reconstructed_as_written_seed43': 90, 'faulborn_nli_reconstructed_as_written_seed44': 90, 'faulborn_nli_reconstructed_leakage_free_seed42': 90, 'faulborn_nli_reconstructed_leakage_free_seed43': 90, 'faulborn_nli_reconstructed_leakage_free_seed44': 90}

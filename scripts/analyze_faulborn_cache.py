@@ -18,6 +18,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+import pandas as pd
+
 from anatomiae.analysis.frame import (
     build_analysis_frame,
     export_table,
@@ -47,12 +49,20 @@ def main() -> None:
     )
     print(f"Wrote {len(df)} rows: {sorted(str(p) for p in written.values())}")
 
+    stratified = []
     for budget, sub in df.groupby("max_new_tokens"):
         print(f"\n=== max_new_tokens={budget} (N={len(sub)}) ===")
         strata = stratify_by_completeness(sub, group_by=["evaluator_id"])
         for name, table in strata.items():
             print(f"\n-- {name} --")
             print(table.to_string(index=False) if len(table) else "(empty)")
+            if len(table):
+                stratified.append(table.assign(max_new_tokens=budget, scope=name))
+    export_table(
+        pd.concat(stratified, ignore_index=True),
+        Path("artifacts/tables/faulborn_reproduction_stratified"),
+        formats=("csv", "parquet", "md"),
+    )
 
 
 if __name__ == "__main__":

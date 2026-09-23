@@ -7,3 +7,4 @@
 {"event": "start", "repo_id": "facebook/bart-large-mnli", "revision": "main", "repo_type": "model", "ts": 1790131983.7416687}
 {"event": "start", "repo_id": "facebook/bart-large-mnli", "revision": "main", "repo_type": "model", "allow_patterns": ["*.json", "*.txt", "model.safetensors"], "ts": 1790132090.170372}
 {"event": "done", "repo_id": "facebook/bart-large-mnli", "revision": "main", "path": "/data/jackb/krasis/huggingface/hub/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce", "elapsed_seconds": 569.146546125412, "ts": 1790132659.3170831}
+{"event": "start", "repo_id": "IFM/Amber", "revision": "2d35937a32b99aec0d59dd772b54e1bb08719a7f", "repo_type": "model", "allow_patterns": ["*.json", "*.safetensors", "tokenizer.model"], "ts": 1790133882.7984447}

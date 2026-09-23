@@ -1,6 +1,6 @@
 # Pilot protocol
 
-Status: Gate A1 passed; everything else pending (see table below). This document specifies what must
+Status: Gates A1–A3 and the precision check done; B and C pending (see table below). This document specifies what must
 be true before the pilot scales from smoke tests to the full factorial
 design (§14 of the project's continuation directive).
 
@@ -67,8 +67,9 @@ templates, not just the one model already smoke-tested.
 | Gate | Status |
 |---|---|
 | A1 — Faulborn items/prefixes through pipeline | **Passed** (15 items x 3 prefixes x 2 budgets; truncation-stratified) |
-| A2 — Faulborn classifier path | In progress - released weights file missing (hard blocker for *exact* weights); reconstruction + validation against their released test split underway |
-| A3 — Elicitation / evaluator dependence | Pending (after A2) |
+| A2 — Faulborn classifier path | **Validated reconstruction; exact released-weights reproduction blocked** (released checkpoint has no weights file). Reconstruction following the released data flow reproduces reported F1 (0.875 vs 0.873); leakage-free reconstruction scores ~0.12 lower — `docs/results/faulborn_classifier_reproduction.md` |
+| A3 — Elicitation / evaluator dependence | **Done on the A1 slice + 30-item stance-first extension** — `docs/results/faulborn_evaluator_agreement.md` |
+| Precision sensitivity (OLMo-13B Base FP32 vs BF16) | **Done** — BF16 standardized, precision kept as a sensitivity floor — `docs/results/precision_sensitivity.md` |
 | B — Backend equivalence | Not started (one informal smoke comparison exists) |
 | C — 3 lineages end-to-end | Not started (1 model, Transformers+vLLM, smoke-tested only) |
 

@@ -169,7 +169,9 @@ def agreement_dotplot(summary: pd.DataFrame, *, category_col: str, series_col: s
     ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
     ax.text(0, 1.02, subtitle, transform=ax.transAxes, fontsize=9, color=INK_2)
     if len(series) >= 2:
-        ax.legend(frameon=False, fontsize=9, loc="lower right", labelcolor=INK_2)
+        # below the x-axis label: inside the plot it collides with data labels
+        ax.legend(frameon=False, fontsize=9, labelcolor=INK_2, loc="upper center",
+                  bbox_to_anchor=(0.5, -0.12), ncol=len(series))
     return fig
 
 
@@ -205,4 +207,41 @@ def outcome_stack(long: pd.DataFrame, *, group_col: str, title: str, subtitle: s
     ax.text(0, 1.02, subtitle, transform=ax.transAxes, fontsize=9, color=INK_2)
     ax.legend(frameon=False, fontsize=8.5, ncol=4, loc="upper center",
               bbox_to_anchor=(0.5, -0.12), labelcolor=INK_2)
+    return fig
+
+
+def curve_small_multiples(df: pd.DataFrame, *, x: str, panels: list[tuple[str, str]],
+                          markers: dict[str, float], title: str, subtitle: str,
+                          chance: dict[str, float] | None = None):
+    """One metric per panel, one hue (slot 1), shared x. Selected
+    checkpoints drawn as labeled vertical rules; an optional chance line per
+    panel. Small multiples instead of 4 overlapping colored lines: only
+    three categorical slots validate for crossing marks."""
+    n = len(panels)
+    cols = 2
+    rows = (n + 1) // 2
+    plt.rcParams.update({"font.family": "sans-serif", "font.size": 10, "text.color": INK,
+                         "axes.labelcolor": INK_2})
+    fig, axes = plt.subplots(rows, cols, figsize=(9, 2.6 * rows + 0.6), sharex=True)
+    fig.patch.set_facecolor(SURFACE)
+    for ax, (col, label) in zip(axes.flat, panels, strict=False):
+        _style(ax)
+        ax.grid(axis="y", color=GRID, linewidth=0.8)
+        d = df.dropna(subset=[col])
+        ax.plot(d[x], d[col], color=SERIES[0], linewidth=2)
+        if chance and col in chance:
+            ax.axhline(chance[col], color=MUTED, linewidth=1, linestyle=(0, (4, 3)))
+            ax.text(d[x].max(), chance[col], " chance", va="bottom", ha="right", fontsize=8, color=MUTED)
+        for name, xv in markers.items():
+            ax.axvline(xv, color=BASELINE, linewidth=1)
+            ax.text(xv, 1.0, f" {name}", transform=ax.get_xaxis_transform(), fontsize=8,
+                    color=INK_2, va="top")
+        ax.set_title(label, loc="left", fontsize=10, color=INK)
+    for ax in axes.flat[n:]:
+        ax.set_visible(False)
+    for ax in axes[-1]:
+        ax.set_xlabel("Amber checkpoint index (ckpt_NNN)")
+    fig.suptitle(title, x=0.01, ha="left", fontsize=11, fontweight="bold")
+    fig.text(0.01, 0.93, subtitle, fontsize=9, color=INK_2)
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
     return fig

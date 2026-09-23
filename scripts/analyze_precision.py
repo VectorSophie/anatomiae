@@ -88,6 +88,15 @@ def main() -> None:
     table = table.sort_values(["evaluator_id", "item_id", "prefix"])
     export_table(table, OUT, formats=("csv", "parquet", "md", "tex"))
 
+    # every outcome disagreement, classified (direction flips are the case
+    # that would change a political reading, not just a label)
+    dis = table[~table["outcome_agree"]].copy()
+    pos = {"agreement", "disagreement"}
+    dis["kind"] = ["direction_flip" if {a, b} == pos
+                   else "position_vs_nonposition" if (a in pos) != (b in pos) else "nonposition_relabel"
+                   for a, b in zip(dis["outcome_fp32"], dis["outcome_bf16"], strict=True)]
+    export_table(dis, Path(f"{OUT}_disagreements"), formats=("csv", "parquet", "md"))
+
     # agreement summaries
     parts = []
     for stratum in [None, "completeness", "prefix"]:

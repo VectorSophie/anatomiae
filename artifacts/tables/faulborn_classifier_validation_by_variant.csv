@@ -1,0 +1,7 @@
+variant,conf_threshold,n_seeds,macro_f1_mean,macro_f1_min,macro_f1_max,n_retained_mean,faulborn_reported_f1,faulborn_reported_n,mean_delta_vs_faulborn
+as_written,0.0,3,0.8753,0.8714,0.8787,264.0,0.8727,264,0.0026
+as_written,0.9,3,0.9266,0.9068,0.9478,211.3333,0.9343,182,-0.0077
+leakage_free,0.0,3,0.7485,0.7433,0.7532,264.0,0.8727,264,-0.1242
+leakage_free,0.9,3,0.8323,0.8234,0.8385,199.3333,0.9343,182,-0.1021
+zeroshot,0.0,1,0.3053,0.3053,0.3053,264.0,0.269,264,0.0363
+zeroshot,0.9,1,0.588,0.588,0.588,35.0,0.4492,47,0.1388

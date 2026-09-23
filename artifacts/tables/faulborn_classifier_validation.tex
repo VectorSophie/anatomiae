@@ -1,0 +1,76 @@
+\begin{tabular}{lrrrrrrrlr}
+\toprule
+classifier & conf_threshold & n_retained & macro_f1 & macro_f1_ci95_low & macro_f1_ci95_high & faulborn_reported_f1 & faulborn_reported_n & compared_against & delta_vs_faulborn \\
+\midrule
+zeroshot & 0.000000 & 264 & 0.305270 & 0.260298 & 0.350502 & 0.268977 & 264 & their zeroshot_f1 / zeroshot_n & 0.036293 \\
+zeroshot & 0.100000 & 264 & 0.305270 & NaN & NaN & 0.268977 & 264 & their zeroshot_f1 / zeroshot_n & 0.036293 \\
+zeroshot & 0.200000 & 264 & 0.305270 & NaN & NaN & 0.268977 & 264 & their zeroshot_f1 / zeroshot_n & 0.036293 \\
+zeroshot & 0.300000 & 264 & 0.305270 & NaN & NaN & 0.268977 & 264 & their zeroshot_f1 / zeroshot_n & 0.036293 \\
+zeroshot & 0.400000 & 233 & 0.301338 & NaN & NaN & 0.270433 & 262 & their zeroshot_f1 / zeroshot_n & 0.030905 \\
+zeroshot & 0.500000 & 143 & 0.352134 & NaN & NaN & 0.291059 & 220 & their zeroshot_f1 / zeroshot_n & 0.061076 \\
+zeroshot & 0.600000 & 99 & 0.375309 & NaN & NaN & 0.311921 & 171 & their zeroshot_f1 / zeroshot_n & 0.063387 \\
+zeroshot & 0.700000 & 72 & 0.411706 & NaN & NaN & 0.377075 & 115 & their zeroshot_f1 / zeroshot_n & 0.034631 \\
+zeroshot & 0.800000 & 52 & 0.431733 & NaN & NaN & 0.409275 & 76 & their zeroshot_f1 / zeroshot_n & 0.022458 \\
+zeroshot & 0.900000 & 35 & 0.587963 & 0.489144 & 0.661017 & 0.449191 & 47 & their zeroshot_f1 / zeroshot_n & 0.138772 \\
+reconstructed_as_written_seed42 & 0.000000 & 264 & 0.875812 & 0.831924 & 0.913277 & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.003126 \\
+reconstructed_as_written_seed42 & 0.100000 & 264 & 0.875812 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.003126 \\
+reconstructed_as_written_seed42 & 0.200000 & 264 & 0.875812 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.003126 \\
+reconstructed_as_written_seed42 & 0.300000 & 264 & 0.875812 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.003126 \\
+reconstructed_as_written_seed42 & 0.400000 & 264 & 0.875812 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & 0.000973 \\
+reconstructed_as_written_seed42 & 0.500000 & 263 & 0.875318 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & -0.000063 \\
+reconstructed_as_written_seed42 & 0.600000 & 239 & 0.895772 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.001047 \\
+reconstructed_as_written_seed42 & 0.700000 & 227 & 0.916800 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.000213 \\
+reconstructed_as_written_seed42 & 0.800000 & 216 & 0.921793 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & -0.000857 \\
+reconstructed_as_written_seed42 & 0.900000 & 213 & 0.925166 & 0.886178 & 0.957149 & 0.934316 & 182 & their f1 / n (fine-tuned) & -0.009150 \\
+reconstructed_as_written_seed43 & 0.000000 & 264 & 0.878716 & 0.838668 & 0.915222 & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.006029 \\
+reconstructed_as_written_seed43 & 0.100000 & 264 & 0.878716 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.006029 \\
+reconstructed_as_written_seed43 & 0.200000 & 264 & 0.878716 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.006029 \\
+reconstructed_as_written_seed43 & 0.300000 & 264 & 0.878716 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & 0.006029 \\
+reconstructed_as_written_seed43 & 0.400000 & 262 & 0.877783 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & 0.002944 \\
+reconstructed_as_written_seed43 & 0.500000 & 259 & 0.879861 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & 0.004480 \\
+reconstructed_as_written_seed43 & 0.600000 & 235 & 0.883986 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.012833 \\
+reconstructed_as_written_seed43 & 0.700000 & 219 & 0.897803 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.019211 \\
+reconstructed_as_written_seed43 & 0.800000 & 213 & 0.895673 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & -0.026977 \\
+reconstructed_as_written_seed43 & 0.900000 & 206 & 0.906798 & 0.864363 & 0.942755 & 0.934316 & 182 & their f1 / n (fine-tuned) & -0.027519 \\
+reconstructed_as_written_seed44 & 0.000000 & 264 & 0.871378 & 0.825091 & 0.911085 & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.001308 \\
+reconstructed_as_written_seed44 & 0.100000 & 264 & 0.871378 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.001308 \\
+reconstructed_as_written_seed44 & 0.200000 & 264 & 0.871378 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.001308 \\
+reconstructed_as_written_seed44 & 0.300000 & 264 & 0.871378 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.001308 \\
+reconstructed_as_written_seed44 & 0.400000 & 264 & 0.871378 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & -0.003461 \\
+reconstructed_as_written_seed44 & 0.500000 & 264 & 0.871378 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & -0.004004 \\
+reconstructed_as_written_seed44 & 0.600000 & 251 & 0.892385 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.004433 \\
+reconstructed_as_written_seed44 & 0.700000 & 242 & 0.912884 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.004129 \\
+reconstructed_as_written_seed44 & 0.800000 & 233 & 0.925627 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & 0.002976 \\
+reconstructed_as_written_seed44 & 0.900000 & 215 & 0.947798 & 0.913736 & 0.976754 & 0.934316 & 182 & their f1 / n (fine-tuned) & 0.013481 \\
+reconstructed_leakage_free_seed42 & 0.000000 & 264 & 0.753234 & 0.698431 & 0.801498 & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.119452 \\
+reconstructed_leakage_free_seed42 & 0.100000 & 264 & 0.753234 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.119452 \\
+reconstructed_leakage_free_seed42 & 0.200000 & 264 & 0.753234 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.119452 \\
+reconstructed_leakage_free_seed42 & 0.300000 & 264 & 0.753234 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.119452 \\
+reconstructed_leakage_free_seed42 & 0.400000 & 262 & 0.751453 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & -0.123385 \\
+reconstructed_leakage_free_seed42 & 0.500000 & 262 & 0.751453 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & -0.123928 \\
+reconstructed_leakage_free_seed42 & 0.600000 & 237 & 0.792912 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.103906 \\
+reconstructed_leakage_free_seed42 & 0.700000 & 216 & 0.826922 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.090092 \\
+reconstructed_leakage_free_seed42 & 0.800000 & 200 & 0.841442 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & -0.081209 \\
+reconstructed_leakage_free_seed42 & 0.900000 & 192 & 0.838523 & 0.781424 & 0.887556 & 0.934316 & 182 & their f1 / n (fine-tuned) & -0.095794 \\
+reconstructed_leakage_free_seed43 & 0.000000 & 264 & 0.749082 & 0.694461 & 0.794174 & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.123604 \\
+reconstructed_leakage_free_seed43 & 0.100000 & 264 & 0.749082 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.123604 \\
+reconstructed_leakage_free_seed43 & 0.200000 & 264 & 0.749082 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.123604 \\
+reconstructed_leakage_free_seed43 & 0.300000 & 264 & 0.749082 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.123604 \\
+reconstructed_leakage_free_seed43 & 0.400000 & 263 & 0.752321 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & -0.122518 \\
+reconstructed_leakage_free_seed43 & 0.500000 & 263 & 0.752321 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & -0.123061 \\
+reconstructed_leakage_free_seed43 & 0.600000 & 238 & 0.774976 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.121843 \\
+reconstructed_leakage_free_seed43 & 0.700000 & 220 & 0.814764 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.102249 \\
+reconstructed_leakage_free_seed43 & 0.800000 & 209 & 0.832703 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & -0.089948 \\
+reconstructed_leakage_free_seed43 & 0.900000 & 199 & 0.834813 & 0.779250 & 0.880686 & 0.934316 & 182 & their f1 / n (fine-tuned) & -0.099503 \\
+reconstructed_leakage_free_seed44 & 0.000000 & 264 & 0.743291 & 0.691016 & 0.790771 & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.129395 \\
+reconstructed_leakage_free_seed44 & 0.100000 & 264 & 0.743291 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.129395 \\
+reconstructed_leakage_free_seed44 & 0.200000 & 264 & 0.743291 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.129395 \\
+reconstructed_leakage_free_seed44 & 0.300000 & 253 & 0.773224 & NaN & NaN & 0.872686 & 264 & their f1 / n (fine-tuned) & -0.099462 \\
+reconstructed_leakage_free_seed44 & 0.400000 & 251 & 0.771361 & NaN & NaN & 0.874839 & 261 & their f1 / n (fine-tuned) & -0.103477 \\
+reconstructed_leakage_free_seed44 & 0.500000 & 249 & 0.773556 & NaN & NaN & 0.875382 & 255 & their f1 / n (fine-tuned) & -0.101826 \\
+reconstructed_leakage_free_seed44 & 0.600000 & 233 & 0.799919 & NaN & NaN & 0.896819 & 223 & their f1 / n (fine-tuned) & -0.096899 \\
+reconstructed_leakage_free_seed44 & 0.700000 & 222 & 0.816672 & NaN & NaN & 0.917014 & 205 & their f1 / n (fine-tuned) & -0.100341 \\
+reconstructed_leakage_free_seed44 & 0.800000 & 215 & 0.819535 & NaN & NaN & 0.922651 & 195 & their f1 / n (fine-tuned) & -0.103116 \\
+reconstructed_leakage_free_seed44 & 0.900000 & 207 & 0.823437 & 0.769971 & 0.872613 & 0.934316 & 182 & their f1 / n (fine-tuned) & -0.110879 \\
+\bottomrule
+\end{tabular}

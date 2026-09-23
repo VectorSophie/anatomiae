@@ -1,0 +1,31 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+                       classifier  conf_threshold  n_retained  macro_f1  macro_f1_ci95_low  macro_f1_ci95_high  faulborn_reported_f1  faulborn_reported_n               compared_against  delta_vs_faulborn
+                         zeroshot             0.0         264  0.305270           0.260298            0.350502              0.268977                  264 their zeroshot_f1 / zeroshot_n           0.036293
+                         zeroshot             0.5         143  0.352134                NaN                 NaN              0.291059                  220 their zeroshot_f1 / zeroshot_n           0.061076
+                         zeroshot             0.9          35  0.587963           0.489144            0.661017              0.449191                   47 their zeroshot_f1 / zeroshot_n           0.138772
+  reconstructed_as_written_seed42             0.0         264  0.875812           0.831924            0.913277              0.872686                  264      their f1 / n (fine-tuned)           0.003126
+  reconstructed_as_written_seed42             0.5         263  0.875318                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)          -0.000063
+  reconstructed_as_written_seed42             0.9         213  0.925166           0.886178            0.957149              0.934316                  182      their f1 / n (fine-tuned)          -0.009150
+  reconstructed_as_written_seed43             0.0         264  0.878716           0.838668            0.915222              0.872686                  264      their f1 / n (fine-tuned)           0.006029
+  reconstructed_as_written_seed43             0.5         259  0.879861                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)           0.004480
+  reconstructed_as_written_seed43             0.9         206  0.906798           0.864363            0.942755              0.934316                  182      their f1 / n (fine-tuned)          -0.027519
+  reconstructed_as_written_seed44             0.0         264  0.871378           0.825091            0.911085              0.872686                  264      their f1 / n (fine-tuned)          -0.001308
+  reconstructed_as_written_seed44             0.5         264  0.871378                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)          -0.004004
+  reconstructed_as_written_seed44             0.9         215  0.947798           0.913736            0.976754              0.934316                  182      their f1 / n (fine-tuned)           0.013481
+reconstructed_leakage_free_seed42             0.0         264  0.753234           0.698431            0.801498              0.872686                  264      their f1 / n (fine-tuned)          -0.119452
+reconstructed_leakage_free_seed42             0.5         262  0.751453                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)          -0.123928
+reconstructed_leakage_free_seed42             0.9         192  0.838523           0.781424            0.887556              0.934316                  182      their f1 / n (fine-tuned)          -0.095794
+reconstructed_leakage_free_seed43             0.0         264  0.749082           0.694461            0.794174              0.872686                  264      their f1 / n (fine-tuned)          -0.123604
+reconstructed_leakage_free_seed43             0.5         263  0.752321                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)          -0.123061
+reconstructed_leakage_free_seed43             0.9         199  0.834813           0.779250            0.880686              0.934316                  182      their f1 / n (fine-tuned)          -0.099503
+reconstructed_leakage_free_seed44             0.0         264  0.743291           0.691016            0.790771              0.872686                  264      their f1 / n (fine-tuned)          -0.129395
+reconstructed_leakage_free_seed44             0.5         249  0.773556                NaN                 NaN              0.875382                  255      their f1 / n (fine-tuned)          -0.101826
+reconstructed_leakage_free_seed44             0.9         207  0.823437           0.769971            0.872613              0.934316                  182      their f1 / n (fine-tuned)          -0.110879
+
+Wrote ['artifacts/tables/faulborn_classifier_validation.csv', 'artifacts/tables/faulborn_classifier_validation.md', 'artifacts/tables/faulborn_classifier_validation.parquet', 'artifacts/tables/faulborn_classifier_validation.tex']
