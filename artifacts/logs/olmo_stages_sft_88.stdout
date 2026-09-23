@@ -1,0 +1,12 @@
+sft: 352 requests, 120 already cached, 232 to generate
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 161.94it/s]
+{
+  "stage": "sft",
+  "model_id": "allenai/OLMo-2-1124-13B-SFT",
+  "revision": "b7ec47ed94f3f1d244d9d3cc53eb5d269f8eceec",
+  "n_new_generations": 232,
+  "n_errors": 0,
+  "tokens_per_second": 33.00689021067194,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790148942.3146043
+}

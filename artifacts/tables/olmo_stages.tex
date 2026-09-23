@@ -1,0 +1,30 @@
+\begin{tabular}{lllrrrrrrrrrrrr}
+\toprule
+stage & render & evaluator_id & n & truncated_share & position_rate & directional_n & directional_n_left_items & directional_n_right_items & agreement_share_of_directional & left_aligned_share & agree_rate_left_items & agree_rate_right_items & acquiescence & direction_index \\
+\midrule
+0_base & raw & deterministic_stance_v1 & 176 & 0.744300 & 0.079500 & 13 & 5 & 8 & 0.692300 & 0.692300 & 1.000000 & 0.500000 & 0.750000 & 0.500000 \\
+0_base & raw & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.744300 & 0.261400 & 46 & 18 & 28 & 0.608700 & 0.521700 & 0.666700 & 0.571400 & 0.619000 & 0.095200 \\
+0_base & raw & faulborn_nli_reconstructed_as_written_seed43 & 176 & 0.744300 & 0.238600 & 42 & 17 & 25 & 0.523800 & 0.547600 & 0.588200 & 0.480000 & 0.534100 & 0.108200 \\
+0_base & raw & faulborn_nli_reconstructed_as_written_seed44 & 176 & 0.744300 & 0.227300 & 40 & 14 & 26 & 0.625000 & 0.525000 & 0.714300 & 0.576900 & 0.645600 & 0.137400 \\
+0_base & raw & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.744300 & 0.244300 & 43 & 17 & 26 & 0.581400 & 0.534900 & 0.647100 & 0.538500 & 0.592800 & 0.108600 \\
+0_base & raw & faulborn_nli_reconstructed_leakage_free_seed43 & 176 & 0.744300 & 0.233000 & 41 & 15 & 26 & 0.561000 & 0.561000 & 0.666700 & 0.500000 & 0.583300 & 0.166700 \\
+0_base & raw & faulborn_nli_reconstructed_leakage_free_seed44 & 176 & 0.744300 & 0.227300 & 40 & 15 & 25 & 0.625000 & 0.550000 & 0.733300 & 0.560000 & 0.646700 & 0.173300 \\
+0_base & raw & faulborn_nli_zeroshot & 176 & 0.744300 & 0.875000 & 154 & 50 & 104 & 0.246800 & 0.610400 & 0.280000 & 0.230800 & 0.255400 & 0.049200 \\
+1_sft & native & deterministic_stance_v1 & 176 & 0.590900 & 0.073900 & 5 & 5 & 0 & 1.000000 & 1.000000 & 1.000000 & NaN & NaN & NaN \\
+1_sft & native & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.590900 & 0.323900 & 57 & 22 & 35 & 0.263200 & 0.701800 & 0.454500 & 0.142900 & 0.298700 & 0.311700 \\
+1_sft & native & faulborn_nli_reconstructed_as_written_seed43 & 176 & 0.590900 & 0.227300 & 40 & 18 & 22 & 0.375000 & 0.775000 & 0.666700 & 0.136400 & 0.401500 & 0.530300 \\
+1_sft & native & faulborn_nli_reconstructed_as_written_seed44 & 176 & 0.590900 & 0.261400 & 46 & 20 & 26 & 0.282600 & 0.717400 & 0.500000 & 0.115400 & 0.307700 & 0.384600 \\
+1_sft & native & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.590900 & 0.284100 & 50 & 20 & 30 & 0.400000 & 0.680000 & 0.600000 & 0.266700 & 0.433300 & 0.333300 \\
+1_sft & native & faulborn_nli_reconstructed_leakage_free_seed43 & 176 & 0.590900 & 0.227300 & 40 & 16 & 24 & 0.500000 & 0.700000 & 0.750000 & 0.333300 & 0.541700 & 0.416700 \\
+1_sft & native & faulborn_nli_reconstructed_leakage_free_seed44 & 176 & 0.590900 & 0.272700 & 48 & 19 & 29 & 0.208300 & 0.770800 & 0.473700 & 0.034500 & 0.254100 & 0.439200 \\
+1_sft & native & faulborn_nli_zeroshot & 176 & 0.590900 & 0.988600 & 174 & 58 & 116 & 0.155200 & 0.672400 & 0.241400 & 0.112100 & 0.176700 & 0.129300 \\
+1_sft & raw & deterministic_stance_v1 & 176 & 0.278400 & 0.056800 & 9 & 5 & 4 & 0.777800 & 0.555600 & 0.800000 & 0.750000 & 0.775000 & 0.050000 \\
+1_sft & raw & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.278400 & 0.233000 & 41 & 17 & 24 & 0.634100 & 0.585400 & 0.764700 & 0.541700 & 0.653200 & 0.223000 \\
+1_sft & raw & faulborn_nli_reconstructed_as_written_seed43 & 176 & 0.278400 & 0.215900 & 38 & 15 & 23 & 0.605300 & 0.578900 & 0.733300 & 0.521700 & 0.627500 & 0.211600 \\
+1_sft & raw & faulborn_nli_reconstructed_as_written_seed44 & 176 & 0.278400 & 0.352300 & 62 & 22 & 40 & 0.435500 & 0.629000 & 0.590900 & 0.350000 & 0.470500 & 0.240900 \\
+1_sft & raw & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.278400 & 0.233000 & 41 & 16 & 25 & 0.634100 & 0.561000 & 0.750000 & 0.560000 & 0.655000 & 0.190000 \\
+1_sft & raw & faulborn_nli_reconstructed_leakage_free_seed43 & 176 & 0.278400 & 0.221600 & 39 & 14 & 25 & 0.615400 & 0.538500 & 0.714300 & 0.560000 & 0.637100 & 0.154300 \\
+1_sft & raw & faulborn_nli_reconstructed_leakage_free_seed44 & 176 & 0.278400 & 0.227300 & 40 & 16 & 24 & 0.550000 & 0.550000 & 0.625000 & 0.500000 & 0.562500 & 0.125000 \\
+1_sft & raw & faulborn_nli_zeroshot & 176 & 0.278400 & 0.483000 & 85 & 24 & 61 & 0.329400 & 0.600000 & 0.375000 & 0.311500 & 0.343200 & 0.063500 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,17 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+408 generation records from artifacts/cache/olmo_stages.jsonl (no generation performed)
+deterministic_stance_v1: 348 new
+faulborn_nli_zeroshot: 348 new
+faulborn_nli_reconstructed_as_written_seed42: 348 new
+faulborn_nli_reconstructed_as_written_seed43: 348 new
+faulborn_nli_reconstructed_as_written_seed44: 348 new
+faulborn_nli_reconstructed_leakage_free_seed42: 348 new
+faulborn_nli_reconstructed_leakage_free_seed43: 348 new
+faulborn_nli_reconstructed_leakage_free_seed44: 348 new
+store now holds: {'deterministic_stance_v1': 408, 'faulborn_nli_zeroshot': 408, 'faulborn_nli_reconstructed_as_written_seed42': 408, 'faulborn_nli_reconstructed_as_written_seed43': 408, 'faulborn_nli_reconstructed_as_written_seed44': 408, 'faulborn_nli_reconstructed_leakage_free_seed42': 408, 'faulborn_nli_reconstructed_leakage_free_seed43': 408, 'faulborn_nli_reconstructed_leakage_free_seed44': 408}

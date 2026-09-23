@@ -1,0 +1,12 @@
+base: 176 requests, 60 already cached, 116 to generate
+Loading checkpoint shards:   0%|          | 0/12 [00:00<?, ?it/s]Loading checkpoint shards:   8%|▊         | 1/12 [00:00<00:04,  2.54it/s]Loading checkpoint shards:  17%|█▋        | 2/12 [00:00<00:04,  2.35it/s]Loading checkpoint shards:  25%|██▌       | 3/12 [00:01<00:04,  1.93it/s]Loading checkpoint shards:  33%|███▎      | 4/12 [00:02<00:04,  1.91it/s]Loading checkpoint shards:  42%|████▏     | 5/12 [00:02<00:03,  2.20it/s]Loading checkpoint shards:  50%|█████     | 6/12 [00:02<00:02,  2.28it/s]Loading checkpoint shards:  58%|█████▊    | 7/12 [00:03<00:02,  2.23it/s]Loading checkpoint shards:  67%|██████▋   | 8/12 [00:03<00:01,  2.26it/s]Loading checkpoint shards:  75%|███████▌  | 9/12 [00:04<00:01,  2.27it/s]Loading checkpoint shards:  83%|████████▎ | 10/12 [00:04<00:00,  2.26it/s]Loading checkpoint shards:  92%|█████████▏| 11/12 [00:04<00:00,  2.43it/s]Loading checkpoint shards: 100%|██████████| 12/12 [00:05<00:00,  3.04it/s]Loading checkpoint shards: 100%|██████████| 12/12 [00:05<00:00,  2.40it/s]
+{
+  "stage": "base",
+  "model_id": "allenai/OLMo-2-1124-13B",
+  "revision": "3fefddc1bf18a30e1d9b91000271630718f2aa8b",
+  "n_new_generations": 116,
+  "n_errors": 0,
+  "tokens_per_second": 33.22480958733227,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790148117.357312
+}
