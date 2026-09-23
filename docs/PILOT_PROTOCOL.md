@@ -71,7 +71,7 @@ templates, not just the one model already smoke-tested.
 | A3 — Elicitation / evaluator dependence | **Done on the A1 slice + 30-item stance-first extension** — `docs/results/faulborn_evaluator_agreement.md` |
 | Precision sensitivity (OLMo-13B Base FP32 vs BF16) | **Done** — BF16 standardized, precision kept as a sensitivity floor — `docs/results/precision_sensitivity.md` |
 | B — Backend equivalence | **Done (measured, not assumed zero)** — identical inputs; 18–72% byte-identical outputs; 0–10% outcome change for non-zero-shot evaluators — `docs/results/backend_equivalence.md` |
-| C — 3 lineages end-to-end | Not started (1 model, Transformers+vLLM, smoke-tested only) |
+| C — 3 lineages end-to-end | **2 of 3** — OLMo 2 (13B-SFT), Qwen2.5-14B-Instruct: verify → smoke → preflight → 60 generations → 8 evaluators → analysis row, 0 errors (`artifacts/tables/gate_c_lineages.*`); Amber pending download |
 
 ## Pilot factorial design (target, once gates pass)
 

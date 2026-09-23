@@ -1,0 +1,12 @@
+dpo: 352 requests, 0 already cached, 352 to generate
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 74.20it/s]
+{
+  "stage": "dpo",
+  "model_id": "allenai/OLMo-2-1124-13B-DPO",
+  "revision": "97a7f33fc8b419808db4ff92795244021e5cf5c2",
+  "n_new_generations": 352,
+  "n_errors": 0,
+  "tokens_per_second": 32.90167419097462,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790166858.214468
+}

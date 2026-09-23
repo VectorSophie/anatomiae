@@ -1,0 +1,17 @@
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+Device set to use cuda:0
+60 generation records from artifacts/cache/gate_c.jsonl (no generation performed)
+deterministic_stance_v1: 60 new
+faulborn_nli_zeroshot: 60 new
+faulborn_nli_reconstructed_as_written_seed42: 60 new
+faulborn_nli_reconstructed_as_written_seed43: 60 new
+faulborn_nli_reconstructed_as_written_seed44: 60 new
+faulborn_nli_reconstructed_leakage_free_seed42: 60 new
+faulborn_nli_reconstructed_leakage_free_seed43: 60 new
+faulborn_nli_reconstructed_leakage_free_seed44: 60 new
+store now holds: {'deterministic_stance_v1': 60, 'faulborn_nli_zeroshot': 60, 'faulborn_nli_reconstructed_as_written_seed42': 60, 'faulborn_nli_reconstructed_as_written_seed43': 60, 'faulborn_nli_reconstructed_as_written_seed44': 60, 'faulborn_nli_reconstructed_leakage_free_seed42': 60, 'faulborn_nli_reconstructed_leakage_free_seed43': 60, 'faulborn_nli_reconstructed_leakage_free_seed44': 60}

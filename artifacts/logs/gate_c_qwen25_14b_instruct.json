@@ -1,0 +1,22 @@
+{
+  "model": "qwen25_14b_instruct",
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+  "render_mode": "chat_instruct",
+  "verify": {
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "declared_torch_dtype": "torch.bfloat16",
+    "has_chat_template": true,
+    "loaded_param_dtypes": [
+      "torch.bfloat16"
+    ]
+  },
+  "smoke": "ok",
+  "n_new_generations": 59,
+  "n_errors": 0,
+  "tokens_per_second": 32.59654055153906,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790167218.990776
+}

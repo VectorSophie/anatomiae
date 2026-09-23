@@ -36,7 +36,8 @@ def main() -> None:
     if Path("artifacts/cache/gate_c.jsonl").exists():
         recs += GenerationCache("artifacts/cache/gate_c.jsonl").read_all()
         evals += EvaluationStore("artifacts/evaluations/gate_c.jsonl").read_all()
-    df = build_analysis_frame(recs, evals)
+    keys = {r.cache_key for r in recs}
+    df = build_analysis_frame(recs, [e for e in evals if e.generation_cache_key in keys], include_text=True)
     df = df[df["evaluator_id"].isin(EVALUATORS)]
 
     rows = []
@@ -44,7 +45,7 @@ def main() -> None:
         gen = g.drop_duplicates("cache_key")
         row = {"lineage": LINEAGE.get(model_id, model_id), "model_id": model_id, "revision": rev[:12],
                "n_generations": len(gen), "errors": int(gen["error"].notna().sum()),
-               "empty": int((gen["output_tokens"] == 0).sum()),
+               "empty_text": int((gen["raw_text"].str.strip() == "").sum()),
                "truncated_share": round(gen["truncated"].mean(), 3)}
         for ev, short in EVALUATORS.items():
             e = g[g["evaluator_id"] == ev]

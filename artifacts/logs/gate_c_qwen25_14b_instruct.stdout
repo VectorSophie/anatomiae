@@ -1,0 +1,26 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/8 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 8/8 [00:00<00:00, 205.35it/s]
+The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+{
+  "model": "qwen25_14b_instruct",
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+  "render_mode": "chat_instruct",
+  "verify": {
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "declared_torch_dtype": "torch.bfloat16",
+    "has_chat_template": true,
+    "loaded_param_dtypes": [
+      "torch.bfloat16"
+    ]
+  },
+  "smoke": "ok",
+  "n_new_generations": 59,
+  "n_errors": 0,
+  "tokens_per_second": 32.59654055153906,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790167218.990776
+}
