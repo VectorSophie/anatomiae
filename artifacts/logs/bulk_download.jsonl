@@ -4,3 +4,6 @@
 {"event": "done", "repo_id": "allenai/OLMo-2-1124-13B-SFT", "revision": "main", "path": "/data/jackb/krasis/huggingface/hub/models--allenai--OLMo-2-1124-13B-SFT/snapshots/b7ec47ed94f3f1d244d9d3cc53eb5d269f8eceec", "elapsed_seconds": 10383.436211109161, "ts": 1790123410.1780603}
 {"event": "start", "repo_id": "allenai/OLMo-2-1124-13B-DPO", "revision": "main", "repo_type": "model", "ts": 1790123410.1782732}
 {"event": "start", "repo_id": "allenai/OLMo-2-1124-13B-DPO", "revision": "main", "repo_type": "model", "ts": 1790126769.707163}
+{"event": "start", "repo_id": "facebook/bart-large-mnli", "revision": "main", "repo_type": "model", "ts": 1790131983.7416687}
+{"event": "start", "repo_id": "facebook/bart-large-mnli", "revision": "main", "repo_type": "model", "allow_patterns": ["*.json", "*.txt", "model.safetensors"], "ts": 1790132090.170372}
+{"event": "done", "repo_id": "facebook/bart-large-mnli", "revision": "main", "path": "/data/jackb/krasis/huggingface/hub/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce", "elapsed_seconds": 569.146546125412, "ts": 1790132659.3170831}

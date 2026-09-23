@@ -49,6 +49,17 @@ class GenerationRequest(BaseModel):
     precision: Precision
     decoding: DecodingConfig
 
+    # Provenance links back to the dataset item / prompt variant that
+    # produced this prompt. Deliberately NOT part of cache_key(): identical
+    # rendered text under identical generation settings is the same
+    # generation regardless of which item it came from. Optional because
+    # records written before these fields existed don't have them (they can
+    # be recovered deterministically by re-rendering and matching
+    # rendered_prompt_hash).
+    item_id: str | None = None
+    variant_id: str | None = None
+    template_id: str | None = None
+
     def cache_key(self) -> str:
         """Content-addressed generation identity. Two requests with the
         same key are, by the project's own definition, "the same

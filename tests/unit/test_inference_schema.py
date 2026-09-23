@@ -80,3 +80,13 @@ def test_generation_record_roundtrips_through_json():
     blob = record.model_dump_json()
     restored = GenerationRecord.model_validate_json(blob)
     assert restored == record
+
+
+def test_provenance_links_do_not_change_cache_key():
+    """item_id/variant_id/template_id are links back to where a prompt came
+    from, not generation identity - identical text under identical settings
+    is the same generation, and adding the fields must not invalidate any
+    previously cached record's key."""
+    base = _request()
+    linked = _request(item_id="faulborn-3", variant_id="v", template_id="t")
+    assert base.cache_key() == linked.cache_key()

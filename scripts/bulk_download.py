@@ -28,8 +28,21 @@ def log(event: dict) -> None:
     print(json.dumps(event))
 
 
-def download_one(repo_id: str, revision: str = "main", repo_type: str = "model") -> None:
-    log({"event": "start", "repo_id": repo_id, "revision": revision, "repo_type": repo_type})
+def download_one(
+    repo_id: str,
+    revision: str = "main",
+    repo_type: str = "model",
+    allow_patterns: list[str] | None = None,
+) -> None:
+    log(
+        {
+            "event": "start",
+            "repo_id": repo_id,
+            "revision": revision,
+            "repo_type": repo_type,
+            "allow_patterns": allow_patterns,
+        }
+    )
     t0 = time.time()
     try:
         path = snapshot_download(
@@ -37,6 +50,10 @@ def download_one(repo_id: str, revision: str = "main", repo_type: str = "model")
             revision=revision,
             repo_type=repo_type,
             max_workers=4,
+            # Many repos ship identical weights in several formats (PyTorch,
+            # safetensors, TF, Flax, Rust); on a ~2.3 MB/s link fetching all
+            # of them wastes hours, so callers can restrict to what's used.
+            allow_patterns=allow_patterns,
         )
     except Exception as e:  # noqa: BLE001 - log and continue to next repo
         log({"event": "error", "repo_id": repo_id, "revision": revision, "error": str(e)})
@@ -55,6 +72,12 @@ def download_one(repo_id: str, revision: str = "main", repo_type: str = "model")
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("repos", nargs="+", help="repo_id[:revision[:repo_type]] entries")
+    ap.add_argument(
+        "--allow-patterns",
+        nargs="+",
+        default=None,
+        help="only fetch files matching these globs (e.g. '*.json' '*.safetensors' '*.txt')",
+    )
     args = ap.parse_args()
 
     for entry in args.repos:
@@ -62,7 +85,7 @@ def main() -> None:
         repo_id = parts[0]
         revision = parts[1] if len(parts) > 1 and parts[1] else "main"
         repo_type = parts[2] if len(parts) > 2 and parts[2] else "model"
-        download_one(repo_id, revision, repo_type)
+        download_one(repo_id, revision, repo_type, args.allow_patterns)
 
 
 if __name__ == "__main__":

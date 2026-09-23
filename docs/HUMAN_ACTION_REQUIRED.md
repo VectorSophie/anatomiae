@@ -51,3 +51,34 @@ dropped; this does not block the core lineage/attribution analysis.
 
 *(Resolved when the researcher confirms both licenses are accepted; verify
 via `curl -I -H "Authorization: Bearer $TOKEN" https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/main/config.json` returning 200.)*
+
+---
+
+## 2. (Optional, non-blocking) Request the missing Faulborn classifier weights from the authors
+
+**Resource:** Faulborn et al.'s fine-tuned BART stance classifier, released
+via the "stance detector model files" Google Drive folder linked from
+`MaFa211/theory_grounded_pol_bias`'s README.
+
+**Why needed:** that folder contains the step-1750 Trainer checkpoint's
+config, tokenizer, scheduler, RNG and trainer state - but **no weights
+file** (no `model.safetensors` / `pytorch_model.bin`). Verified from the raw
+Drive folder listing, not just gdown's; no copy exists on the HF Hub, in
+GitHub releases/LFS, or other branches (checked 2026-09-23). Hashes of the
+files that *are* present are recorded in
+`docs/results/faulborn_classifier_reproduction.md`.
+
+**Action required from researcher:** optionally, contact the paper's
+authors and ask whether the step-1750 weights file can be shared.
+
+**Why automation cannot perform it:** contacting third-party researchers on
+the project's behalf is a person-to-person communication decision, not an
+engineering action.
+
+**What work can continue meanwhile:** everything. The classifier is being
+reconstructed from their released training data and script, and validated
+against their own released test split and reported metrics; the
+reconstruction is always labeled as such, never as their weights.
+
+**Scientific impact if unavailable:** Gate A2 can reach "validated
+reconstruction" but not "exact reproduction of the released weights."

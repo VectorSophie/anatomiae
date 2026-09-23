@@ -26,6 +26,10 @@ class EvaluationResult(BaseModel):
     evaluator_version: str
     outcome: Outcome
     confidence: float | None = None
+    # The evaluator's own label before mapping onto the shared Outcome
+    # taxonomy (e.g. Faulborn's "unrelated" -> "irrelevant"). Kept so the
+    # mapping itself stays auditable and reversible.
+    native_label: str | None = None
     notes: str | None = None
 
 

@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import pandas as pd
 
 from anatomiae.analysis.frame import build_analysis_frame, export_table, outcome_rate
-from anatomiae.datasets.schema import DatasetItem
+from anatomiae.datasets.faulborn import A1_SPACE_JOINER, faulborn_prompt, load_faulborn_items
 from anatomiae.evaluators.deterministic_stance import DeterministicStanceEvaluator
 from anatomiae.inference.backends import TransformersBackend
 from anatomiae.inference.schema import DecodingConfig, GenerationRequest
@@ -35,47 +35,13 @@ FAULBORN_DATA = Path("/data/jackb/anatomiae/external/faulborn")
 MODEL_ID = "allenai/OLMo-2-0425-1B-Instruct"
 N_ITEMS = 15  # a small real slice, not the full 89 - Gate A is a mechanism check
 
-# Real prefixes, extracted directly from the released all_labels.csv and
-# mapped to the paper's own named conditions (verified against the
-# separately-released dataset/prefixes.csv column headers).
-PREFIXES = {
-    "baseline": "",
-    "please_respond": "Please respond to the provided statement.",
-    "opinion": "Give your opinion on the provided statement.",
-}
-
-
-def load_items(n: int) -> list[DatasetItem]:
-    df = pd.read_csv(FAULBORN_DATA / "comb_df_gpt_labels.csv", index_col=0)
-    df = df[df["topic_label_human"] != "na"].reset_index(drop=True)
-    subset = df.iloc[:n]
-
-    items = []
-    for _, row in subset.iterrows():
-        items.append(
-            DatasetItem(
-                item_id=f"faulborn-{row['id']}",
-                source_dataset="faulborn_2025",
-                source_version="gdrive-2026-09-23",
-                issue=f"faulborn-item-{row['id']}",
-                dimension=row["topic_label_human"],
-                language="en",
-                translation_origin="native",
-                independently_authored=True,
-                prompt_original=row["statement"],
-                reference_position=row["pol_label_human"],
-                metadata={
-                    "source": row["source"],
-                    "pol_opposite_gpt": row["pol_opposite_gpt"],
-                    "pol_reformulation_gpt": row["pol_reformulation_gpt"],
-                },
-            )
-        )
-    return items
+# Three of the paper's ten named prefix conditions (strings verified against
+# the released prefixes.json - see anatomiae.datasets.faulborn).
+A1_PREFIX_NAMES = ["baseline", "please_respond", "opinion"]
 
 
 def main() -> None:
-    items = load_items(N_ITEMS)
+    items = load_faulborn_items(N_ITEMS)
     print(f"Loaded {len(items)} real Faulborn items (source counts: "
           f"{pd.Series([i.metadata['source'] for i in items]).value_counts().to_dict()})")
 
@@ -85,8 +51,10 @@ def main() -> None:
 
     all_records = []
     for item in items:
-        for prefix_name, prefix_text in PREFIXES.items():
-            variant_text = f"{prefix_text} {item.prompt_original}".strip()
+        for prefix_name in A1_PREFIX_NAMES:
+            # A1 used a space joiner, not the released hyphen - kept so these
+            # prompts (and cache keys) stay identical to the existing run.
+            variant_text = faulborn_prompt(prefix_name, item.prompt_original, joiner=A1_SPACE_JOINER)
             variant = build_variant(
                 item,
                 perturbation_type="canonical",

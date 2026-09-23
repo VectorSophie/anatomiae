@@ -1,0 +1,24 @@
+Loading checkpoint shards:   0%|          | 0/12 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 12/12 [00:00<00:00, 505.12it/s]
+loaded allenai/OLMo-2-1124-13B@3fefddc1 as fp32 in 9.4s; cast OK: {'expected_dtype': 'torch.float32', 'n_parameters': 13716198400, 'params_with_unexpected_dtype': 0, 'non_finite_values': 0}
+{
+  "model_id": "allenai/OLMo-2-1124-13B",
+  "revision": "3fefddc1bf18a30e1d9b91000271630718f2aa8b",
+  "precision": "fp32",
+  "load_seconds": 9.374353408813477,
+  "cast_validation": {
+    "expected_dtype": "torch.float32",
+    "n_parameters": 13716198400,
+    "params_with_unexpected_dtype": 0,
+    "non_finite_values": 0
+  },
+  "n_new_generations": 60,
+  "n_errors": 0,
+  "total_output_tokens": 8383,
+  "total_generation_seconds": 417.08416628837585,
+  "tokens_per_second": 20.09906075936701,
+  "peak_vram_allocated_gib": 55.40347766876221,
+  "peak_vram_reserved_gib": 58.37890625,
+  "gpu_physical_index": 1,
+  "gpu_power_limit_w": 250.0,
+  "note": "throughput measured with the GPU at its device-reported minimum power limit"
+}

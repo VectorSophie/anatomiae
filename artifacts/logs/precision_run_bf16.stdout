@@ -1,0 +1,24 @@
+Loading checkpoint shards:   0%|          | 0/12 [00:00<?, ?it/s]Loading checkpoint shards:   8%|▊         | 1/12 [00:00<00:02,  4.08it/s]Loading checkpoint shards:  17%|█▋        | 2/12 [00:00<00:02,  3.81it/s]Loading checkpoint shards:  25%|██▌       | 3/12 [00:00<00:02,  3.04it/s]Loading checkpoint shards:  33%|███▎      | 4/12 [00:01<00:02,  2.75it/s]Loading checkpoint shards:  42%|████▏     | 5/12 [00:01<00:02,  2.88it/s]Loading checkpoint shards:  50%|█████     | 6/12 [00:01<00:02,  2.91it/s]Loading checkpoint shards:  58%|█████▊    | 7/12 [00:02<00:01,  2.99it/s]Loading checkpoint shards:  67%|██████▋   | 8/12 [00:02<00:01,  2.92it/s]Loading checkpoint shards:  75%|███████▌  | 9/12 [00:03<00:01,  2.97it/s]Loading checkpoint shards:  83%|████████▎ | 10/12 [00:03<00:00,  2.99it/s]Loading checkpoint shards:  92%|█████████▏| 11/12 [00:03<00:00,  3.08it/s]Loading checkpoint shards: 100%|██████████| 12/12 [00:03<00:00,  3.76it/s]Loading checkpoint shards: 100%|██████████| 12/12 [00:03<00:00,  3.19it/s]
+loaded allenai/OLMo-2-1124-13B@3fefddc1 as bf16 in 7.3s; cast OK: {'expected_dtype': 'torch.bfloat16', 'n_parameters': 13716198400, 'params_with_unexpected_dtype': 0, 'non_finite_values': 0}
+{
+  "model_id": "allenai/OLMo-2-1124-13B",
+  "revision": "3fefddc1bf18a30e1d9b91000271630718f2aa8b",
+  "precision": "bf16",
+  "load_seconds": 7.314899444580078,
+  "cast_validation": {
+    "expected_dtype": "torch.bfloat16",
+    "n_parameters": 13716198400,
+    "params_with_unexpected_dtype": 0,
+    "non_finite_values": 0
+  },
+  "n_new_generations": 60,
+  "n_errors": 0,
+  "total_output_tokens": 8064,
+  "total_generation_seconds": 241.7313494682312,
+  "tokens_per_second": 33.359347133664954,
+  "peak_vram_allocated_gib": 29.972254753112793,
+  "peak_vram_reserved_gib": 31.970703125,
+  "gpu_physical_index": 1,
+  "gpu_power_limit_w": 250.0,
+  "note": "throughput measured with the GPU at its device-reported minimum power limit"
+}

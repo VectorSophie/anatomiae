@@ -1,0 +1,3 @@
+precision,load_seconds,n_new_generations,n_errors,total_output_tokens,tokens_per_second,peak_vram_allocated_gib,peak_vram_reserved_gib,gpu_power_limit_w
+fp32,9.37,60,0,8383,20.1,55.4,58.38,250.0
+bf16,7.31,60,0,8064,33.36,29.97,31.97,250.0

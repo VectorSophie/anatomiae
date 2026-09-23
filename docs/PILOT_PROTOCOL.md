@@ -1,6 +1,6 @@
 # Pilot protocol
 
-Status: gates defined, none yet passed. This document specifies what must
+Status: Gate A1 passed; everything else pending (see table below). This document specifies what must
 be true before the pilot scales from smoke tests to the full factorial
 design (§14 of the project's continuation directive).
 
@@ -20,9 +20,27 @@ correctly, in this order:
 2. only then: published methodology → identified limitation →
    `anatomiae` extension.
 
-Do not "improve" the method before proving it can be reproduced. Results
-and discrepancies go in `docs/results/faulborn_reproduction.md` (not yet
-created).
+Do not "improve" the method before proving it can be reproduced.
+
+Gate A is split into three explicit sub-gates, because "the items run
+through our pipeline" and "we reproduced their measurement" are different
+claims:
+
+- **A1 — Real Faulborn items/prefixes through the anatomiae pipeline.**
+  Real released items and prefix strings, real generations, cached,
+  evaluated, tabulated. A methodological reproduction of the item/prefix
+  design - *not* of their model set or their classifier.
+  → `docs/results/faulborn_reproduction.md`
+- **A2 — Reproduce Faulborn's released stance-classifier path.** Their
+  exact inference procedure (BART-MNLI zero-shot pipeline, their template
+  and labels, response-only premise, argmax + confidence), validated
+  against their own released test split and reported metrics.
+  → `docs/results/faulborn_classifier_reproduction.md`
+- **A3 — Compare elicitation and evaluator dependence.** Same cached
+  outputs scored by multiple evaluators (no regeneration); then a
+  clearly-separate stance-first elicitation *extension* compared against
+  the original prompt conditions. Only after A2 passes or its blocker is
+  documented. → `docs/results/faulborn_evaluator_agreement.md`
 
 ### Gate B — Backend measurement equivalence
 
@@ -48,7 +66,9 @@ templates, not just the one model already smoke-tested.
 
 | Gate | Status |
 |---|---|
-| A — Faulborn reproduction | Not started |
+| A1 — Faulborn items/prefixes through pipeline | **Passed** (15 items x 3 prefixes x 2 budgets; truncation-stratified) |
+| A2 — Faulborn classifier path | In progress - released weights file missing (hard blocker for *exact* weights); reconstruction + validation against their released test split underway |
+| A3 — Elicitation / evaluator dependence | Pending (after A2) |
 | B — Backend equivalence | Not started (one informal smoke comparison exists) |
 | C — 3 lineages end-to-end | Not started (1 model, Transformers+vLLM, smoke-tested only) |
 

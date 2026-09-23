@@ -1,0 +1,7 @@
+evaluator_id,stratum,n_pairs,outcome_agreement,outcome_agreement_ci95_low,outcome_agreement_ci95_high,cohen_kappa,exact_text_match_rate,stratum_value,unmatched_fp32,unmatched_bf16
+deterministic_stance_v1,all,60,0.9833,0.95,1.0,0.9476,0.7167,all,0,0
+deterministic_stance_v1,completeness,20,1.0,1.0,1.0,1.0,0.9,both_complete,0,0
+deterministic_stance_v1,completeness,38,0.9737,0.9211,1.0,0.6545,0.6579,both_truncated,0,0
+deterministic_stance_v1,completeness,2,1.0,1.0,1.0,,0.0,mixed,0,0
+deterministic_stance_v1,prefix,30,1.0,1.0,1.0,1.0,0.9,opinion,0,0
+deterministic_stance_v1,prefix,30,0.9667,0.9,1.0,0.0,0.5333,please_respond,0,0
