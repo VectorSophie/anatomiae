@@ -78,17 +78,19 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | Component | Status |
 |---|---|
 | Repository infrastructure, GPU isolation guard | Complete |
+| GPU minimum-power-limit preflight | Complete — `src/anatomiae/provenance/gpu_power.py` |
 | Transformers backend | Complete (real generation verified) |
 | vLLM backend | Complete (real generation verified; see `docs/reproducibility.md` for a machine-specific workaround) |
 | Locked-paper audit (5/5 papers) | Complete — `docs/PRIOR_WORK_MATRIX.md` |
 | Model/dataset identity verification | Complete — `docs/MODEL_AUDIT.md`, `docs/DATASET_AUDIT.md` |
 | Bilingual/multilingual provenance schema | Complete |
-| OLMo 2 13B lineage download (Base→SFT→DPO→RLVR2) | In progress (Base done, SFT in progress) |
-| Prompt constructor / evaluator pipeline | Not started |
-| Faulborn reproduction | Not started |
-| Backend-equivalence study | Not started (single-pair smoke comparison only) |
-| ≥3 model lineages end-to-end | Not started |
-| Full pilot | Not started |
+| Prompt → generation → immutable cache → evaluator → analysis pipeline | Complete, real end-to-end run verified — see `scripts/pipeline_smoke_test.py` |
+| OLMo 2 13B lineage download (Base→SFT→DPO→RLVR2) | In progress (Base, SFT done; DPO in progress; RLVR2 queued) |
+| Gate A — Faulborn reproduction | Methodological reproduction done on a real 15-item slice; exact reproduction (their model set + classifier) not attempted — see `docs/results/faulborn_reproduction.md` |
+| Gate B — Backend-equivalence study | Not started (single-pair smoke comparison only) |
+| Gate C — ≥3 model lineages end-to-end | Not started (1 lineage smoke-tested) |
+| OLMo FP32-vs-BF16 precision-sensitivity check | Not started |
+| Full pilot | Not started (blocked on Gates A–C) |
 
 No fabricated progress here — an item is only marked complete once a real
 artifact backs it (see `artifacts/logs/`, `docs/RESEARCH_AUDIT.md`).
@@ -159,9 +161,15 @@ list exact commands to reproduce it from a fresh clone.
 
 ## Results
 
-No pilot results yet — nothing here is fabricated or placeholder. Once
-real experiments run, this section will link to `docs/results/pilot.md`
-and embed a small curated set of real figures/tables.
+No full-pilot results yet — nothing here is fabricated or placeholder.
+One real, in-progress result exists: **[Gate A's Faulborn methodological
+reproduction](docs/results/faulborn_reproduction.md)**, run on a real
+15-item slice of the paper's actual released data. It surfaced a genuine
+finding (not a bug): the tested model consistently produces discursive
+analytical responses rather than declarative agree/disagree stances on
+these prompts, which is itself informative for evaluator design before
+the full pilot scales. Once Gates B and C also pass, this section will
+link to `docs/results/pilot.md` and embed a small curated set of figures.
 
 ## Repository structure
 
