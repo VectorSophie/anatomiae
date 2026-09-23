@@ -82,3 +82,31 @@ reconstruction is always labeled as such, never as their weights.
 
 **Scientific impact if unavailable:** Gate A2 can reach "validated
 reconstruction" but not "exact reproduction of the released weights."
+
+## 3. Human stance labels on the frozen v1 sample (blocking for any directional claim)
+
+**Where:** `artifacts/labeling/` — `sheet_v1_annotator_A.csv`,
+`sheet_v1_annotator_B.csv` (150 rows each, same responses, different row
+order), `README.md` (instructions), `adjudication_v1.csv` (after both).
+The answer key `key_v1.csv` (stage, model, evaluator labels) is kept
+local-only (gitignored) until annotation is complete, so annotators working
+from the public repo stay blind; it is committed afterwards.
+
+**Why needed:** every directional result so far comes from automatic
+evaluators that are known to fail on implicit and voiced-continuation text
+(`docs/results/olmo_stages.md`, `olmo_stages_v2.md`). The sample
+oversamples exactly those cases, plus explicit controls.
+
+**Action required from researcher:** two independent annotators each fill
+their own sheet (`relation`, `mode`, optional confidence and notes),
+without seeing each other's labels; then adjudicate disagreements. If only
+one annotator is available: label all 150, and have a second annotator
+label at least 50 of them for agreement.
+
+**Why automation cannot perform it:** the point is an independent human
+reference for the automatic evaluators; a model-generated label would be
+one more evaluator, not a validation.
+
+**What work can continue meanwhile:** response mechanics, stance-first
+explicit-stance results, RLVR2, Gate C. Directional claims stay labeled
+"classifier-measured, not human-validated."

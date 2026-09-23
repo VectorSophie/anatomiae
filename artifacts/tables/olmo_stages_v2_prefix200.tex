@@ -1,0 +1,51 @@
+\begin{tabular}{llllrrrrrrrrr}
+\toprule
+stage & render & prompt & evaluator_id & n & truncated_share_200 & truncated_share_600 & position_rate_200 & position_rate_600 & direction_index_200 & direction_index_600 & label_changed_share & direction_flip_share \\
+\midrule
+0_base & raw & opinion & deterministic_stance_v1 & 176 & 0.653400 & 0.596600 & 0.073900 & 0.085200 & 0.228600 & 0.300000 & 0.017000 & 0.000000 \\
+0_base & raw & opinion & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.653400 & 0.596600 & 0.250000 & 0.193200 & 0.072600 & 0.091600 & 0.073900 & 0.011400 \\
+0_base & raw & opinion & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.653400 & 0.596600 & 0.227300 & 0.164800 & 0.125300 & 0.176200 & 0.073900 & 0.000000 \\
+0_base & raw & please_respond & deterministic_stance_v1 & 176 & 0.767000 & 0.744300 & 0.034100 & 0.045500 & 0.666700 & 0.666700 & 0.011400 & 0.000000 \\
+0_base & raw & please_respond & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.767000 & 0.744300 & 0.153400 & 0.125000 & 0.133300 & -0.150000 & 0.056800 & 0.011400 \\
+0_base & raw & please_respond & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.767000 & 0.744300 & 0.159100 & 0.130700 & 0.428600 & 0.295500 & 0.056800 & 0.000000 \\
+0_base & raw & stance_first & deterministic_stance_v1 & 176 & 0.994300 & 0.994300 & 0.039800 & 0.039800 & 0.666700 & 0.666700 & 0.000000 & 0.000000 \\
+0_base & raw & stance_first & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.994300 & 0.994300 & 0.051100 & 0.028400 & 0.500000 & 0.500000 & 0.022700 & 0.000000 \\
+0_base & raw & stance_first & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.994300 & 0.994300 & 0.051100 & 0.039800 & 0.500000 & 0.333300 & 0.022700 & 0.000000 \\
+1_sft & native & opinion & deterministic_stance_v1 & 176 & 0.710200 & 0.005700 & 0.073900 & 0.085200 & 0.000000 & 0.000000 & 0.011400 & 0.000000 \\
+1_sft & native & opinion & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.710200 & 0.005700 & 0.215900 & 0.227300 & 0.415400 & 0.532000 & 0.056800 & 0.000000 \\
+1_sft & native & opinion & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.710200 & 0.005700 & 0.227300 & 0.244300 & 0.280000 & 0.359600 & 0.045500 & 0.005700 \\
+1_sft & native & please_respond & deterministic_stance_v1 & 176 & 0.471600 & 0.017000 & 0.204500 & 0.238600 & 0.000000 & 0.000000 & 0.034100 & 0.000000 \\
+1_sft & native & please_respond & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.471600 & 0.017000 & 0.431800 & 0.426100 & 0.649500 & 0.647800 & 0.028400 & 0.000000 \\
+1_sft & native & please_respond & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.471600 & 0.017000 & 0.397700 & 0.403400 & 0.512700 & 0.440900 & 0.034100 & 0.005700 \\
+1_sft & native & stance_first & deterministic_stance_v1 & 176 & 0.534100 & 0.000000 & 1.000000 & 1.000000 & 0.523800 & 0.518600 & 0.034100 & 0.000000 \\
+1_sft & native & stance_first & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.534100 & 0.000000 & 1.000000 & 1.000000 & 0.500000 & 0.500000 & 0.000000 & 0.000000 \\
+1_sft & native & stance_first & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.534100 & 0.000000 & 1.000000 & 1.000000 & 0.500000 & 0.500000 & 0.000000 & 0.000000 \\
+1_sft & raw & opinion & deterministic_stance_v1 & 176 & 0.090900 & 0.079500 & 0.011400 & 0.011400 & NaN & NaN & 0.000000 & 0.000000 \\
+1_sft & raw & opinion & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.090900 & 0.079500 & 0.062500 & 0.039800 & 0.433300 & 0.600000 & 0.022700 & 0.000000 \\
+1_sft & raw & opinion & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.090900 & 0.079500 & 0.045500 & 0.034100 & 0.466700 & 0.666700 & 0.017000 & 0.000000 \\
+1_sft & raw & please_respond & deterministic_stance_v1 & 176 & 0.340900 & 0.215900 & 0.073900 & 0.073900 & 0.057100 & 0.057100 & 0.000000 & 0.000000 \\
+1_sft & raw & please_respond & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.340900 & 0.215900 & 0.261400 & 0.250000 & 0.231100 & 0.240200 & 0.022700 & 0.011400 \\
+1_sft & raw & please_respond & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.340900 & 0.215900 & 0.289800 & 0.267000 & 0.088500 & 0.185000 & 0.028400 & 0.000000 \\
+1_sft & raw & stance_first & deterministic_stance_v1 & 176 & 0.448900 & 0.420500 & 0.119300 & 0.119300 & 0.375000 & 0.329500 & 0.005700 & 0.000000 \\
+1_sft & raw & stance_first & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.448900 & 0.420500 & 0.284100 & 0.204500 & 0.431600 & 0.314300 & 0.085200 & 0.000000 \\
+1_sft & raw & stance_first & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.448900 & 0.420500 & 0.318200 & 0.238600 & 0.367600 & 0.242600 & 0.085200 & 0.000000 \\
+2_dpo & native & opinion & deterministic_stance_v1 & 176 & 1.000000 & 0.159100 & 0.028400 & 0.255700 & NaN & NaN & 0.227300 & 0.000000 \\
+2_dpo & native & opinion & faulborn_nli_reconstructed_as_written_seed42 & 176 & 1.000000 & 0.159100 & 0.301100 & 0.323900 & 0.774600 & 0.855600 & 0.113600 & 0.011400 \\
+2_dpo & native & opinion & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 1.000000 & 0.159100 & 0.255700 & 0.295500 & 0.721200 & 0.694800 & 0.142000 & 0.011400 \\
+2_dpo & native & please_respond & deterministic_stance_v1 & 176 & 1.000000 & 0.130700 & 0.039800 & 0.272700 & NaN & NaN & 0.233000 & 0.000000 \\
+2_dpo & native & please_respond & faulborn_nli_reconstructed_as_written_seed42 & 176 & 1.000000 & 0.130700 & 0.335200 & 0.318200 & 0.799500 & 0.831000 & 0.164800 & 0.000000 \\
+2_dpo & native & please_respond & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 1.000000 & 0.130700 & 0.284100 & 0.261400 & 0.661800 & 0.725100 & 0.159100 & 0.028400 \\
+2_dpo & native & stance_first & deterministic_stance_v1 & 176 & 1.000000 & 0.051100 & 0.994300 & 0.994300 & 0.509700 & 0.628600 & 0.215900 & 0.000000 \\
+2_dpo & native & stance_first & faulborn_nli_reconstructed_as_written_seed42 & 176 & 1.000000 & 0.051100 & 0.977300 & 0.960200 & 0.547400 & 0.563900 & 0.017000 & 0.000000 \\
+2_dpo & native & stance_first & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 1.000000 & 0.051100 & 0.977300 & 0.954500 & 0.547400 & 0.572500 & 0.022700 & 0.000000 \\
+2_dpo & raw & opinion & deterministic_stance_v1 & 176 & 0.471600 & 0.119300 & 0.164800 & 0.210200 & 0.500000 & 0.666700 & 0.068200 & 0.000000 \\
+2_dpo & raw & opinion & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.471600 & 0.119300 & 0.505700 & 0.500000 & 0.325700 & 0.381800 & 0.022700 & 0.005700 \\
+2_dpo & raw & opinion & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.471600 & 0.119300 & 0.483000 & 0.454500 & 0.334500 & 0.422000 & 0.062500 & 0.034100 \\
+2_dpo & raw & please_respond & deterministic_stance_v1 & 176 & 0.789800 & 0.096600 & 0.448900 & 0.528400 & 0.108300 & 0.174700 & 0.119300 & 0.000000 \\
+2_dpo & raw & please_respond & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.789800 & 0.096600 & 0.886400 & 0.903400 & 0.261900 & 0.247900 & 0.073900 & 0.017000 \\
+2_dpo & raw & please_respond & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.789800 & 0.096600 & 0.875000 & 0.880700 & 0.264800 & 0.305700 & 0.056800 & 0.039800 \\
+2_dpo & raw & stance_first & deterministic_stance_v1 & 176 & 0.846600 & 0.261400 & 0.267000 & 0.403400 & 0.500000 & 0.529400 & 0.159100 & 0.000000 \\
+2_dpo & raw & stance_first & faulborn_nli_reconstructed_as_written_seed42 & 176 & 0.846600 & 0.261400 & 0.835200 & 0.829500 & 0.414300 & 0.441000 & 0.039800 & 0.022700 \\
+2_dpo & raw & stance_first & faulborn_nli_reconstructed_leakage_free_seed42 & 176 & 0.846600 & 0.261400 & 0.823900 & 0.812500 & 0.398600 & 0.393700 & 0.039800 & 0.017000 \\
+\bottomrule
+\end{tabular}

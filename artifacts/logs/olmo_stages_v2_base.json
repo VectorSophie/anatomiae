@@ -1,0 +1,14 @@
+{
+  "stage": "base",
+  "model_id": "allenai/OLMo-2-1124-13B",
+  "revision": "3fefddc1bf18a30e1d9b91000271630718f2aa8b",
+  "backend": "vllm",
+  "batch_size": 176,
+  "n_new_generations": 528,
+  "n_errors": 0,
+  "n_empty": 58,
+  "n_truncated": 411,
+  "output_tokens_per_second_batched": 1715.501519349625,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790169043.0409458
+}

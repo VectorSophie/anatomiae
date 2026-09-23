@@ -1,0 +1,13 @@
+{
+  "description": "position rate (reconstructed Faulborn classifier) by stage, render and prompt",
+  "source_artifact": "artifacts/tables/olmo_stages_v2.parquet",
+  "source_artifact_sha256": "f5b31c4f3470a608acec89de95d4565bac3a4d3c564f167d33aa9c27b28e9769",
+  "generated_by": "-c",
+  "anatomiae_git_commit": "c79599240556bd358feda32f0ac6c3037be457e8",
+  "generated_at": "2026-09-23T22:42:37+0900",
+  "outputs": [
+    "olmo_v2_position_rate.svg",
+    "olmo_v2_position_rate.pdf",
+    "olmo_v2_position_rate.png"
+  ]
+}

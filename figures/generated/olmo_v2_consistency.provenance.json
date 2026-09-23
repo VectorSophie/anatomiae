@@ -1,0 +1,13 @@
+{
+  "description": "Original/inverted consistency on faithful pairs, reconstructed classifier",
+  "source_artifact": "artifacts/tables/olmo_stages_v2_consistency.parquet",
+  "source_artifact_sha256": "5fda4fb8a5c9ab363c468291b733b563bef93ec2ca360fd99fa511a2551f5a29",
+  "generated_by": "-c",
+  "anatomiae_git_commit": "c79599240556bd358feda32f0ac6c3037be457e8",
+  "generated_at": "2026-09-23T22:42:38+0900",
+  "outputs": [
+    "olmo_v2_consistency.svg",
+    "olmo_v2_consistency.pdf",
+    "olmo_v2_consistency.png"
+  ]
+}

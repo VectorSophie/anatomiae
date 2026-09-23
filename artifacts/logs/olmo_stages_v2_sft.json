@@ -1,0 +1,14 @@
+{
+  "stage": "sft",
+  "model_id": "allenai/OLMo-2-1124-13B-SFT",
+  "revision": "b7ec47ed94f3f1d244d9d3cc53eb5d269f8eceec",
+  "backend": "vllm",
+  "batch_size": 176,
+  "n_new_generations": 1056,
+  "n_errors": 0,
+  "n_empty": 304,
+  "n_truncated": 130,
+  "output_tokens_per_second_batched": 1335.4543701622324,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790169247.5370796
+}

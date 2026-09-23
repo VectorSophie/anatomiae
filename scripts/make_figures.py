@@ -16,11 +16,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import pandas as pd
 
 from anatomiae.plots.figures import (
+    SERIES,
     agreement_dotplot,
     confusion_heatmap,
     curve_small_multiples,
+    dot_grid,
     outcome_stack,
     save,
+    share_stack,
 )
 
 T = Path("artifacts/tables")
@@ -182,6 +185,69 @@ def backend() -> None:
          description="Transformers vs vLLM outcome agreement per evaluator and model")
 
 
+STAGE_LABEL = {"0_base": "Base", "1_sft": "SFT", "2_dpo": "DPO", "3_rlvr2": "RLVR2"}
+V2_PRIMARY = "faulborn_nli_reconstructed_as_written_seed42"
+V2_DET = "deterministic_stance_v1"
+
+
+def _cond(df: pd.DataFrame) -> pd.Series:
+    return df["stage"].map(STAGE_LABEL) + " · " + df["render"]
+
+
+def olmo_v2() -> None:
+    src = T / "olmo_stages_v2_completion.parquet"
+    if not need(src):
+        return
+    c = pd.read_parquet(src)
+    c["completed_201_600_rate"] = c["completed_within_600_rate"] - c["completed_within_200_rate"]
+    w = c.assign(group=_cond(c) + " · " + c["prompt"])
+    cols = ["empty_rate", "completed_within_200_rate", "completed_201_600_rate", "truncated_at_600_rate"]
+    shares = w.groupby("group", sort=False)[cols].mean()
+    fig = share_stack(shares, [("empty_rate", "empty (immediate end)", "#c2c1b6"),
+                               ("completed_within_200_rate", "finished within 200 tokens", SERIES[0]),
+                               ("completed_201_600_rate", "finished in 201–600 tokens", SERIES[2]),
+                               ("truncated_at_600_rate", "cut off at 600 tokens", SERIES[1])],
+                      title="How each OLMo-2-13B stage answers, before any stance label",
+                      subtitle="88 statements + 88 inversions per row; greedy, vLLM, BF16; from the generation cache")
+    save(fig, OUT / "olmo_v2_response_mechanics", source_artifact=src,
+         description="Empty / completion / truncation shares per stage, render and prompt")
+
+    src = T / "olmo_stages_v2.parquet"
+    if not need(src):
+        return
+    t = pd.read_parquet(src)
+    t["condition"] = _cond(t)
+    for ev, name, label in ((V2_DET, "olmo_v2_explicit_stance_rate", "explicit stance rate (deterministic evaluator)"),
+                            (V2_PRIMARY, "olmo_v2_position_rate", "position rate (reconstructed Faulborn classifier)")):
+        s = t[t["evaluator_id"] == ev]
+        fig = dot_grid(s, category_col="condition", series_col="prompt", value_col="position_rate",
+                       title=f"Released prompts vs stance-first: {label}",
+                       subtitle="Share of responses taking a position; 176 prompts per point",
+                       xlabel="share of responses")
+        save(fig, OUT / name, source_artifact=src, description=f"{label} by stage, render and prompt")
+    s = t[t["evaluator_id"] == V2_PRIMARY]
+    fig = dot_grid(s, category_col="condition", series_col="prompt", value_col="direction_index", n_col="directional_n",
+                   title="Measured direction by stage (not human-validated)",
+                   subtitle="Agree rate on left-coded minus right-coded statements; reconstructed classifier; n = directional responses",
+                   xlabel="direction index (−1 right-aligned … +1 left-aligned)", xlim=(-1, 1))
+    save(fig, OUT / "olmo_v2_direction_index", source_artifact=src,
+         description="Classifier-measured direction index by stage, render and prompt")
+
+    src = T / "olmo_stages_v2_consistency.parquet"
+    if not need(src):
+        return
+    k = pd.read_parquet(src)
+    k = k[(k["evaluator_id"] == V2_PRIMARY) & (k["pair_subset"] == "A_faithful_only")].copy()
+    k["condition"] = _cond(k)
+    fig = dot_grid(k, category_col="condition", series_col="prompt", value_col="consistent_share",
+                   n_col="n_items_both_directional",
+                   title="Opposite stances on a statement and its faithful inversion",
+                   subtitle="Audited faithful pairs (46) where both responses are directional; n = such pairs",
+                   xlabel="share consistent (agree X & disagree not-X, or the reverse)")
+    save(fig, OUT / "olmo_v2_consistency", source_artifact=src,
+         description="Original/inverted consistency on faithful pairs, reconstructed classifier")
+
+
 if __name__ == "__main__":
-    for f in (amber_curves, classifier_validation, evaluator_agreement, precision, stance_first, backend):
+    for f in (amber_curves, classifier_validation, evaluator_agreement, precision, stance_first, backend, olmo_v2):
         f()

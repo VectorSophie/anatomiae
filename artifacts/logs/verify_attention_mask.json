@@ -1,0 +1,68 @@
+{
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "n": 10,
+  "n_identical": 10,
+  "attention_mask_warnings": 0,
+  "results": [
+    {
+      "item_id": "faulborn-0",
+      "template_id": "faulborn_released_please_respond",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-0",
+      "template_id": "faulborn_released_opinion",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-1",
+      "template_id": "faulborn_released_please_respond",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-1",
+      "template_id": "faulborn_released_opinion",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-2",
+      "template_id": "faulborn_released_please_respond",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-2",
+      "template_id": "faulborn_released_opinion",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-3",
+      "template_id": "faulborn_released_please_respond",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-3",
+      "template_id": "faulborn_released_opinion",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-4",
+      "template_id": "faulborn_released_please_respond",
+      "identical": true,
+      "error": null
+    },
+    {
+      "item_id": "faulborn-4",
+      "template_id": "faulborn_released_opinion",
+      "identical": true,
+      "error": null
+    }
+  ]
+}

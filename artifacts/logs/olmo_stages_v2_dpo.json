@@ -1,0 +1,14 @@
+{
+  "stage": "dpo",
+  "model_id": "allenai/OLMo-2-1124-13B-DPO",
+  "revision": "97a7f33fc8b419808db4ff92795244021e5cf5c2",
+  "backend": "vllm",
+  "batch_size": 176,
+  "n_new_generations": 1056,
+  "n_errors": 0,
+  "n_empty": 104,
+  "n_truncated": 144,
+  "output_tokens_per_second_batched": 1883.6655785739656,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790169509.799454
+}

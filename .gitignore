@@ -28,3 +28,6 @@ artifacts/responses/
 # provenance" note in docs/MODEL_AUDIT.md.
 .local/
 
+
+# labeling answer key: kept out of the public repo until annotation is complete (blinding)
+artifacts/labeling/key_v1.csv

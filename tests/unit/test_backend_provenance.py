@@ -107,3 +107,48 @@ class TestVLLMValidation:
         backend = _bare_vllm_backend(model_id="model/x", precision="bf16")
         with pytest.raises(RequestProvenanceMismatchError, match="model_id"):
             backend._validate_request(_request(backend="vllm", model_id="model/y", precision="bf16"))
+
+
+class _FakeCompletion:
+    def __init__(self, text, finish_reason="stop"):
+        self.text, self.finish_reason, self.token_ids = text, finish_reason, [1] * len(text.split())
+
+
+class _FakeOutput:
+    def __init__(self, prompt, text, finish_reason="stop"):
+        self.prompt_token_ids = [0] * len(prompt.split())
+        self.outputs = [_FakeCompletion(text, finish_reason)]
+
+
+class _FakeLLM:
+    def __init__(self):
+        self.calls = 0
+
+    def generate(self, prompts, params):
+        self.calls += 1
+        return [_FakeOutput(p, f"reply to {p}", "length" if i == 1 else "stop") for i, p in enumerate(prompts)]
+
+
+class TestVLLMGenerateMany:
+    def _backend(self):
+        backend = _bare_vllm_backend(precision="bf16")
+        backend._llm = _FakeLLM()
+        backend._gpu_provenance = None
+        return backend
+
+    def test_records_in_request_order_with_batch_size(self):
+        pytest.importorskip("vllm")
+        backend = self._backend()
+        reqs = [_request(backend="vllm", rendered_text=f"p{i}", rendered_prompt_hash=f"h{i}") for i in range(3)]
+        recs = backend.generate_many(reqs)
+        assert [r.raw_text for r in recs] == ["reply to p0", "reply to p1", "reply to p2"]
+        assert [r.finish_reason for r in recs] == ["stop", "length", "stop"]
+        assert all(r.batch_size == 3 for r in recs)
+        assert [r.cache_key for r in recs] == [q.cache_key() for q in reqs]
+
+    def test_one_mismatched_request_blocks_whole_batch(self):
+        backend = self._backend()
+        reqs = [_request(backend="vllm"), _request(backend="vllm", precision="fp32")]
+        with pytest.raises(RequestProvenanceMismatchError, match="precision"):
+            backend.generate_many(reqs)
+        assert backend._llm.calls == 0

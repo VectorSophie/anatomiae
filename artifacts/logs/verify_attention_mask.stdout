@@ -1,0 +1,8 @@
+Loading checkpoint shards:   0%|          | 0/8 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 8/8 [00:00<00:00, 269.16it/s]
+The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+{
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "n": 10,
+  "n_identical": 10,
+  "attention_mask_warnings": 0
+}

@@ -104,6 +104,9 @@ class GenerationRecord(BaseModel):
     gpu: GPURecordProvenance | None = None
     error: str | None = None
     timestamp: float
+    # >1 when generated in one batched engine call (latency_seconds is then the batch
+    # wall time / batch_size). Batching can change numerics; not part of the cache key.
+    batch_size: int | None = None
 
     @classmethod
     def build(
@@ -117,6 +120,7 @@ class GenerationRecord(BaseModel):
         latency_seconds: float,
         gpu: GPURecordProvenance | None = None,
         error: str | None = None,
+        batch_size: int | None = None,
     ) -> GenerationRecord:
         return cls(
             cache_key=request.cache_key(),
@@ -129,4 +133,5 @@ class GenerationRecord(BaseModel):
             gpu=gpu,
             error=error,
             timestamp=time.time(),
+            batch_size=batch_size,
         )

@@ -107,10 +107,18 @@ class TransformersBackend(GenerationBackend):
         import torch
 
         model = self._model_for_precision(request.precision)
-        input_ids = self.tokenizer(request.rendered_text, return_tensors="pt").input_ids.to("cuda")
+        encoded = self.tokenizer(request.rendered_text, return_tensors="pt")
+        input_ids = encoded.input_ids.to("cuda")
         t0 = time.time()
         try:
-            gen_kwargs: dict = {"max_new_tokens": request.decoding.max_new_tokens}
+            # Explicit mask and pad id: when pad == eos (e.g. Qwen2.5) transformers
+            # cannot infer the mask and warns; never leave it to inference.
+            pad_id = self.tokenizer.pad_token_id
+            gen_kwargs: dict = {
+                "max_new_tokens": request.decoding.max_new_tokens,
+                "attention_mask": encoded.attention_mask.to("cuda"),
+                "pad_token_id": pad_id if pad_id is not None else self.tokenizer.eos_token_id,
+            }
             if request.decoding.temperature and request.decoding.temperature > 0:
                 # Stochastic decoding: `request.decoding.seed` is part of
                 # generation identity (GenerationRequest.cache_key()), so it
@@ -232,6 +240,49 @@ class VLLMBackend(GenerationBackend):
                 "Refusing to generate - request identity does not match this backend instance: "
                 + "; ".join(problems)
             )
+
+    def generate_many(self, requests: list[GenerationRequest]) -> list[GenerationRecord]:
+        """One batched engine call. Every request is validated before any
+        generation (fail closed for the whole batch); records come back in
+        request order with batch_size set."""
+        for request in requests:
+            self._validate_request(request)
+        if not requests:
+            return []
+
+        from vllm import SamplingParams
+
+        params = [
+            SamplingParams(temperature=r.decoding.temperature, top_p=r.decoding.top_p,
+                           max_tokens=r.decoding.max_new_tokens, seed=r.decoding.seed)
+            for r in requests
+        ]
+        n = len(requests)
+        t0 = time.time()
+        try:
+            outputs = self._llm.generate([r.rendered_text for r in requests], params)
+        except Exception as e:  # noqa: BLE001
+            latency = (time.time() - t0) / n
+            return [GenerationRecord.build(request=r, raw_text="", finish_reason="error", input_tokens=0,
+                                           output_tokens=0, latency_seconds=latency, gpu=self._gpu_provenance,
+                                           error=repr(e), batch_size=n) for r in requests]
+        latency = (time.time() - t0) / n
+        if len(outputs) != n:
+            raise RuntimeError(f"vLLM returned {len(outputs)} outputs for {n} prompts")
+        records = []
+        for request, out in zip(requests, outputs, strict=True):
+            completion = out.outputs[0]
+            records.append(GenerationRecord.build(
+                request=request,
+                raw_text=completion.text,
+                finish_reason="length" if completion.finish_reason == "length" else "stop",
+                input_tokens=len(out.prompt_token_ids or []),
+                output_tokens=len(completion.token_ids),
+                latency_seconds=latency,
+                gpu=self._gpu_provenance,
+                batch_size=n,
+            ))
+        return records
 
     def generate(self, request: GenerationRequest) -> GenerationRecord:
         self._validate_request(request)

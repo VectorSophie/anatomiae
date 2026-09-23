@@ -246,3 +246,76 @@ def curve_small_multiples(df: pd.DataFrame, *, x: str, panels: list[tuple[str, s
     fig.text(0.01, 0.93, subtitle, fontsize=9, color=INK_2)
     fig.tight_layout(rect=(0, 0, 1, 0.92))
     return fig
+
+
+def _legend_below(fig, ax, ncol: int) -> None:
+    ax.legend(frameon=False, fontsize=8.5, ncol=ncol, loc="upper center", labelcolor=INK_2,
+              bbox_to_anchor=(0.5, -48 / (fig.get_size_inches()[1] * ax.get_position().height * 72)))
+
+
+def share_stack(shares: pd.DataFrame, parts: list[tuple[str, str, str]], *, title: str, subtitle: str):
+    """100%-stacked horizontal bars from precomputed shares. `shares` is
+    indexed by group label; `parts` lists (column, legend label, color) and
+    must cover the whole of each row (checked, never silently rescaled)."""
+    cols = [c for c, _, _ in parts]
+    totals = shares[cols].sum(axis=1)
+    if ((totals - 1).abs() > 2e-3).any():  # inputs are rounded to 4 dp
+        raise ValueError(f"parts do not sum to 1: {totals[(totals - 1).abs() > 2e-3].to_dict()}")
+    groups = list(shares.index)
+    fig, ax = _new((7.8, 0.42 * len(groups) + 1.8))
+    _style(ax)
+    left = pd.Series(0.0, index=groups)
+    for col, label, color in parts:
+        vals = shares[col]
+        ax.barh(groups, vals, left=left, color=color, edgecolor=SURFACE, linewidth=2, height=0.62, label=label)
+        for g in groups:
+            if vals[g] >= 0.1:
+                ax.text(left[g] + vals[g] / 2, g, f"{vals[g]:.0%}", ha="center", va="center", fontsize=8, color=INK)
+        left += vals
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1)
+    ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0], ["0%", "25%", "50%", "75%", "100%"])
+    ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
+    ax.annotate(subtitle, xy=(0, 1), xycoords="axes fraction", xytext=(0, 6), textcoords="offset points",
+                fontsize=9, color=INK_2)
+    _legend_below(fig, ax, ncol=len(parts))
+    return fig
+
+
+def dot_grid(df: pd.DataFrame, *, category_col: str, series_col: str, value_col: str, title: str,
+             subtitle: str, xlabel: str, xlim: tuple[float, float] = (0, 1),
+             low_col: str | None = None, high_col: str | None = None, n_col: str | None = None):
+    """One row per category, one fixed-order color per series (<= 3), value
+    printed at each point; optional interval whiskers."""
+    series = list(dict.fromkeys(df[series_col]))
+    if len(series) > len(SERIES):
+        raise ValueError(f"{len(series)} series > {len(SERIES)} validated slots - facet instead")
+    cats = list(dict.fromkeys(df[category_col]))
+    fig, ax = _new((7.4, 0.5 * len(cats) * max(1, len(series)) ** 0.5 + 1.8))
+    _style(ax)
+    step = 0.7 / max(1, len(series))
+    for si, s in enumerate(series):
+        sub = df[df[series_col] == s].set_index(category_col)
+        for ci, c in enumerate(cats):
+            if c not in sub.index or pd.isna(sub.loc[c, value_col]):
+                continue
+            y = ci + (si - (len(series) - 1) / 2) * step
+            v = sub.loc[c, value_col]
+            if low_col and high_col and not pd.isna(sub.loc[c, low_col]):
+                ax.plot([sub.loc[c, low_col], sub.loc[c, high_col]], [y, y], color=SERIES[si], linewidth=2)
+            ax.plot(v, y, "o", markersize=7, color=SERIES[si], markeredgecolor=SURFACE, markeredgewidth=1.5,
+                    label=s if ci == next(i for i, cc in enumerate(cats) if cc in sub.index) else None)
+            label = f"{v:.2f}" + (f" (n={int(sub.loc[c, n_col])})" if n_col else "")
+            ax.text(v, y - step * 0.45, label, ha="center", va="bottom", fontsize=7.5, color=INK_2)
+    if xlim[0] < 0 < xlim[1]:
+        ax.axvline(0, color=BASELINE, linewidth=1)
+    ax.set_yticks(range(len(cats)), [str(c) for c in cats])
+    ax.invert_yaxis()
+    ax.set_xlim(*xlim)
+    ax.set_xlabel(xlabel)
+    ax.set_title(f"{title}\n", loc="left", fontsize=11, fontweight="bold")
+    ax.annotate(subtitle, xy=(0, 1), xycoords="axes fraction", xytext=(0, 6), textcoords="offset points",
+                fontsize=9, color=INK_2)
+    if len(series) >= 2:
+        _legend_below(fig, ax, ncol=len(series))
+    return fig
