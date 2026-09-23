@@ -79,8 +79,9 @@ See `docs/PRIOR_WORK_MATRIX.md` for the structured per-paper table and
   direct conflict with anatomiae's own §74 rule against using PCT as
   primary measurement - the authors candidly list PCT's flaws themselves.
   Reuse the causal-intervention design; source the actual measurement
-  instrument from Faulborn (WVS/EVS-grounded) or anatomiae's own §50
-  vector instead of PCT.
+  instrument from Faulborn's theory-grounded scoring (their 89-item bank
+  is actually 62 Political Compass + 27 WVS items, corrected below) or
+  anatomiae's own §50 vector instead of raw PCT scoring.
 
 ## Corrections made during this pass
 
@@ -99,6 +100,14 @@ or under-specified them, and both matter for reproducibility:
    identity correction with the same "verify, don't assume" logic: the
    `LLM360` Hugging Face org 307-redirects to `IFM`. Full detail in
    `docs/MODEL_AUDIT.md`.
+4. **Faulborn item-bank composition.** An earlier pass of this document
+   (and `docs/PRIOR_WORK_MATRIX.md`/`docs/DATASET_AUDIT.md`) described
+   Faulborn et al.'s 89-item bank as "WVS/EVS propositions." Having now
+   downloaded and inspected the actual released data
+   (`comb_df_gpt_labels.csv`), this was wrong: it is **62 items adapted
+   from the Political Compass Test plus 27 items from WVS** - a real
+   nuance for a paper whose central argument is moving away from PCT.
+   Corrected in `docs/PRIOR_WORK_MATRIX.md` and `docs/DATASET_AUDIT.md`.
 
 ## Framework/tooling prior art — reachability check
 
