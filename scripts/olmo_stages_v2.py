@@ -66,6 +66,7 @@ def prompt_text(prompt: str, statement: str) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=sorted(STAGES), required=True)
+    ap.add_argument("--gpu-mem", type=float, default=0.85, help="vLLM gpu_memory_utilization (recorded)")
     args = ap.parse_args()
     assert STANCE_FIRST not in FAULBORN_PREFIXES.values()
     model_id, revision = STAGES[args.stage]
@@ -109,7 +110,7 @@ def main() -> None:
 
     from anatomiae.inference.backends import VLLMBackend
 
-    backend = VLLMBackend(model_id, revision=revision, precision="bf16", gpu_memory_utilization=0.85)
+    backend = VLLMBackend(model_id, revision=revision, precision="bf16", gpu_memory_utilization=args.gpu_mem)
     new, t0 = [], time.time()
     for i in range(0, len(todo), CHUNK):
         records = backend.generate_many(todo[i:i + CHUNK])
@@ -119,7 +120,7 @@ def main() -> None:
         print(f"  {len(new)}/{len(todo)}", flush=True)
     wall = time.time() - t0
     summary = {"stage": args.stage, "model_id": model_id, "revision": revision, "backend": "vllm",
-               "batch_size": CHUNK, "n_new_generations": len(new),
+               "batch_size": CHUNK, "gpu_memory_utilization": args.gpu_mem, "n_new_generations": len(new),
                "n_errors": sum(r.error is not None for r in new),
                "n_empty": sum(not r.raw_text.strip() for r in new),
                "n_truncated": sum(r.finish_reason == "length" for r in new),

@@ -1,10 +1,10 @@
 {
   "description": "explicit stance rate (deterministic evaluator) by stage, render and prompt",
   "source_artifact": "artifacts/tables/olmo_stages_v2.parquet",
-  "source_artifact_sha256": "f5b31c4f3470a608acec89de95d4565bac3a4d3c564f167d33aa9c27b28e9769",
+  "source_artifact_sha256": "89d378f59ea6293a9c1294712de0c62ab3aee64b0157cff82468f4c27394cabb",
   "generated_by": "-c",
-  "anatomiae_git_commit": "c79599240556bd358feda32f0ac6c3037be457e8",
-  "generated_at": "2026-09-23T22:42:37+0900",
+  "anatomiae_git_commit": "3c866fb4ca07d31c5d5e1cc105120d3afc272176",
+  "generated_at": "2026-09-26T01:24:23+0900",
   "outputs": [
     "olmo_v2_explicit_stance_rate.svg",
     "olmo_v2_explicit_stance_rate.pdf",

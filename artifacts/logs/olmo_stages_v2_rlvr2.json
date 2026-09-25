@@ -1,0 +1,15 @@
+{
+  "stage": "rlvr2",
+  "model_id": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+  "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+  "backend": "vllm",
+  "batch_size": 176,
+  "gpu_memory_utilization": 0.6,
+  "n_new_generations": 1056,
+  "n_errors": 0,
+  "n_empty": 93,
+  "n_truncated": 102,
+  "output_tokens_per_second_batched": 682.882584495803,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790352396.5822737
+}

@@ -1,10 +1,10 @@
 {
   "description": "Empty / completion / truncation shares per stage, render and prompt",
   "source_artifact": "artifacts/tables/olmo_stages_v2_completion.parquet",
-  "source_artifact_sha256": "c51280a7d3b3b6635976d36454bf3deebc61199309486ead7bf6fe8a9dfe2713",
+  "source_artifact_sha256": "7d5e0d49ba1785f6408f4cefa0f73b6f99ac2c7a5540fcc576388010b90e22ee",
   "generated_by": "-c",
-  "anatomiae_git_commit": "c79599240556bd358feda32f0ac6c3037be457e8",
-  "generated_at": "2026-09-23T22:42:37+0900",
+  "anatomiae_git_commit": "3c866fb4ca07d31c5d5e1cc105120d3afc272176",
+  "generated_at": "2026-09-26T01:24:23+0900",
   "outputs": [
     "olmo_v2_response_mechanics.svg",
     "olmo_v2_response_mechanics.pdf",

@@ -1,6 +1,6 @@
-# Formation layer, second pass: OLMo-2-13B Base → SFT → DPO
+# Formation layer, second pass: OLMo-2-13B Base → SFT → DPO → RLVR2
 
-**Status:** Base, SFT and DPO complete. RLVR2 pending download. The human
+**Status:** Base, SFT, DPO and RLVR2 complete (RLVR2 added 2026-09-26, section 8). The human
 label sample is frozen but not yet labeled. Directional results below are
 **classifier- or rule-measured, not human-validated.**
 
@@ -262,4 +262,35 @@ neutral / unclear) plus the response mode.
 - The first and second passes differ in backend and batching, so their
   levels are not directly comparable. The second pass is internally
   consistent.
-- RLVR2, the final stage, is still downloading.
+
+## 8. RLVR2 (final stage, `8a35571a`)
+
+Same design, prompts and evaluators; generated 2026-09-26 with vLLM
+`gpu_memory_utilization=0.6` instead of 0.85, because another user's job
+held 25 GB of GPU 1. The cap changes KV-cache size and hence batch
+scheduling, a possible small numerics difference, recorded in
+`artifacts/logs/olmo_stages_v2_rlvr2.json`. 1,056 generations, 0 errors;
+weights SHA-256-verified against the Hub.
+
+**Response mechanics:** DPO-like. In chat format it never finishes within
+200 tokens and finishes within 600 on 89–98% of prompts (median 471–517
+tokens). With raw text, 3–38% of responses are empty.
+
+**Explicit stances (stance-first, chat):** position rate 0.98–0.99. The
+direction index is +0.55 under the rule-based evaluator and the
+reconstructed classifiers, against DPO's +0.56 to +0.63. **DPO → RLVR2
+difference: −0.08 to +0.02, 0 of 7 evaluators' CIs exclude 0.**
+
+**Prose-inferred (released prompts, chat):** classifier direction index
++0.77 to +0.87, again above RLVR2's own stated direction. The DPO → RLVR2
+difference is −0.07 to +0.19 (2 of 7 CIs exclude 0, both on
+`please_respond`).
+
+**Consistency (faithful pairs, stance-first, chat):** 0.73 (classifier,
+n=45) and 0.92 (rule-based, n=26), in the range of SFT and DPO.
+
+**Reading:** RLVR2 changes neither response style nor explicitly stated
+direction measurably relative to DPO. Over the whole chain, the stated
+direction under stance-first moves from SFT +0.50–0.52 to DPO +0.56–0.63 to
+RLVR2 +0.55. The large changes are in how the model answers (Base → SFT),
+and in how far response-only classifiers read direction into prose.

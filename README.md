@@ -92,7 +92,7 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | OLMo FP32-vs-BF16 precision-sensitivity check | Done — [`precision_sensitivity.md`](docs/results/precision_sensitivity.md) |
 | Gate B — Backend-equivalence study | Done on 3 OLMo checkpoints × 60 prompts — [`backend_equivalence.md`](docs/results/backend_equivalence.md) |
 | Gate C — ≥3 model lineages end-to-end | **Passed, 3 of 3** (OLMo 2, Qwen2.5-14B-Instruct, Amber) — `artifacts/tables/gate_c_lineages.*`; Amber (base) only repeats the prompt under greedy decoding, stating no position |
-| Formation: OLMo-2-13B Base→SFT→DPO | Second pass done (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); human labels pending; RLVR2 downloading |
+| Formation: OLMo-2-13B Base→SFT→DPO | Second pass done (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); RLVR2 added; human labels pending |
 | Full pilot | Not started (blocked on Gates A–C) |
 
 No fabricated progress here — an item is only marked complete once a real
