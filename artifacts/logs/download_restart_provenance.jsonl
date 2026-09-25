@@ -1,0 +1,21 @@
+{"event": "pre_restart_snapshot", "repo": "IFM--Amber", "ts": 1790179544.5304663, "total_bytes": 7684673035, "complete_blob_bytes": 3594027851, "partial_files": 2, "partial_bytes": 4090645184, "reason": "previous attempts killed by a 3600 s timeout wrapper (operator error), not by a transfer failure"}
+{"event": "pre_restart_snapshot", "repo": "allenai--OLMo-2-1124-13B-Instruct-RLVR2", "ts": 1790179544.5522401, "total_bytes": 3933462190, "complete_blob_bytes": 917536, "partial_files": 5, "partial_bytes": 3932544654, "reason": "previous attempts killed by a 3600 s timeout wrapper (operator error), not by a transfer failure"}
+{"event": "post_restart_90s", "repo": "IFM--Amber", "ts": 1790179652.9843304, "total_bytes": 3594027851, "partial_files": 2, "partial_bytes": 0}
+{"event": "post_restart_90s", "repo": "allenai--OLMo-2-1124-13B-Instruct-RLVR2", "ts": 1790179653.006234, "total_bytes": 925664, "partial_files": 5, "partial_bytes": 8128}
+{"event": "finding", "ts": 1790179679.7914588, "finding": "snapshot_download restart truncates .incomplete partial files to 0 bytes on this HF/Xet path; only completed blobs survive. Amber 4.09 GB and RLVR2 3.93 GB of partials lost at 2026-09-24 restart. Never restart or time-limit an active large download; each shard must finish in one uninterrupted process."}
+{"event": "restart", "repo": "IFM--Amber", "ts": 1790184623.0585456, "transfer_backend": "classic HTTP (HF_HUB_DISABLE_XET=1), Range-resumable", "reason": "Xet transfer failed: I/O error decoding response body after ~83 min; Xet partials are not resumable here", "xet_partials_moved_to": "/data/jackb/anatomiae/quarantine/amber_xet_partials_20260924"}
+{"event":"http_attempt","repo":"IFM--Amber","attempt":1,"ts":1790185896,"partial_bytes_before":20971520,"partial_bytes_after":41943040}
+{"event":"http_attempt","repo":"IFM--Amber","attempt":2,"ts":1790186376,"partial_bytes_before":41943040,"partial_bytes_after":52428800}
+{"event": "restart", "repo": "allenai--OLMo-2-1124-13B-Instruct-RLVR2", "ts": 1790186389.748312, "transfer_backend": "classic HTTP (HF_HUB_DISABLE_XET=1), Range-resumable", "reason": "Xet transfer failed: I/O error decoding response body; Xet partials not resumable", "xet_partials_moved_to": "/data/jackb/anatomiae/quarantine/rlvr2_xet_partials_20260924"}
+{"event":"http_attempt","repo":"IFM--Amber","attempt":1,"ts":1790206699,"partial_bytes_before":115343360,"partial_bytes_after":3607101440}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":1,"ts":1790206711,"partial_bytes_before":241172480,"partial_bytes_after":11031019520}
+{"event":"http_attempt","repo":"IFM--Amber","attempt":2,"ts":1790210182,"partial_bytes_before":3607101440,"partial_bytes_after":0}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":2,"ts":1790210414,"partial_bytes_before":11031019520,"partial_bytes_after":10831790080}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":3,"ts":1790211118,"partial_bytes_before":10831790080,"partial_bytes_after":6406799360}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":4,"ts":1790213655,"partial_bytes_before":6406799360,"partial_bytes_after":4949278720}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":5,"ts":1790214204,"partial_bytes_before":4949278720,"partial_bytes_after":5169479680}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":6,"ts":1790215492,"partial_bytes_before":5169479680,"partial_bytes_after":765460480}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":7,"ts":1790215701,"partial_bytes_before":765460480,"partial_bytes_after":870318080}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":8,"ts":1790215775,"partial_bytes_before":870318080,"partial_bytes_after":880803840}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":9,"ts":1790217297,"partial_bytes_before":880803840,"partial_bytes_after":2013265920}
+{"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":10,"ts":1790218336,"partial_bytes_before":2013265920,"partial_bytes_after":0}

@@ -31,3 +31,4 @@ artifacts/responses/
 
 # labeling answer key: kept out of the public repo until annotation is complete (blinding)
 artifacts/labeling/key_v1.csv
+artifacts/logs/dl/*.attempt.log

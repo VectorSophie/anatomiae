@@ -1,0 +1,56 @@
+[
+  {
+    "repo": "IFM/Amber",
+    "revision": "2d35937a32b99aec0d59dd772b54e1bb08719a7f",
+    "file": "model-00001-of-00003.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "IFM/Amber",
+    "revision": "2d35937a32b99aec0d59dd772b54e1bb08719a7f",
+    "file": "model-00002-of-00003.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "IFM/Amber",
+    "revision": "2d35937a32b99aec0d59dd772b54e1bb08719a7f",
+    "file": "model-00003-of-00003.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00001-of-00006.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00002-of-00006.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00003-of-00006.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00004-of-00006.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00005-of-00006.safetensors",
+    "sha256_ok": true
+  },
+  {
+    "repo": "allenai/OLMo-2-1124-13B-Instruct-RLVR2",
+    "revision": "8a35571aa508b8171fc47434073a5b26013c9d80",
+    "file": "model-00006-of-00006.safetensors",
+    "sha256_ok": true
+  }
+]

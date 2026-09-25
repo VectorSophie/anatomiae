@@ -1,0 +1,24 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00, 189.10it/s]
+{
+  "model": "amber_final",
+  "model_id": "IFM/Amber",
+  "revision": "2d35937a32b99aec0d59dd772b54e1bb08719a7f",
+  "render_mode": "base_completion",
+  "verify": {
+    "architectures": [
+      "LlamaForCausalLM"
+    ],
+    "declared_torch_dtype": "torch.bfloat16",
+    "has_chat_template": false,
+    "loaded_param_dtypes": [
+      "torch.bfloat16"
+    ]
+  },
+  "smoke": "ok",
+  "n_new_generations": 59,
+  "n_errors": 0,
+  "tokens_per_second": 26.606176312601676,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1790351631.1016726
+}

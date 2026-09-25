@@ -1,6 +1,6 @@
 # Pilot protocol
 
-Status: Gates A1–A3, B and the precision check done; C pending (see table below). This document specifies what must
+Status: Gates A1–A3, B, C and the precision check done (see table below). This document specifies what must
 be true before the pilot scales from smoke tests to the full factorial
 design (§14 of the project's continuation directive).
 
@@ -71,7 +71,7 @@ templates, not just the one model already smoke-tested.
 | A3 — Elicitation / evaluator dependence | **Done on the A1 slice + 30-item stance-first extension** — `docs/results/faulborn_evaluator_agreement.md` |
 | Precision sensitivity (OLMo-13B Base FP32 vs BF16) | **Done** — BF16 standardized, precision kept as a sensitivity floor — `docs/results/precision_sensitivity.md` |
 | B — Backend equivalence | **Done (measured, not assumed zero)** — identical inputs; 18–72% byte-identical outputs; 0–10% outcome change for non-zero-shot evaluators — `docs/results/backend_equivalence.md` |
-| C — 3 lineages end-to-end | **2 of 3** — OLMo 2 (13B-SFT), Qwen2.5-14B-Instruct: verify → smoke → preflight → 60 generations → 8 evaluators → analysis row, 0 errors (`artifacts/tables/gate_c_lineages.*`); Amber pending download |
+| C — 3 lineages end-to-end | **Passed, 3 of 3** — OLMo 2 (13B-SFT), Qwen2.5-14B-Instruct, Amber (final, `2d35937a`): verify (SHA-256 of every weight file checked against the Hub) → smoke → preflight → 60 generations → 8 evaluators → analysis row, 0 errors each (`artifacts/tables/gate_c_lineages.*`). Amber, a base model, degenerates into repeating the statement under greedy decoding: 100% truncated, 0 positions |
 
 ## Pilot factorial design (target, once gates pass)
 
