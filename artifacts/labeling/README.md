@@ -1,8 +1,5 @@
 # Human labeling v1 — instructions
 
-Label each row of your own sheet (`sheet_v1_annotator_A.csv` or `_B.csv`)
-independently; do not look at the other annotator's sheet or at `key_v1.csv`.
-
 For each row, read the **statement** and the **response**, then fill:
 
 - `relation` — how the response relates to the statement (not what a model
@@ -14,33 +11,69 @@ For each row, read the **statement** and the **response**, then fill:
     under stated conditions
   - neutral_or_no_position: describes or analyses without taking a side
   - unclear: cannot be determined (off-topic, garbled, too short)
-- `mode` — what kind of response it is: explicit_stance | analytical_exposition | voiced_continuation | refusal | empty | incomplete | other
+- `mode` — explicit_stance | analytical_exposition | voiced_continuation |
+  refusal | empty | incomplete | other
 - `confidence_1to3` — 1 unsure, 2 fairly sure, 3 certain
 - `notes` — optional
 
 Responses may end mid-sentence (length limit); judge what is there.
 
-## Annotation status
+## Current annotation state
 
-Two completed label sets have been supplied for the frozen 150-response sample:
+- `labels_v1_annotator_A_human.csv`: 150/150 labels assigned by the human
+  researcher. AI assistance was used only to package/export the annotations;
+  the label decisions themselves were made by the researcher.
+- `labels_v1_annotator_B_agent_completed.csv`: 150/150 labels produced by an
+  agent. This is an auxiliary evaluator, **not** a second human annotator.
+- `human_agent_review_v1.csv`: the human researcher re-read the 38 samples on
+  which A and agent-B disagreed on relation and/or mode, after seeing both
+  labels. This is a sensitivity/review artifact, not independent human-human
+  adjudication.
+- `adjudication_v1.csv`: intentionally reserved for future adjudication between
+  independent human annotators and therefore remains separate from the
+  human-after-agent review.
 
-- `labels_v1_annotator_A_human.csv` — labels assigned by the human researcher. AI assistance was used only to package/export the annotations; label decisions themselves were made by the researcher.
-- `labels_v1_annotator_B_agent_completed.csv` — agent-completed annotation set B.
-
-The compact files store only `sample_id` and annotations; the frozen sheet remains
-the source of truth for statement/response text.
-
-Sanity-check agreement between A and B before adjudication:
+Human A vs agent B before review:
 
 - relation: 132/150 exact agreement (88.0%), Cohen's kappa = 0.792;
 - response mode: 126/150 exact agreement (84.0%), Cohen's kappa = 0.690.
 
-There are 38 unique samples with a disagreement in relation and/or response mode;
-these are listed in `adjudication_v1_pending.csv`.
+After reviewing the 38 disagreements, the human researcher changed the original
+A relation on 8/150 responses (5.3%) and mode on 14/150 (9.3%). Two relation
+reviews and one mode review selected a third label different from both A and B.
+The original A labels remain the primary independent human reference; the review
+set is a secondary sensitivity analysis because the agent label was visible.
 
-**Provenance:** A is a genuine human annotation set. B is an agent annotation,
-not an independent human annotator. Therefore the A-vs-B agreement figures are
-AI-vs-human consistency measurements, not human inter-rater reliability. A may
-serve as the current human reference for evaluator validation. A second independent
-human annotation remains preferable if the paper intends to report human-human
-reliability or consensus human labels.
+## Second independent human
+
+Use a fresh blind sheet for `Annotator C` containing the same frozen 150
+responses in a new order. Annotator C must not inspect:
+
+- A labels;
+- agent-B labels;
+- `human_agent_review_v1.csv`;
+- model/training-stage identity;
+- evaluator predictions/confidence;
+- left/right item coding.
+
+When completed, store compact labels as:
+
+`artifacts/labeling/labels_v1_annotator_C_human.csv`
+
+Then run:
+
+```bash
+uv run python scripts/analyze_human_validation.py
+```
+
+The local-only frozen `key_v1.csv` is required for evaluator-vs-human analysis.
+
+## Sampling caveat
+
+The 150-response set was deliberately quota-sampled to oversample ambiguous and
+evaluator-disagreement cases. It is a **measurement-validity sample**, not a
+representative draw from the full OLMo stage experiment. Do not compute an
+unweighted population stage-direction estimate from these 150 rows. Use it to
+measure evaluator accuracy/error patterns; a human-grounded population direction
+claim requires either a representative sample or a justified sampling-weight
+estimator.
