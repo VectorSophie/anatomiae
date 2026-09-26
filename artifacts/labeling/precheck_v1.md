@@ -4,7 +4,7 @@ Two completed label sets were supplied for the frozen 150-response sample.
 
 ## Provenance
 
-- A: `labels_v1_annotator_A_ai_assisted_reviewed.csv` — AI-assisted, reviewed label set supplied by the researcher.
+- A: `labels_v1_annotator_A_human.csv` — labels assigned by the human researcher. AI was used only to package/export the completed annotations; it did **not** choose the labels.
 - B: `labels_v1_annotator_B_agent_completed.csv` — agent-completed label set.
 
 The compact files store labels keyed by `sample_id`; the original frozen sheets remain the source of truth for statement/response text.
@@ -29,4 +29,4 @@ There are 38 unique samples with a disagreement on relation and/or response mode
 
 ## Interpretation limitation
 
-These figures are **not human inter-rater reliability** because annotator B is an agent. They are useful as a consistency/sanity check and for identifying ambiguous cases, but they do not independently validate directional political claims. A may serve as a human-reviewed reference only to the extent that the researcher actually reviewed/approved its labels. A second independent human annotator remains preferable for the planned human-validation claim.
+Annotator A is a genuine human annotation set and may be used as the current human reference for this sample. Annotator B is an agent, so A-vs-B agreement is **not human inter-rater reliability**. It is useful as an AI-vs-human consistency/sanity check and for locating ambiguous cases. A second independent human annotator remains preferable if the paper intends to report human-human reliability or use consensus human labels for directional claims.
