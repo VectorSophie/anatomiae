@@ -24,7 +24,7 @@ Responses may end mid-sentence (length limit); judge what is there.
 
 Two completed label sets have been supplied for the frozen 150-response sample:
 
-- `labels_v1_annotator_A_ai_assisted_reviewed.csv` — AI-assisted and reviewed annotation set A.
+- `labels_v1_annotator_A_human.csv` — labels assigned by the human researcher. AI assistance was used only to package/export the annotations; label decisions themselves were made by the researcher.
 - `labels_v1_annotator_B_agent_completed.csv` — agent-completed annotation set B.
 
 The compact files store only `sample_id` and annotations; the frozen sheet remains
@@ -38,10 +38,9 @@ Sanity-check agreement between A and B before adjudication:
 There are 38 unique samples with a disagreement in relation and/or response mode;
 these are listed in `adjudication_v1_pending.csv`.
 
-**Important provenance limitation:** B is an agent annotation, not an independent
-human annotator. These agreement figures therefore are not human inter-rater
-reliability and do not by themselves satisfy the project's human-validation
-requirement for directional claims. A may be used as a human-reviewed reference
-only to the extent that the researcher actually reviewed/approved those labels.
-A second independent human annotation (all 150, or at least the planned overlap)
-remains the strongest validation path.
+**Provenance:** A is a genuine human annotation set. B is an agent annotation,
+not an independent human annotator. Therefore the A-vs-B agreement figures are
+AI-vs-human consistency measurements, not human inter-rater reliability. A may
+serve as the current human reference for evaluator validation. A second independent
+human annotation remains preferable if the paper intends to report human-human
+reliability or consensus human labels.
