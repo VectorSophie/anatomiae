@@ -17,40 +17,17 @@ human to click "Agree and access repository" on the model page while logged
 into a Hugging Face account.
 
 **Action required from researcher:** Visit the following while logged into
-the Hugging Face account tied to this workstation (see below) and accept the
-license terms:
+the Hugging Face account tied to this workstation and accept the license terms:
 - https://huggingface.co/meta-llama/Llama-3.1-8B
 - https://huggingface.co/google/gemma-3-12b-pt
 (Instruct variants are typically covered by the same collection-level
 acceptance, but check the `-Instruct`/`-it` pages too if download still 403s.)
 
 **Why automation cannot perform it:** Accepting a gated model license is an
-identity-bound legal action tied to a human account holder, listed explicitly
-as requiring human action in the project's human-intervention policy.
+identity-bound legal action tied to a human account holder.
 
-**Existing credential state (verified, not a blocker):** an HF token is
-already present on the maintainer workstation and resolves model metadata
-for both repos (HTTP 200), but a `HEAD` on `config.json` for both
-`meta-llama/Llama-3.1-8B` and `google/gemma-3-12b-pt` returns HTTP 403,
-confirming the license has not yet been accepted for that account. No new
-token or login is needed — just the license click-through. (Exact
-expiry/account detail intentionally kept out of this public document -
-see the maintainer-only, gitignored `.local/auth_state.md`.)
-
-**What work can continue meanwhile:** Everything else. All locked model
-anchors (OLMo 2, Amber/IFM, Qwen2.5-14B -> DeepSeek-R1-Distill-Qwen-14B,
-Qwen3-14B) are ungated (apache-2.0 / mit) and already verified reachable.
-Prior-work audit, framework decision, dataset audit, pilot pipeline
-implementation, and smoke tests on ungated models all proceed without this.
-
-**Scientific impact if unavailable:** Llama and Gemma are explicitly marked
-"replaceable control families" (§10), not locked anchors. If license
-acceptance is delayed or declined, the pilot proceeds on the locked anchors
-alone and the Llama/Gemma external-validity control arm is deferred or
-dropped; this does not block the core lineage/attribution analysis.
-
-*(Resolved when the researcher confirms both licenses are accepted; verify
-via `curl -I -H "Authorization: Bearer $TOKEN" https://huggingface.co/meta-llama/Llama-3.1-8B/resolve/main/config.json` returning 200.)*
+**What work can continue meanwhile:** Everything else. Llama/Gemma are
+replaceable external-validity controls and do not block the locked anchors.
 
 ---
 
@@ -61,52 +38,54 @@ via the "stance detector model files" Google Drive folder linked from
 `MaFa211/theory_grounded_pol_bias`'s README.
 
 **Why needed:** that folder contains the step-1750 Trainer checkpoint's
-config, tokenizer, scheduler, RNG and trainer state - but **no weights
-file** (no `model.safetensors` / `pytorch_model.bin`). Verified from the raw
-Drive folder listing, not just gdown's; no copy exists on the HF Hub, in
-GitHub releases/LFS, or other branches (checked 2026-09-23). Hashes of the
-files that *are* present are recorded in
+config, tokenizer, scheduler, RNG and trainer state but no weights file
+(`model.safetensors` / `pytorch_model.bin`). This is documented in
 `docs/results/faulborn_classifier_reproduction.md`.
 
-**Action required from researcher:** optionally, contact the paper's
-authors and ask whether the step-1750 weights file can be shared.
+**Action required from researcher:** optionally contact the paper's authors and ask whether the weights can be shared.
 
-**Why automation cannot perform it:** contacting third-party researchers on
-the project's behalf is a person-to-person communication decision, not an
-engineering action.
+**Scientific impact if unavailable:** Gate A2 remains a validated reconstruction rather than an exact reproduction of the authors' released weights.
 
-**What work can continue meanwhile:** everything. The classifier is being
-reconstructed from their released training data and script, and validated
-against their own released test split and reported metrics; the
-reconstruction is always labeled as such, never as their weights.
+---
 
-**Scientific impact if unavailable:** Gate A2 can reach "validated
-reconstruction" but not "exact reproduction of the released weights."
+## 3. Second independent human annotation on frozen v1 sample
 
-## 3. Human stance labels on the frozen v1 sample (blocking for any directional claim)
+**Current state:**
 
-**Where:** `artifacts/labeling/` — `sheet_v1_annotator_A.csv`,
-`sheet_v1_annotator_B.csv` (150 rows each, same responses, different row
-order), `README.md` (instructions), `adjudication_v1.csv` (after both).
-The answer key `key_v1.csv` (stage, model, evaluator labels) is kept
-local-only (gitignored) until annotation is complete, so annotators working
-from the public repo stay blind; it is committed afterwards.
+- `labels_v1_annotator_A_human.csv`: complete, 150/150, labeled by the human researcher.
+- `labels_v1_annotator_B_agent_completed.csv`: complete, 150/150, produced by an agent and therefore not a second human annotator.
+- `human_agent_review_v1.csv`: complete, 38/38 A-vs-agent disagreement cases re-read by the human researcher after seeing both labels. This is a sensitivity artifact, not independent human-human adjudication.
+- `adjudication_v1.csv`: reserved for future independent human-human adjudication.
 
-**Why needed:** every directional result so far comes from automatic
-evaluators that are known to fail on implicit and voiced-continuation text
-(`docs/results/olmo_stages.md`, `olmo_stages_v2.md`). The sample
-oversamples exactly those cases, plus explicit controls.
+**Why a second human is still useful:** Human A can already serve as the primary
+human reference for validating automatic evaluators. However, the paper should not
+report A-vs-agent agreement as human inter-rater reliability. A second independent
+human allows actual human-human agreement and consensus labels to be estimated.
 
-**Action required from researcher:** two independent annotators each fill
-their own sheet (`relation`, `mode`, optional confidence and notes),
-without seeing each other's labels; then adjudicate disagreements. If only
-one annotator is available: label all 150, and have a second annotator
-label at least 50 of them for agreement.
+**Action required:** A second human (`Annotator C`) should label the same frozen
+150 responses independently, without seeing A labels, agent-B labels,
+`human_agent_review_v1.csv`, model/stage identity, evaluator outputs, or political
+coding. Store the compact completed labels as:
 
-**Why automation cannot perform it:** the point is an independent human
-reference for the automatic evaluators; a model-generated label would be
-one more evaluator, not a validation.
+`artifacts/labeling/labels_v1_annotator_C_human.csv`
 
-**What work can continue meanwhile:** response mechanics, stance-first
-explicit-stance results, RLVR2, Gate C. Directional claims stay labeled
-"classifier-measured, not human-validated."
+Then run:
+
+```bash
+uv run python scripts/analyze_human_validation.py
+```
+
+The script uses the local-only frozen `artifacts/labeling/key_v1.csv` to compare
+human labels against all automatic evaluators and, when C exists, report human-human
+agreement.
+
+**Sampling limitation:** The 150-response sample deliberately oversamples ambiguous
+and evaluator-disagreement strata. It is a measurement-validity sample, not a
+representative draw from the entire stage experiment. Do not compute an unweighted
+population stage-direction estimate from these 150 responses. A human-grounded
+population-direction claim requires either a separately representative sample or an
+explicitly justified sampling-weight estimator.
+
+**What can proceed now:** evaluator-vs-human-A validation, response-mode error
+analysis, and human-agent sensitivity analysis can proceed immediately. Human-human
+reliability and consensus human labels remain pending Annotator C.
