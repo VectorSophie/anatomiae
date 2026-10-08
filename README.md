@@ -85,15 +85,16 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | Model/dataset identity verification | Complete — `docs/MODEL_AUDIT.md`, `docs/DATASET_AUDIT.md` |
 | Bilingual/multilingual provenance schema | Complete |
 | Prompt → generation → immutable cache → evaluator → analysis pipeline | Complete, real end-to-end run verified — see `scripts/pipeline_smoke_test.py` |
-| OLMo 2 13B lineage download (Base→SFT→DPO→RLVR2) | In progress (Base, SFT done; DPO in progress; RLVR2 queued) |
+| OLMo 2 13B lineage download (Base→SFT→DPO→RLVR2) | Complete |
 | Gate A1 — Faulborn items/prefixes through the pipeline | Passed — [`faulborn_reproduction.md`](docs/results/faulborn_reproduction.md) |
 | Gate A2 — Faulborn stance classifier | Released weights missing (exact reproduction blocked); procedure reconstructed and validated on their test split — [`faulborn_classifier_reproduction.md`](docs/results/faulborn_classifier_reproduction.md) |
 | Gate A3 — Evaluator / elicitation dependence | Done on a small slice — [`faulborn_evaluator_agreement.md`](docs/results/faulborn_evaluator_agreement.md) |
 | OLMo FP32-vs-BF16 precision-sensitivity check | Done — [`precision_sensitivity.md`](docs/results/precision_sensitivity.md) |
 | Gate B — Backend-equivalence study | Done on 3 OLMo checkpoints × 60 prompts — [`backend_equivalence.md`](docs/results/backend_equivalence.md) |
 | Gate C — ≥3 model lineages end-to-end | **Passed, 3 of 3** (OLMo 2, Qwen2.5-14B-Instruct, Amber) — `artifacts/tables/gate_c_lineages.*`; Amber (base) only repeats the prompt under greedy decoding, stating no position |
-| Formation: OLMo-2-13B Base→SFT→DPO | Second pass done (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); RLVR2 added; human labels pending |
-| Full pilot | Not started (blocked on Gates A–C) |
+| Formation: OLMo-2-13B Base→SFT→DPO→RLVR2 | Complete second pass (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); two independent human label sets complete; 61 A↔C disagreement cases awaiting adjudication |
+| Human validation v1 | Two independent humans complete: relation 70.0% (κ=0.552), mode 76.7% (κ=0.564); among jointly directional cases, direction agrees 97/100; adjudication pending on 61 cases — [`human_validation_v1_preliminary.md`](docs/results/human_validation_v1_preliminary.md) |
+| Full pilot | Not started; validation consolidation and planned cross-lineage replication remain |
 
 No fabricated progress here — an item is only marked complete once a real
 artifact backs it (see `artifacts/logs/`, `docs/RESEARCH_AUDIT.md`).
