@@ -106,6 +106,7 @@ def main() -> None:
     ap.add_argument("--key", default="artifacts/labeling/key_v1.csv")
     ap.add_argument("--labels-a", default="artifacts/labeling/labels_v1_annotator_A_human.csv")
     ap.add_argument("--labels-c", default="artifacts/labeling/labels_v1_annotator_C_human.csv")
+    ap.add_argument("--labels-consensus", default="artifacts/labeling/labels_v1_human_consensus.csv")
     ap.add_argument("--out-prefix", default="artifacts/tables/human_validation_v1")
     args = ap.parse_args()
 
@@ -118,10 +119,12 @@ def main() -> None:
 
     key = pd.read_csv(key_path)
     a = pd.read_csv(args.labels_a)
-    assert key.sample_id.is_unique and a.sample_id.is_unique
+    consensus = pd.read_csv(args.labels_consensus)
+    assert key.sample_id.is_unique and a.sample_id.is_unique and consensus.sample_id.is_unique
     assert set(a.sample_id) == set(key.sample_id), "A labels and frozen key differ"
+    assert set(consensus.sample_id) == set(key.sample_id), "consensus labels and frozen key differ"
     df = key.merge(
-        a[["sample_id", "relation", "mode", "confidence_1to3", "notes"]],
+        consensus[["sample_id", "relation", "mode"]],
         on="sample_id", validate="one_to_one"
     )
     df["human_outcome"] = df.relation.map(HUMAN_TO_OUTCOME)
@@ -156,10 +159,10 @@ def main() -> None:
 
     report = [
         "# Human validation v1\n",
-        "**Primary reference:** Annotator A, the human researcher.\n",
+        "**Primary reference:** researcher-adjudicated Human A/C consensus (150 responses).\n",
         "The frozen 150-response set was deliberately stratified to oversample ambiguous cases. "
         "Therefore the tables below validate evaluators on this sample but MUST NOT be treated as an unweighted population estimate of OLMo political direction.\n",
-        "## Automatic evaluators vs human A\n",
+        "## Automatic evaluators vs adjudicated human consensus\n",
         md_table(summary),
         "\n\nThe key diagnostic is `directional_overread_rate`: among responses the human marked mixed/conditional or neutral/no-position, how often the evaluator still forced agreement/disagreement.\n",
     ]
