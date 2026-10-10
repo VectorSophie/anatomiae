@@ -6,7 +6,8 @@
 - B: `labels_v1_annotator_B_agent_completed.csv` — agent-completed auxiliary evaluator.
 - C: `labels_v1_annotator_C_human.csv` — second independent human annotation set, complete 150/150.
 - Human-agent review: `human_agent_review_v1.csv` — A re-read the 38 A/B disagreements after seeing both labels; sensitivity artifact only.
-- Human-human queue: `human_AC_adjudication_pending.csv` — 61 unique A↔C disagreement cases awaiting adjudication.
+- Human-human adjudication: `human_AC_adjudication_completed.csv` — all 61 A↔C disagreement cases resolved.
+- Final reference: `labels_v1_human_consensus.csv` — 150-row researcher-adjudicated human consensus.
 
 The compact files store labels keyed by `sample_id`; frozen sheets remain the source of truth for statement/response text.
 
@@ -56,8 +57,30 @@ This is human-vs-agent consistency, **not** human inter-rater reliability.
 
 ## Adjudication and interpretation
 
-The original A and C label sets must remain unchanged. Adjudicate only the 61 A↔C disagreement cases and write a separate consensus artifact.
+Adjudication is complete. The original A and C label sets remain unchanged.
+The researcher resolved all 61 disagreement cases after seeing both labels, so the final
+artifact is described as a **researcher-adjudicated human consensus reference**, not an
+independent third-party consensus.
 
-If the researcher performs adjudication after seeing both labels, describe the result as a **researcher-adjudicated human consensus reference**, not as independent third-party consensus.
+Final relation distribution:
+- supports: 60
+- opposes: 57
+- mixed_or_conditional: 18
+- neutral_or_no_position: 8
+- unclear: 7
 
-The frozen 150-response sample intentionally oversamples ambiguity/evaluator disagreement. It is valid for evaluator validation and human-human reliability on that sample, but it is **not** an unweighted representative sample for estimating population-level OLMo stage direction.
+Final mode distribution:
+- explicit_stance: 92
+- analytical_exposition: 40
+- incomplete: 10
+- voiced_continuation: 5
+- empty: 1
+- refusal: 1
+- other: 1
+
+Adjudication was not a mechanical preference for one annotator. On relation conflicts it
+selected A / C / a third label in 20 / 20 / 5 cases; on mode conflicts, 19 / 13 / 3.
+
+The frozen 150-response sample intentionally oversamples ambiguity/evaluator disagreement.
+It is valid for evaluator validation and human-human reliability on that sample, but it is
+**not** an unweighted representative sample for estimating population-level OLMo stage direction.
