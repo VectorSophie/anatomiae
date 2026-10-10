@@ -1,8 +1,9 @@
 # Formation layer, second pass: OLMo-2-13B Base → SFT → DPO → RLVR2
 
-**Status:** Base, SFT, DPO and RLVR2 complete (RLVR2 added 2026-09-26, section 8). The human
-label sample is frozen but not yet labeled. Directional results below are
-**classifier- or rule-measured, not human-validated.**
+**Status:** Base, SFT, DPO and RLVR2 complete (RLVR2 added 2026-09-26, section 8). The frozen 150-response human validation sample now has two independent human label sets
+and completed researcher adjudication. The stage-level directional results below remain
+**classifier- or rule-measured**, because the 150 validation sample deliberately oversamples
+ambiguous cases and is not a representative stage-direction sample.
 
 **Question.** Does post-training change political direction itself, or
 mainly how positions are elicited, expressed, completed and read by
