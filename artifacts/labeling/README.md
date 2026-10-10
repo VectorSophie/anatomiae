@@ -23,7 +23,8 @@ Responses may end mid-sentence; judge what is present.
 - `labels_v1_annotator_C_human.csv`: independent human C, complete 150/150.
 - `human_agent_review_v1.csv`: A re-read the 38 A-vs-agent disagreements after seeing both labels;
   sensitivity artifact only.
-- `human_AC_adjudication_pending.csv`: 61 unique A↔C disagreement cases awaiting adjudication.
+- `human_AC_adjudication_completed.csv`: completed researcher adjudication of all 61 A↔C disagreement cases.
+- `labels_v1_human_consensus.csv`: final 150-row researcher-adjudicated human consensus reference.
 - `adjudication_v1.csv`: legacy empty template; do not treat as completed consensus labels.
 
 ## Human A vs Human C
@@ -35,6 +36,20 @@ Responses may end mid-sentence; judge what is present.
 
 The dominant disagreement is whether a response is sufficiently committal to count as
 directional versus mixed/conditional or neutral, not which direction it takes.
+
+## Completed human consensus
+
+All 61 disagreements have now been adjudicated by the researcher after seeing A and C.
+The independent A and C label sets remain unchanged. The final reference is therefore
+reported as a **researcher-adjudicated human consensus**, not an independent third-rater label set.
+
+Final relation counts: supports 60, opposes 57, mixed/conditional 18,
+neutral/no-position 8, unclear 7 (117/150 directional).
+Final mode counts: explicit stance 92, analytical exposition 40, incomplete 10,
+voiced continuation 5, empty 1, refusal 1, other 1.
+
+Among the 45 relation conflicts, adjudication selected A in 20, C in 20, and a third label in 5.
+Among the 35 mode conflicts, it selected A in 19, C in 13, and a third label in 3.
 
 ### Annotator C protocol note
 
