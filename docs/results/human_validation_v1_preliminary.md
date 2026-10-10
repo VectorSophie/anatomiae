@@ -1,6 +1,6 @@
 # Human validation v1 — preliminary status
 
-**Status:** two independent human annotation sets complete; A↔C adjudication pending.
+**Status:** two independent human annotation sets and A↔C adjudication complete; automatic-evaluator validation pending.
 
 This document records facts available before the local-only frozen `key_v1.csv`
 is joined back to evaluator outputs. It does not report automatic-evaluator accuracy yet.
@@ -86,8 +86,17 @@ Most relation disagreements are therefore about whether an answer is sufficientl
 committal to count as directional versus `mixed_or_conditional` /
 `neutral_or_no_position`, not about opposite political direction.
 
-The A–C disagreement queue is:
-`artifacts/labeling/human_AC_adjudication_pending.csv`.
+The A–C disagreements have been fully adjudicated. The completed decisions are in
+`artifacts/labeling/human_AC_adjudication_completed.csv`, and the resulting 150-row
+reference is `artifacts/labeling/labels_v1_human_consensus.csv`.
+
+The final consensus contains 60 supports, 57 opposes, 18 mixed/conditional,
+8 neutral/no-position, and 7 unclear responses. Thus 117/150 are directional.
+Its response modes are 92 explicit stance, 40 analytical exposition, 10 incomplete,
+5 voiced continuation, and one each empty/refusal/other.
+
+Because the researcher performed adjudication after seeing A and C, this is a
+**researcher-adjudicated human consensus reference**, not an independent third-rater set.
 
 ## Human A vs agent B sanity check
 
@@ -121,8 +130,7 @@ would therefore be methodologically invalid.
 
 ## Next analysis
 
-1. Adjudicate the 61 A↔C disagreement cases.
-2. On the research workstation where the local-only frozen key exists, run:
+Human annotation is no longer a blocker. On the research workstation where the local-only frozen key exists, run:
 
 ```bash
 uv run python scripts/analyze_human_validation.py
