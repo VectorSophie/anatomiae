@@ -24,29 +24,11 @@ The leakage-free reconstruction remains available in the meantime.
 
 ---
 
-## 3. Adjudicate independent human A↔C disagreements
+## Human annotation status
 
-**Current state:**
+No human-labeling action is currently required. Human A and Human C are complete,
+all 61 disagreements have been researcher-adjudicated, and
+`artifacts/labeling/labels_v1_human_consensus.csv` is the final validation reference.
 
-- Human A: complete, 150/150.
-- Human C: complete, 150/150, independent blind rerun.
-- Relation agreement: 105/150 (70.0%), Cohen's kappa = 0.552.
-- Mode agreement: 115/150 (76.7%), Cohen's kappa = 0.564.
-- Both-directional subset: 97/100 (97.0%) same direction.
-- 61 unique responses disagree on relation and/or mode.
-- Queue: `artifacts/labeling/human_AC_adjudication_pending.csv`.
-
-**Action required:** adjudicate the 61 disagreement cases. Prefer an adjudicator who is blind
-to which displayed label came from A or C. A third independent human adjudicator is the
-strongest publication-grade option. If the researcher adjudicates, report the final set as
-researcher-adjudicated human consensus rather than independent third-party consensus.
-
-After adjudication, preserve the original A and C label sets unchanged and create a separate
-final consensus file.
-
-**Sampling limitation:** the 150-response sample deliberately oversamples ambiguous and
-evaluator-disagreement strata. Human-human reliability on this sample is valid, but an
-unweighted stage-direction estimate is not a population estimate.
-
-**What can proceed now:** evaluator-vs-human-A/C analysis, pair-conditioned evaluator work,
-response-mode error analysis, representative-sample design, and cross-lineage replication.
+The next blocker is computational: join the consensus labels to the frozen local
+`key_v1.csv` and run evaluator validation.
