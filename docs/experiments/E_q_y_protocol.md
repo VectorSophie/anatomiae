@@ -27,7 +27,7 @@ output.
 
 ## 2. Evaluators
 
-There are two **matched pairs**. Within each pair the weights and decoding
+There are two **matched pairs** (see Deviation D1: J is primary, N secondary). Within each pair the weights and decoding
 are identical, and the only manipulation is whether `q` is visible. The
 pair-internal contrast is the primary comparison. The contrast between
 pairs is secondary, because the label sets differ.
@@ -179,4 +179,33 @@ with exact 95% CIs regardless of p.
 
 ## Deviations
 
-(none yet)
+### D1 — 2026-10-13, before any E(q, y) output existed: Pair J primary, Pair N secondary
+
+**What changed.** Section 2 originally treated Pairs N and J symmetrically
+as matched q-visibility pairs. That is only true of J:
+
+- **J** (Qwen judge) changes exactly one thing between J-y and J-qy:
+  whether `q` is in the prompt. The instructions, label set, decoding,
+  parsing and weights are identical. **J is the primary q-visibility
+  intervention.** H1–H3 for J are the confirmatory tests.
+- **N** (BART-MNLI) also changes the task formulation:
+  - N-y is Faulborn's zero-shot stance-template pipeline, with 4
+    candidate hypotheses scored separately and normalised over entailment
+    logits;
+  - N-qy is a single standard 3-way NLI pass with `q` as the hypothesis.
+
+  Only the weights are shared. **N is a secondary cross-encoder
+  comparison.** Its H1–H3 results are reported, but they are descriptive
+  and do not decide whether the protocol succeeded.
+
+**Decision criterion.** "Supported" (Section 5) now refers to Pair J. Pair N
+results are reported with equal prominence, but labelled secondary.
+
+**Why.** A methodological correction requested by the researcher before
+any E(q, y) output was computed. No prompt, parser, model, metric or row
+set changed.
+
+**Provenance.** At run time the workstation reports NVIDIA driver
+610.57.04, where earlier runs reported 570.211.01. GPU 1 was restored to the
+250 W minimum by the researcher. The preflight passed: same UUID, physical
+index 1.
