@@ -1,0 +1,1 @@
+{"model_id": "Qwen/Qwen2.5-14B-Instruct", "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8", "gpu_memory_utilization": 0.5, "n_responses_judged": 3137, "n_unique_requests": 3093, "n_already_cached": 14, "n_to_generate": 3079, "n_errors": 0, "n_malformed": 1, "n_length": 73, "gpu_power_limit_w": 250.0, "driver_version": "610.57.04", "ts": 1791873202.3548224}

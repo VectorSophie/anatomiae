@@ -67,29 +67,43 @@ def v2_records():
                   for r in recs}
 
 
-def cmd_judge(gpu_memory_utilization: float) -> None:
-    from transformers import AutoTokenizer
-
+def judge_requests(tok) -> dict[str, GenerationRequest]:
+    """v2 cache_key -> J-qy request, for every non-empty, error-free v2 response.
+    Identical (q, y) pairs give the identical, content-addressed request, so
+    they share one judgement (37 groups, 81 responses in v2)."""
     model_id, revision = JUDGE_MODEL
-    tok = AutoTokenizer.from_pretrained(model_id, revision=revision, local_files_only=True)
     recs, q = v2_records()
-    cache = GenerationCache(JUDGE_CACHE)
-    requests = []
+    out = {}
     for r in recs:
         if r.error is not None or not r.raw_text.strip():
             continue  # not judged: scored malformed/generation_error, like every other evaluator
         rendered = tok.apply_chat_template(
             [{"role": "user", "content": JUDGE_QY.format(q=q[r.cache_key], y=r.raw_text)}],
             add_generation_prompt=True, tokenize=False)
-        req = GenerationRequest(
+        out[r.cache_key] = GenerationRequest(
             rendered_prompt_hash=hashlib.sha256(rendered.encode("utf-8")).hexdigest(), rendered_text=rendered,
             model_id=model_id, model_revision=revision, tokenizer_revision=revision, backend="vllm",
             precision="bf16", decoding=JUDGE_DECODING, item_id=r.request.item_id,
             variant_id=f"judged::{r.cache_key}", template_id=J_QY)
-        if not cache.has(req.cache_key()):
-            requests.append(req)
+    return out
+
+
+def tokenizer():
+    from transformers import AutoTokenizer
+
+    model_id, revision = JUDGE_MODEL
+    return AutoTokenizer.from_pretrained(model_id, revision=revision, local_files_only=True)
+
+
+def cmd_judge(gpu_memory_utilization: float) -> None:
+    model_id, revision = JUDGE_MODEL
+    by_response = judge_requests(tokenizer())
+    cache = GenerationCache(JUDGE_CACHE)
+    unique = {req.cache_key(): req for req in by_response.values()}
+    requests = [req for k, req in unique.items() if not cache.has(k)]
     log = {"model_id": model_id, "revision": revision, "gpu_memory_utilization": gpu_memory_utilization,
-           "n_v2_records": len(recs), "n_to_generate": len(requests)}
+           "n_responses_judged": len(by_response), "n_unique_requests": len(unique),
+           "n_already_cached": len(unique) - len(requests), "n_to_generate": len(requests)}
     if requests:
         from anatomiae.inference.backends import VLLMBackend
 
@@ -104,13 +118,15 @@ def cmd_judge(gpu_memory_utilization: float) -> None:
                    gpu_power_limit_w=backend._gpu_provenance.power_limit_w,
                    driver_version=backend._gpu_provenance.driver_version)
     log["ts"] = time.time()
-    Path("artifacts/logs/olmo_v2_jqy_judge.json").write_text(json.dumps(log, indent=2))
+    with Path("artifacts/logs/olmo_v2_jqy_judge.jsonl").open("a") as f:
+        f.write(json.dumps(log) + "\n")
     print(json.dumps(log, indent=2))
 
 
 def cmd_score() -> None:
     recs, _ = v2_records()
-    judged = {rec.request.variant_id: rec for rec in GenerationCache(JUDGE_CACHE).read_all()}
+    by_response = judge_requests(tokenizer())
+    judged = {rec.cache_key: rec for rec in GenerationCache(JUDGE_CACHE).read_all()}
     out = []
     for r in recs:
         base = {"generation_cache_key": r.cache_key, "evaluator_id": J_QY, "evaluator_version": "1.0.0"}
@@ -119,7 +135,7 @@ def cmd_score() -> None:
         elif not r.raw_text.strip():
             out.append(EvaluationResult(**base, outcome="malformed", notes="empty raw_text"))
         else:
-            j = judged[f"judged::{r.cache_key}"]
+            j = judged[by_response[r.cache_key].cache_key()]
             outcome, native = parse_judge(j.raw_text) if j.error is None else ("generation_error", None)
             out.append(EvaluationResult(**base, outcome=outcome, native_label=native,
                                         notes=json.dumps({"judge_cache_key": j.cache_key, "raw": j.raw_text})))
@@ -242,6 +258,39 @@ def overlap() -> pd.DataFrame:
     return pd.DataFrame([{"n_validation_rows": len(val), "same_outcome": sum(same), "same_raw_judge_text": sum(raw)}])
 
 
+def selection_check(df: pd.DataFrame) -> pd.DataFrame:
+    """EXPLORATORY (not in the frozen protocol; added after seeing B).
+
+    Under released prompts a direction index is computed only over responses
+    the evaluator reads as directional. Is released > stance-first because
+    the released prompts select which (item, polarity) commit? Compare the
+    stance-first direction index on the (item, polarity) pairs that were
+    directional under the released prompt (same stage, same evaluator) with
+    the stance-first index on the remaining pairs."""
+    rows = []
+    for (ev, stage), s in df[df["render"] == "native"].groupby(["evaluator_id", "stage"]):
+        sf = s[s["prompt"] == "stance_first"]
+        sf_keys = list(zip(sf["item_id"], sf["polarity"], strict=True))
+        for prompt in RELEASED:
+            rel = s[(s["prompt"] == prompt) & s["is_directional"]]
+            if rel.empty:
+                continue
+            committed = set(zip(rel["item_id"], rel["polarity"], strict=True))
+            mask = pd.Series([k in committed for k in sf_keys], index=sf.index)
+            same, rest = sf[mask], sf[~mask]
+            lo, hi = boot_diff(rest, same, "direction_index")
+            rows.append({"evaluator_id": ev, "stage": stage, "released_prompt": prompt,
+                         "released_direction_index": metrics(rel)["direction_index"],
+                         "released_directional_n": len(rel),
+                         "sf_on_released_committed": metrics(same)["direction_index"],
+                         "sf_on_released_committed_directional_n": metrics(same)["directional_n"],
+                         "sf_on_rest": metrics(rest)["direction_index"],
+                         "sf_on_rest_directional_n": metrics(rest)["directional_n"],
+                         "committed_minus_rest": metrics(same)["direction_index"] - metrics(rest)["direction_index"],
+                         "ci95_low": lo, "ci95_high": hi})
+    return pd.DataFrame(rows)
+
+
 def figure(metrics_table: pd.DataFrame) -> None:
     import matplotlib
 
@@ -301,6 +350,7 @@ def cmd_analyze() -> None:
     questions.round(4).to_csv(f"{OUT}_questions.csv", index=False)
     consistency(df).round(4).to_csv(f"{OUT}_consistency.csv", index=False)
     transitions(df).to_csv(f"{OUT}_transitions.csv", index=False)
+    selection_check(df).round(4).to_csv(f"{OUT}_exploratory_selection.csv", index=False)
     ov = overlap()
     ov.to_csv(f"{OUT}_overlap.csv", index=False)
 

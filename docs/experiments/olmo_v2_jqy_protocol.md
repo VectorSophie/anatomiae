@@ -183,4 +183,43 @@ reading a direction off a handful of committed responses.
 
 ## Deviations
 
-(none yet)
+### D1 — 2026-10-13: duplicate judge requests; the run was split in two (implementation only)
+
+**What happened.** 37 groups of v2 responses (81 responses in total) have
+identical text for the same item and polarity, across different prompts or
+stages. Their J-qy requests are therefore identical, and they share one
+content-addressed `cache_key`.
+
+The first judge run generated all 3,137 requests in one batch. While
+appending, it stopped at the first duplicate key: the immutable cache
+refused it, as designed. 14 judge records were saved before that point.
+They are kept unchanged; nothing was deleted.
+
+**Fix.**
+- `judge` now generates each unique request once.
+- `score` looks a response's judgement up by request identity.
+- Identical (q, y) inputs share one judgement, which is the correct
+  semantics for a deterministic evaluator.
+
+**Consequence.** The remaining unique requests are generated in a second
+vLLM batch. Its composition differs from the first by those 14 requests,
+which is a possible small BF16 numerics difference. The overlap check
+against E_q_y v1 (150 rows) measures any such batch effect.
+
+No prompt, parser, decoding setting, model or metric changed. No J-qy
+output had been parsed or looked at when this was fixed.
+
+### D2 — 2026-10-13, after seeing question B: exploratory selection check added
+
+`selection_check()` in `scripts/olmo_v2_jqy.py` writes
+`olmo_v2_jqy_exploratory_selection.csv`. It was added **after** the B
+results were seen.
+
+**The comparison.** For each stage:
+- the stance-first direction index on the (item, polarity) pairs that were
+  directional under a released prompt;
+- the same index on all other pairs;
+- a `boot_diff` CI for the difference.
+
+It is reported as exploratory, everywhere it appears. None of the frozen
+questions, reading rules or metrics changed.
