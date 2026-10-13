@@ -1,0 +1,7 @@
+subset,arm,sf_pole,n_item_polarities,mean_k_commit_of_5,share_never_committed
+class_A,q_inst,left_pole,79,1.962,0.4937
+class_A,q_inst,non_directional,3,0.0,1.0
+class_A,q_inst,right_pole,10,0.2,0.9
+all_items,q_inst,left_pole,139,2.0432,0.446
+all_items,q_inst,non_directional,9,0.0,1.0
+all_items,q_inst,right_pole,28,0.6071,0.7857

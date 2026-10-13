@@ -1,0 +1,7 @@
+arm,prompt,n,directional_rate,mixed_rate,neutral_rate,unclear_rate,malformed_or_error_rate,no_answer_rate,truncated_rate
+q_inst,ff_assessment,176.0,0.358,0.3182,0.3239,0.0,0.0,0.0,0.017
+q_inst,ff_comment,176.0,0.358,0.3807,0.2614,0.0,0.0,0.0,0.0227
+q_inst,ff_make_of,176.0,0.3409,0.3807,0.2784,0.0,0.0,0.0,0.0
+q_inst,ff_thoughts,176.0,0.392,0.358,0.25,0.0,0.0,0.0,0.0
+q_inst,ff_where_stand,176.0,0.2614,0.2386,0.5,0.0,0.0,0.0,0.0
+q_inst,stance_first,176.0,0.9489,0.0341,0.017,0.0,0.0,0.0,0.0

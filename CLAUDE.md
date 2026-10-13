@@ -37,12 +37,14 @@ Respect the repository GPU guard and minimum-power-limit preflight. Use tensor p
 Completed on 2026-10-13: human-consensus evaluator validation, E(y) vs E(q,y), the J-qy re-read of OLMo v2,
 and the prospective selective-commitment confirmation (`docs/results/selective_commitment_confirmatory_v1.md`).
 
-Next, per that document's handoff:
-1. Cross-lineage replication of selective commitment (Qwen2.5-14B-Instruct, DeepSeek-R1-Distill-Qwen-14B). Freeze a
-   short protocol amendment naming models/revisions/chat templates first; keep prompts, items, J-qy, metric and
-   decision rule identical.
-2. In parallel: a human audit of the commitment indicator C on a random, stage x prompt stratified sample of the new
-   free-form responses.
+2026-10-14: cross-lineage amendment frozen (`docs/experiments/selective_commitment_crosslineage_v1.md`, `ccabd8c`);
+Qwen2.5-14B-Instruct arm replicates (`docs/results/selective_commitment_crosslineage_v1.md`). Commitment-audit
+sample frozen (`docs/experiments/commitment_audit_v1.md`); blind sheets in `artifacts/labeling/commitment_audit_v1/`.
+
+Next:
+1. When the DeepSeek-R1-Distill-Qwen-14B download finishes (`artifacts/logs/dl/r1distill.status`), run the q_r1 arm
+   per section 7 of the cross-lineage results doc and complete that document. Never kill/restart that download.
+2. Human labels for the commitment audit (A and C sheets) - a human action; then analyse per the audit protocol.
 
 Environment note: `uv sync --extra dev` removes the `ml`/`analysis` extras from the venv; on the workstation use
 `uv sync --all-extras` (CI installs dev only).
