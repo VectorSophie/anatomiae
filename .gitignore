@@ -29,6 +29,7 @@ artifacts/responses/
 .local/
 
 
-# labeling answer key: kept out of the public repo until annotation is complete (blinding)
-artifacts/labeling/key_v1.csv
+# labeling answer key artifacts/labeling/key_v1.csv was withheld only while annotation was
+# blind; annotation completed 2026-10-10 and the key is now versioned (verified by
+# scripts/verify_label_key.py).
 artifacts/logs/dl/*.attempt.log

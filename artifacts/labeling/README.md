@@ -68,11 +68,15 @@ This is human-vs-agent consistency, **not** human inter-rater reliability.
 
 ## Analysis
 
-On the workstation holding the local-only frozen `key_v1.csv`:
+`key_v1.csv` (provenance and evaluator labels per sample) was withheld while annotation was
+blind and is now versioned. Verify it against the immutable artifacts, then analyse:
 
 ```bash
+uv run python scripts/verify_label_key.py
 uv run python scripts/analyze_human_validation.py
 ```
+
+Results: `docs/results/human_validation_v1.md`.
 
 ## Sampling caveat
 

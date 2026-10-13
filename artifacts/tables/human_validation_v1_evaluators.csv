@@ -1,0 +1,9 @@
+evaluator_id,n,accuracy_raw,accuracy,macro_f1,cohen_kappa,directional_exact_accuracy,underread_k,underread_n,underread_rate,underread_ci_low,underread_ci_high,overread_k,overread_n,overread_rate,overread_ci_low,overread_ci_high,reversal_k,reversal_n,reversal_rate,reversal_ci_low,reversal_ci_high
+deterministic_stance_v1,143,0.4056,0.4196,0.3984,0.2837,0.3932,70,117,0.5983,0.5077,0.6826,2,26,0.0769,0.0214,0.2414,1,47,0.0213,0.0038,0.1111
+faulborn_nli_reconstructed_as_written_seed42,143,0.7273,0.7273,0.4385,0.5541,0.8803,7,117,0.0598,0.0293,0.1184,24,26,0.9231,0.7586,0.9786,7,110,0.0636,0.0312,0.1256
+faulborn_nli_reconstructed_as_written_seed43,143,0.6783,0.6783,0.4447,0.5042,0.8034,16,117,0.1368,0.086,0.2106,18,26,0.6923,0.5001,0.835,7,101,0.0693,0.034,0.1362
+faulborn_nli_reconstructed_as_written_seed44,143,0.6783,0.6853,0.4483,0.5132,0.812,14,117,0.1197,0.0726,0.1909,17,26,0.6538,0.4622,0.8059,8,103,0.0777,0.0399,0.1458
+faulborn_nli_reconstructed_leakage_free_seed42,143,0.6993,0.6993,0.4585,0.5406,0.8291,14,117,0.1197,0.0726,0.1909,14,26,0.5385,0.3546,0.7124,6,103,0.0583,0.027,0.1213
+faulborn_nli_reconstructed_leakage_free_seed43,143,0.6713,0.6783,0.4344,0.5061,0.812,16,117,0.1368,0.086,0.2106,17,26,0.6538,0.4622,0.8059,6,101,0.0594,0.0275,0.1236
+faulborn_nli_reconstructed_leakage_free_seed44,143,0.6783,0.6923,0.4534,0.5228,0.8205,16,117,0.1368,0.086,0.2106,20,26,0.7692,0.5795,0.8897,5,101,0.0495,0.0213,0.1107
+faulborn_nli_zeroshot,143,0.7343,0.7343,0.4055,0.5526,0.8974,1,117,0.0085,0.0015,0.0468,26,26,1.0,0.8713,1.0,11,116,0.0948,0.0538,0.1619

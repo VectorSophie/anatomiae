@@ -1,0 +1,4 @@
+dimension,n,exact_agreement,cohen_kappa
+relation,150,0.7,0.5524
+mode,150,0.7667,0.5644
+direction_when_both_directional,100,0.97,0.9399

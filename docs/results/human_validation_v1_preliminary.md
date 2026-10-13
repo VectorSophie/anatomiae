@@ -1,6 +1,6 @@
 # Human validation v1 — preliminary status
 
-**Status:** two independent human annotation sets and A↔C adjudication complete; automatic-evaluator validation pending.
+**Status:** two independent human annotation sets and A↔C adjudication complete; automatic-evaluator validation complete — see [`human_validation_v1.md`](human_validation_v1.md). This file is kept as the pre-join record.
 
 This document records facts available before the local-only frozen `key_v1.csv`
 is joined back to evaluator outputs. It does not report automatic-evaluator accuracy yet.

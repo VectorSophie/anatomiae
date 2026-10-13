@@ -92,8 +92,8 @@ triggers regeneration. See [`docs/architecture.md`](docs/architecture.md).
 | OLMo FP32-vs-BF16 precision-sensitivity check | Done — [`precision_sensitivity.md`](docs/results/precision_sensitivity.md) |
 | Gate B — Backend-equivalence study | Done on 3 OLMo checkpoints × 60 prompts — [`backend_equivalence.md`](docs/results/backend_equivalence.md) |
 | Gate C — ≥3 model lineages end-to-end | **Passed, 3 of 3** (OLMo 2, Qwen2.5-14B-Instruct, Amber) — `artifacts/tables/gate_c_lineages.*`; Amber (base) only repeats the prompt under greedy decoding, stating no position |
-| Formation: OLMo-2-13B Base→SFT→DPO→RLVR2 | Complete second pass (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); two independent human label sets complete; 61 A↔C disagreement cases awaiting adjudication |
-| Human validation v1 | Two independent humans complete: relation 70.0% (κ=0.552), mode 76.7% (κ=0.564); among jointly directional cases, direction agrees 97/100; adjudication pending on 61 cases — [`human_validation_v1_preliminary.md`](docs/results/human_validation_v1_preliminary.md) |
+| Formation: OLMo-2-13B Base→SFT→DPO→RLVR2 | Complete second pass (88 items + inversions, stance-first, 600 tokens) — [`olmo_stages_v2.md`](docs/results/olmo_stages_v2.md); human validation complete |
+| Human validation v1 | Complete. Humans A↔C: relation κ=0.552, direction 97/100 when both directional; adjudicated consensus. Evaluators vs consensus on a deliberately difficult 150-response sample: response-only BART classifiers force a stance on 54–100% of human non-directional responses (n=26) but rarely miss or reverse human-directional ones; the rule-based evaluator misses 60% of stances — [`human_validation_v1.md`](docs/results/human_validation_v1.md) |
 | Full pilot | Not started; validation consolidation and planned cross-lineage replication remain |
 
 No fabricated progress here — an item is only marked complete once a real

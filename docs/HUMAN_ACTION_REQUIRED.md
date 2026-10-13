@@ -30,5 +30,5 @@ No human-labeling action is currently required. Human A and Human C are complete
 all 61 disagreements have been researcher-adjudicated, and
 `artifacts/labeling/labels_v1_human_consensus.csv` is the final validation reference.
 
-The next blocker is computational: join the consensus labels to the frozen local
-`key_v1.csv` and run evaluator validation.
+Evaluator validation against that reference is complete:
+`docs/results/human_validation_v1.md`.
