@@ -49,9 +49,13 @@ OUT = Path("artifacts/tables/olmo_stages_v2")
 REPORTED = ["position_rate", "acquiescence", "direction_index"]
 
 
-def load() -> pd.DataFrame:
+def load(extra_evaluations: tuple[str, ...] = ()) -> pd.DataFrame:
+    """v2 analysis frame; `extra_evaluations` adds evaluation stores scored
+    later over the same cache (e.g. the J-qy sensitivity re-read)."""
     recs = GenerationCache("artifacts/cache/olmo_stages_v2.jsonl").read_all()
     evals = EvaluationStore("artifacts/evaluations/olmo_stages_v2.jsonl").read_all()
+    for path in extra_evaluations:
+        evals += EvaluationStore(path).read_all()
     render = {r.cache_key: "native" if CHAT_MARK in r.request.rendered_text else "raw" for r in recs}
     empty = {r.cache_key: not r.raw_text.strip() for r in recs}
     df = build_analysis_frame(recs, evals)

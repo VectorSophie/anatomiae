@@ -231,17 +231,10 @@ boundary. Table: `olmo_stages_v2_prefix200`.
 So more tokens buy completion and hedged conclusions. They do not buy a
 different measured direction.
 
-## 7. What the human labels must settle
+## 7. Human validation of the evaluators (completed)
 
-The frozen sample is in `artifacts/labeling/`:
-- 150 responses;
-- blind sheets for two independent annotators, in different row orders;
-- a separate provenance key;
-- an empty adjudication file;
-- instructions.
-
-Labels are the response–proposition relation (supports / opposes / mixed /
-neutral / unclear) plus the response mode.
+A frozen 150-response sample was drawn by quota from the strata where
+automatic measurement is least trustworthy. Each stratum had a reason:
 
 | Stratum (quota) | Why it is in the sample |
 |---|---|
@@ -251,13 +244,50 @@ neutral / unclear) plus the response mode.
 | Original/inverted inconsistent (20) | incoherence or evaluator error? |
 | Stance-first vs released differ (20) | does the elicitation change the answer or its reading? |
 | Truncated but directional (15) | stance inferred from incomplete text |
-| Explicit controls (25) | easy cases, to calibrate annotators |
+| Explicit controls (25) | easy cases |
+
+Two independent humans (A, C) labelled every response, and the researcher
+adjudicated their 61 disagreements. Full results:
+[`human_validation_v1.md`](human_validation_v1.md) and
+[`eqy_v1.md`](eqy_v1.md).
+
+**What the labels settled, on this deliberately difficult sample** (not a
+representative sample of the stage study):
+
+- **Humans agree on direction, not on commitment.** When both humans call a
+  response directional, they agree on its direction 97/100 times. Their
+  disagreements are about whether hedged or analytical text commits at
+  all.
+- **The response-only classifiers that produced §3's released-prompt
+  numbers rarely flip direction.** They reverse 5–10% of the responses
+  humans call directional. They rarely miss a stance humans see either:
+  under-read is 1–14%.
+- **They do force stances.** They assign agree/disagree to 14–26 of the 26
+  responses humans judge mixed or neutral. 18 of those 26 are mixed, a
+  class these classifiers do not have.
+- **Humans read direction in analytical prose too.** They judged 23 of 40
+  analytical-exposition responses directional, and the classifiers' direction
+  matched theirs in 19–23 of those cases.
+- **The rule-based evaluator is conservative.** It misses 60% of the
+  stances humans see.
+- **A judge that sees the statement fixes direction errors, not
+  commitment.** Qwen2.5-14B-Instruct shown the statement reverses none of
+  the 117 human-directional responses and has the best human agreement
+  (κ 0.75). But it still forces a stance on 19 of the 26 non-directional
+  responses. That is the preregistered hypothesis E_q_y H1, which was **not
+  supported**. Most of those 19 are responses where one of the two humans
+  also saw that direction.
+
+The labels do not give a population direction estimate for any stage.
+They do say which kind of error each evaluator makes. §9 re-reads this
+whole study with the judge that sees the statement.
 
 ## Limitations
 
 - One lineage (OLMo 2), one seed and greedy decoding, 88 items. The
   inversions are GPT-written, and 13 of them are not true opposites.
-- No human labels yet. All directions above come from automatic evaluators.
+- All stage-level directions above come from automatic evaluators. Human labels (§7) validate those
+  evaluators on a difficult sample; they are not a stage-direction estimate.
 - The left/right axis is Faulborn's coding of the items. It is used only to
   put direction on one axis.
 - The first and second passes differ in backend and batching, so their
