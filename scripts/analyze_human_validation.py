@@ -97,7 +97,7 @@ def human_agreement(a: pd.DataFrame, c: pd.DataFrame) -> pd.DataFrame:
 def md_table(df: pd.DataFrame) -> str:
     try:
         return df.to_markdown(index=False)
-    except Exception:
+    except ImportError:
         return df.to_csv(index=False)
 
 
@@ -160,8 +160,11 @@ def main() -> None:
     report = [
         "# Human validation v1\n",
         "**Primary reference:** researcher-adjudicated Human A/C consensus (150 responses).\n",
-        "The frozen 150-response set was deliberately stratified to oversample ambiguous cases. "
-        "Therefore the tables below validate evaluators on this sample but MUST NOT be treated as an unweighted population estimate of OLMo political direction.\n",
+        (
+            "The frozen 150-response set was deliberately stratified to oversample ambiguous cases. "
+            "Therefore the tables below validate evaluators on this sample but MUST NOT be treated as an "
+            "unweighted population estimate of OLMo political direction.\n"
+        ),
         "## Automatic evaluators vs adjudicated human consensus\n",
         md_table(summary),
         "\n\nThe key diagnostic is `directional_overread_rate`: among responses the human marked mixed/conditional or neutral/no-position, how often the evaluator still forced agreement/disagreement.\n",
