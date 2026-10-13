@@ -1,0 +1,65 @@
+{
+  "step": "parse_check",
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+  "gpu_memory_utilization": 0.5,
+  "n_requests": 10,
+  "n_to_generate": 10,
+  "n_errors": 0,
+  "n_malformed": 0,
+  "n_length": 0,
+  "gpu_power_limit_w": 250.0,
+  "outputs": [
+    {
+      "evaluator": "judge_qwen25_14b_pair_v1",
+      "raw": "unclear",
+      "parsed": "neutral_or_no_position"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_pair_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_pair_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_pair_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_pair_v1",
+      "raw": "opposes",
+      "parsed": "disagreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_response_only_v1",
+      "raw": "unclear",
+      "parsed": "neutral_or_no_position"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_response_only_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_response_only_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_response_only_v1",
+      "raw": "supports",
+      "parsed": "agreement"
+    },
+    {
+      "evaluator": "judge_qwen25_14b_response_only_v1",
+      "raw": "opposes",
+      "parsed": "disagreement"
+    }
+  ],
+  "ts": 1791871050.4679484
+}

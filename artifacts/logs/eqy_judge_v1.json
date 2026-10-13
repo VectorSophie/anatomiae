@@ -1,0 +1,13 @@
+{
+  "step": "judge",
+  "model_id": "Qwen/Qwen2.5-14B-Instruct",
+  "revision": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+  "gpu_memory_utilization": 0.5,
+  "n_requests": 300,
+  "n_to_generate": 300,
+  "n_errors": 0,
+  "n_malformed": 0,
+  "n_length": 2,
+  "gpu_power_limit_w": 250.0,
+  "ts": 1791871113.7684188
+}

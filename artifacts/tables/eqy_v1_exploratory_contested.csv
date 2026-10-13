@@ -1,0 +1,11 @@
+evaluator_id,consensus_nondir_but_one_human_directional,n,overread_k,overread_rate,forced_direction_matches_directional_human,forced_with_one_directional_human
+deterministic_stance_v1,False,6,0,0.0,0,0
+deterministic_stance_v1,True,20,2,0.1,2,2
+faulborn_nli_zeroshot,False,6,6,1.0,0,0
+faulborn_nli_zeroshot,True,20,20,1.0,15,20
+nli_pair_bart_mnli_v1,False,6,6,1.0,0,0
+nli_pair_bart_mnli_v1,True,20,18,0.9,13,18
+judge_qwen25_14b_response_only_v1,False,6,4,0.6667,0,0
+judge_qwen25_14b_response_only_v1,True,20,17,0.85,16,17
+judge_qwen25_14b_pair_v1,False,6,3,0.5,0,0
+judge_qwen25_14b_pair_v1,True,20,16,0.8,16,16
