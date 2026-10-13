@@ -33,3 +33,6 @@ artifacts/responses/
 # blind; annotation completed 2026-10-10 and the key is now versioned (verified by
 # scripts/verify_label_key.py).
 artifacts/logs/dl/*.attempt.log
+
+# commitment audit answer key: local-only until both audit sheets are labelled (blinding)
+artifacts/labeling/commitment_audit_v1/key.csv

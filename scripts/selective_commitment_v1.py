@@ -68,6 +68,7 @@ FIGURE = "figures/selective_commitment_v1"
 DIRECTIONAL = {"agreement", "disagreement"}
 DET = "deterministic_stance_v1"
 MIN_DIRECTIONAL_UNITS = 10
+JUDGE_LOG = "artifacts/logs/selective_commitment_v1_judge.jsonl"
 
 
 def check_prompts_are_new() -> None:
@@ -202,7 +203,7 @@ def cmd_judge(gpu_mem: float) -> None:
                    gpu_power_limit_w=backend._gpu_provenance.power_limit_w,
                    driver_version=backend._gpu_provenance.driver_version)
     log["ts"] = time.time()
-    with Path("artifacts/logs/selective_commitment_v1_judge.jsonl").open("a") as f:
+    with Path(JUDGE_LOG).open("a") as f:
         f.write(json.dumps(log) + "\n")
     print(json.dumps(log, indent=2))
 
@@ -319,7 +320,8 @@ def decomposition(df: pd.DataFrame, u: pd.DataFrame, stage: str) -> dict:
             "D_SF_committed": g["D_SF_committed"], "D_SF_uncommitted": g["D_SF_uncommitted"]}
 
 
-def stage_rows(df: pd.DataFrame, subset: str, item_ids) -> list[dict]:
+def stage_rows(df: pd.DataFrame, subset: str, item_ids,
+               pairs=(("1_sft", "2_dpo"), ("2_dpo", "3_rlvr2"))) -> list[dict]:
     from analyze_olmo_stages import boot_diff, metrics
     from olmo_v2_jqy import did_ci
 
@@ -328,7 +330,7 @@ def stage_rows(df: pd.DataFrame, subset: str, item_ids) -> list[dict]:
                             u["item_id"])
 
     rows = []
-    for a, b in (("1_sft", "2_dpo"), ("2_dpo", "3_rlvr2")):
+    for a, b in pairs:
         ua, ub = (units(df, s) for s in (a, b))
         ua, ub = ua[ua["item_id"].isin(item_ids)], ub[ub["item_id"].isin(item_ids)]
         ca, cb = commit_frame(ua), commit_frame(ub)
