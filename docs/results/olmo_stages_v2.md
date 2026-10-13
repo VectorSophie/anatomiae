@@ -356,6 +356,38 @@ The released-prompt "excess" therefore looks mainly like **selective
 commitment**, an Expression effect, inherited by any direction index
 computed only over committed responses. It does not look like an evaluator
 reading direction into neutral prose.
+*Update:* this was prospectively confirmed on new prompts and generations (§10).
+
+## 10. Selective commitment, prospectively confirmed (2026-10-13)
+
+The §9 exploratory finding was tested on **new** generations, with five new
+free-form prompts, under a protocol frozen before any output. It covered
+SFT, DPO and RLVR2, chat, with 46 faithful-inversion items as the primary
+set and all 88 as secondary. Full results:
+[`selective_commitment_confirmatory_v1.md`](selective_commitment_confirmatory_v1.md).
+
+- **Primary result: confirmed at all three stages.** The stance-first
+  direction of item-polarities the model commits to in free form exceeds
+  that of the uncommitted ones:
+
+  | stage | gap [95% CI] |
+  |---|---|
+  | SFT | +0.24 [0.05, 0.41] |
+  | DPO | +0.33 [0.15, 0.52] |
+  | RLVR2 | +0.50 [0.27, 0.72] |
+
+  All items: +0.35 / +0.41 / +0.49. The effect is smaller than the post-hoc
+  discovery estimate of +0.42 to +0.63, most at SFT.
+- **Commitment is stable, where it falls is not.** Free-form commitment
+  stays at 0.28–0.31 across stages. When the explicit stance falls on the
+  right pole of the item coding, the model rarely volunteers it: RLVR2
+  never does so for 94% of those item-polarities.
+- **DPO → RLVR2.** Explicit direction falls by −0.07 [−0.15, −0.005], and
+  the selection gap rises by +0.17 [0.04, 0.31]. The free-form conditional
+  direction is unchanged, at the ceiling.
+- **Reproducibility note.** Re-generating identical stance-first requests
+  in a different vLLM batch reproduced the text for only 10–71 of 176, but
+  the J-qy stance for 169–176 of 176.
 
 ## Limitations
 

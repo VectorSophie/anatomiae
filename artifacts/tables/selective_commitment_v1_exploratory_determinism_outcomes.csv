@@ -1,0 +1,4 @@
+stage,n,same_jqy_outcome,direction_flip,common_prefix_ge_200_chars,median_common_prefix_chars
+1_sft,176,175,0,161,697.0
+2_dpo,176,169,1,152,682.5
+3_rlvr2,176,176,0,149,659.5

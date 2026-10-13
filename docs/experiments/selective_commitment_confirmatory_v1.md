@@ -292,4 +292,31 @@ Anything else is labelled **exploratory**.
 
 ## Deviations
 
-(none yet)
+### D1 — after the primary analysis had been computed: exploratory stance-level determinism check
+
+The pre-specified determinism check (§8.5) compares text only. Fresh
+stance-first responses share v2's request identity (176/176 per stage),
+yet are textually identical for only 71, 10 and 10 of 176 (SFT, DPO and
+RLVR2). Greedy BF16 vLLM output depends on batch composition: the v2
+batches mixed both renders and a different prompt order, and RLVR2 then ran
+at `gpu_memory_utilization=0.6`.
+
+An **exploratory** check was added to see whether the *measured stance*
+survives this: the J-qy outcome on fresh vs v2 stance-first responses,
+written to `selective_commitment_v1_exploratory_determinism_outcomes.csv`.
+It does not enter any primary or secondary result.
+
+### D2 — after results: label wording in the secondary item-level table (cosmetic)
+
+The categories of secondary analysis 4 were first written as
+`lean_aligned` and `lean_opposed`. The code actually classifies the
+stance-first stance by the **pole of the direction index** it falls on:
+
+- left pole: agreeing with a left-coded statement, or disagreeing with a
+  right-coded one;
+- right pole: the reverse.
+
+It does not classify agreement with the item's lean. The labels were
+renamed to `left_pole` and `right_pole`, and the column to `sf_pole`. The
+computation and the numbers are unchanged.
+

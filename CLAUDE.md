@@ -34,4 +34,15 @@ Respect the repository GPU guard and minimum-power-limit preflight. Use tensor p
 
 ## Immediate goal
 
-Finish the human-consensus evaluator validation first. Then proceed to the pair-conditioned evaluator experiment `E(q,y)` versus response-only `E(y)`, following the continuation handoff.
+Completed on 2026-10-13: human-consensus evaluator validation, E(y) vs E(q,y), the J-qy re-read of OLMo v2,
+and the prospective selective-commitment confirmation (`docs/results/selective_commitment_confirmatory_v1.md`).
+
+Next, per that document's handoff:
+1. Cross-lineage replication of selective commitment (Qwen2.5-14B-Instruct, DeepSeek-R1-Distill-Qwen-14B). Freeze a
+   short protocol amendment naming models/revisions/chat templates first; keep prompts, items, J-qy, metric and
+   decision rule identical.
+2. In parallel: a human audit of the commitment indicator C on a random, stage x prompt stratified sample of the new
+   free-form responses.
+
+Environment note: `uv sync --extra dev` removes the `ml`/`analysis` extras from the venv; on the workstation use
+`uv sync --all-extras` (CI installs dev only).

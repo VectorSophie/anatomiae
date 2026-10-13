@@ -375,12 +375,14 @@ def cmd_analyze() -> None:
             # P(commit | stance-first stance), item-polarity level
             k = u.groupby(["item_id", "polarity"]).agg(k_commit=("C", "sum"), sf=("sf_outcome", "first"),
                                                        lean=("item_lean", "first")).reset_index()
-            k["sf_relative_to_lean"] = [
+            # pole of the direction index the stance-first stance falls on: left = agrees with a
+            # left-coded or disagrees with a right-coded statement (counts +1 in direction_index)
+            k["sf_pole"] = [
                 "non_directional" if o not in DIRECTIONAL else
-                "lean_aligned" if (o == "agreement") == (le == "left") else "lean_opposed"
+                "left_pole" if (o == "agreement") == (le == "left") else "right_pole"
                 for o, le in zip(k["sf"], k["lean"], strict=True)]
-            for cat, g in k.groupby("sf_relative_to_lean"):
-                item_model.append({"subset": subset, "stage": s, "sf_relative_to_lean": cat,
+            for cat, g in k.groupby("sf_pole"):
+                item_model.append({"subset": subset, "stage": s, "sf_pole": cat,
                                    "n_item_polarities": len(g), "mean_k_commit_of_5": g["k_commit"].mean(),
                                    "share_never_committed": (g["k_commit"] == 0).mean()})
         stage_tab += stage_rows(df, subset, ids)
@@ -406,6 +408,24 @@ def cmd_analyze() -> None:
         det_rows.append({"stage": s, "n": len(f), "in_v2_cache": sum(r.cache_key in v2 for r in f),
                          "identical_text": sum(v2.get(r.cache_key) == r.raw_text for r in f)})
     determinism = pd.DataFrame(det_rows)
+    # EXPLORATORY (deviation D1, added after seeing the text-level check): does the measured
+    # stance survive the batch-composition text divergence? J-qy outcome, fresh vs v2 re-read.
+    import os
+
+    v2_out = {e.generation_cache_key: e.outcome for e in EvaluationStore("artifacts/evaluations/olmo_v2_jqy.jsonl").read_all()}
+    new_out = df[df["evaluator"] == "jqy"].set_index("cache_key")["outcome"]
+    v2_text = {r.cache_key: v2[r.cache_key] for r in fresh}
+    det_out = []
+    for s in stages:
+        f = [r for r in fresh if STAGE_OF_MODEL[r.request.model_id] == s]
+        same = [v2_out[r.cache_key] == new_out[r.cache_key] for r in f]
+        flip = [v2_out[r.cache_key] in DIRECTIONAL and new_out[r.cache_key] in DIRECTIONAL
+                and v2_out[r.cache_key] != new_out[r.cache_key] for r in f]
+        prefix = [len(os.path.commonprefix([v2_text[r.cache_key], r.raw_text])) for r in f]
+        det_out.append({"stage": s, "n": len(f), "same_jqy_outcome": sum(same), "direction_flip": sum(flip),
+                        "common_prefix_ge_200_chars": sum(p >= 200 for p in prefix),
+                        "median_common_prefix_chars": float(pd.Series(prefix).median())})
+    pd.DataFrame(det_out).to_csv(f"{OUT}_exploratory_determinism_outcomes.csv", index=False)
 
     Path(OUT).parent.mkdir(parents=True, exist_ok=True)
     for name, t in (("primary", primary), ("decomposition", decomp), ("stage", stage_tab),
