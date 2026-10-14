@@ -163,7 +163,7 @@ class Handler(BaseHTTPRequestHandler):
         q = parse_qs(url.query)
         if url.path == "/":
             return self._send(200, (UI_DIR / "index.html").read_bytes(), "text/html; charset=utf-8")
-        if url.path in ("/app.js", "/app.css"):
+        if url.path in ("/app.js", "/app.css", "/backend_server.js"):
             ctype = "text/javascript" if url.path.endswith(".js") else "text/css"
             return self._send(200, (UI_DIR / url.path[1:]).read_bytes(), f"{ctype}; charset=utf-8")
         if url.path == "/api/taxonomy":

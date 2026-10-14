@@ -1,6 +1,7 @@
 "use strict";
-// Local labeling UI. Talks only to the same-origin local server; no external
-// requests, no suggestions, no prefilling. Rows are shown in the sheet's own order.
+// Labeling UI core. Storage/export goes through window.Backend, which is either
+// backend_server.js (local server) or backend_standalone.js (offline single file).
+// No suggestions, no prefilling; rows are shown in the sheet's own order.
 
 const KEYS = {
   relation: ["q", "w", "e", "r", "t"],
@@ -8,16 +9,8 @@ const KEYS = {
   confidence_1to3: ["1", "2", "3"],
 };
 const state = { audit: null, annotator: null, rows: [], digest: null, labels: {}, i: 0, tax: null, timer: null };
-
 const $ = (id) => document.getElementById(id);
-const q = () => `audit=${encodeURIComponent(state.audit)}&annotator=${encodeURIComponent(state.annotator)}`;
-
-async function api(path, body) {
-  const opts = body === undefined ? {} :
-    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
-  const res = await fetch(path, opts);
-  return { ok: res.ok, status: res.status, data: await res.json() };
-}
+const B = window.Backend;
 
 function complete(sid) {
   const l = state.labels[sid] || {};
@@ -63,8 +56,8 @@ function scheduleSave() {
   $("saved").textContent = "saving…";
   clearTimeout(state.timer);
   state.timer = setTimeout(async () => {
-    const r = await api(`/api/draft?${q()}`, { digest: state.digest, labels: state.labels });
-    $("saved").textContent = r.ok ? "draft saved" : `save failed: ${r.data.error}`;
+    const r = await B.saveDraft(state.audit, state.annotator, { digest: state.digest, labels: state.labels });
+    $("saved").textContent = r.ok ? "draft saved" : `save failed: ${r.message}`;
   }, 300);
 }
 
@@ -81,64 +74,85 @@ function nextIncomplete() {
   go(state.i);
 }
 
+function applyDraft(draft, warn) {
+  if (draft && draft.digest && draft.digest !== state.digest) {
+    warn.push("A draft exists but was made for different sheet contents; it was not loaded.");
+    return false;
+  }
+  if (draft && draft.labels) {
+    const ids = new Set(state.rows.map((r) => r.sample_id));
+    state.labels = Object.fromEntries(Object.entries(draft.labels).filter(([sid]) => ids.has(sid)));
+  }
+  return true;
+}
+
 async function start(audit, annotator) {
   state.audit = audit;
   state.annotator = annotator;
-  state.tax = (await api("/api/taxonomy")).data;
-  const sheet = await api(`/api/sheet?${q()}`);
-  if (!sheet.ok) return alert(sheet.data.error);
-  state.rows = sheet.data.rows;
-  state.digest = sheet.data.digest;
-  const draft = (await api(`/api/draft?${q()}`)).data;
+  state.tax = await B.taxonomy();
+  const sheet = await B.loadSheet(audit, annotator);
+  if (!sheet.ok) return alert(sheet.message);
+  state.rows = sheet.rows;
+  state.digest = sheet.digest;
   const warn = [];
-  if (sheet.data.source_has_labels) {
-    warn.push(`The frozen sheet already contains labels in ${sheet.data.source_has_labels} rows. They are not shown or loaded here.`);
+  if (sheet.source_has_labels) {
+    warn.push(`The frozen sheet already contains labels in ${sheet.source_has_labels} rows. They are not shown or loaded here.`);
   }
-  if (draft.digest && draft.digest !== state.digest) {
-    warn.push("A draft exists but was made for different sheet contents; it was not loaded.");
-  } else if (draft.labels) {
-    state.labels = draft.labels;
-  }
+  applyDraft(await B.loadDraft(audit, annotator), warn);
   $("warning").hidden = warn.length === 0;
   $("warning").textContent = warn.join(" ");
-  $("session").textContent = `${audit === "olmo" ? "Audit 1" : "Audit 2"} · Annotator ${annotator}`;
+  $("session").textContent = B.sessionLabel(audit, annotator);
   buildButtons($("relation"), "relation", state.tax.relations);
   buildButtons($("mode"), "mode", state.tax.modes);
   buildButtons($("confidence"), "confidence_1to3", state.tax.confidence);
+  $("draftFiles").hidden = !B.draftFiles;
   $("start").hidden = true;
   $("label").hidden = false;
   const firstOpen = state.rows.findIndex((r) => !complete(r.sample_id));
   go(firstOpen === -1 ? 0 : firstOpen);
 }
 
-async function exportCsv() {
-  clearTimeout(state.timer);
-  await api(`/api/draft?${q()}`, { digest: state.digest, labels: state.labels });
-  const r = await api(`/api/export?${q()}`, { digest: state.digest, labels: state.labels });
+function showResult(lines, problems) {
   const out = $("exportResult");
   out.textContent = "";
-  if (r.ok) {
-    const p = document.createElement("p");
-    p.textContent = `Valid. Wrote ${r.data.rows} rows to ${r.data.path}. The frozen sheet was NOT changed. ` +
-      "To submit, replace it yourself after checking:";
-    const pre = document.createElement("pre");
-    pre.textContent = r.data.replace_with;
-    out.append(p, pre);
-  } else {
-    const p = document.createElement("p");
-    p.textContent = `Not exported (${r.data.n_problems || (r.data.problems || []).length || r.data.error} problem(s)):`;
+  for (const line of lines) {
+    const el = document.createElement(line.code ? "pre" : "p");
+    el.textContent = line.text;
+    out.append(el);
+  }
+  if (problems && problems.length) {
     const ul = document.createElement("ul");
-    for (const msg of r.data.problems || [r.data.error]) {
+    for (const msg of problems) {
       const li = document.createElement("li");
       li.textContent = msg;
       ul.append(li);
     }
-    out.append(p, ul);
+    out.append(ul);
   }
 }
 
-document.querySelectorAll("#start button").forEach((b) =>
-  b.addEventListener("click", () => start(b.dataset.audit, b.dataset.annotator)));
+async function exportCsv() {
+  clearTimeout(state.timer);
+  await B.saveDraft(state.audit, state.annotator, { digest: state.digest, labels: state.labels });
+  const r = await B.exportCsv(state.audit, state.annotator, state.rows,
+    { digest: state.digest, labels: state.labels }, state.tax);
+  if (r.ok) showResult(r.lines);
+  else showResult([{ text: `Not exported: ${r.problems.length} problem(s).` }], r.problems.slice(0, 50));
+}
+
+function renderStart() {
+  const box = $("choices");
+  box.textContent = "";
+  for (const s of B.sessions()) {
+    const b = document.createElement("button");
+    b.textContent = B.sessionLabel(s.audit, s.annotator);
+    b.addEventListener("click", () => start(s.audit, s.annotator));
+    box.append(b);
+  }
+  $("intro").textContent = B.intro;
+}
+
+renderStart();
 $("prev").addEventListener("click", () => go(state.i - 1));
 $("next").addEventListener("click", () => go(state.i + 1));
 $("nextOpen").addEventListener("click", nextIncomplete);
@@ -148,6 +162,24 @@ $("notes").addEventListener("input", (e) => {
   const sid = state.rows[state.i].sample_id;
   state.labels[sid] = { ...(state.labels[sid] || {}), notes: e.target.value };
   scheduleSave();
+});
+$("saveDraftFile").addEventListener("click", () =>
+  B.downloadDraft(state.audit, state.annotator, { digest: state.digest, labels: state.labels }));
+$("loadDraftFile").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const warn = [];
+  let draft;
+  try { draft = JSON.parse(await file.text()); } catch { return alert("Not a draft file."); }
+  if (draft.audit !== state.audit || draft.annotator !== state.annotator) {
+    return alert("This draft belongs to a different audit or annotator; not loaded.");
+  }
+  if (applyDraft(draft, warn)) {
+    scheduleSave();
+    render();
+  }
+  if (warn.length) alert(warn.join(" "));
+  e.target.value = "";
 });
 
 document.addEventListener("keydown", (e) => {

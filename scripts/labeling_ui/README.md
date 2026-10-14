@@ -57,6 +57,43 @@ Then run:
 uv run python scripts/analyze_commitment_audit.py check --audit olmo
 ```
 
+## Offline single files: one per annotator
+
+`artifacts/labeling/standalone/annotator_A.html` and `annotator_C.html`
+are self-contained pages. Send each annotator **only their own file**; they
+open it by double-clicking. No server and no internet are needed.
+
+- **What each file holds.** Only that annotator's two blind sheets (Audit 1
+  and Audit 2): sample IDs, statements and responses, in the sheets' own
+  row order. There are no keys, no hidden metadata and no other annotator's
+  data.
+- **No network.** A Content-Security-Policy inside the file allows only its
+  own (hash-pinned) inline script and style, and sets `connect-src 'none'`.
+  The page cannot make network requests.
+- **Saving.** Progress is saved in that browser's local storage, separately
+  per audit. **Download draft backup** and **Load draft backup** give a
+  file copy, for example to move to another computer.
+- **Export.** **Export completed CSV** validates completeness and taxonomy
+  values, then downloads `<audit>_sheet_<annotator>.completed.csv`. The
+  annotator sends that file to the researcher.
+
+The researcher checks each returned file against the frozen sheet
+(read-only), then replaces the sheet manually:
+
+```bash
+uv run python scripts/labeling_ui/verify_export.py olmo A path/to/olmo_sheet_A.completed.csv
+cp path/to/olmo_sheet_A.completed.csv artifacts/labeling/commitment_audit_v1/sheet_A.csv   # only if VALID
+```
+
+(Use `qwen` and `artifacts/labeling/commitment_audit_qwen_v1/` for Audit 2.)
+
+Rebuild the two files (deterministic; a test fails if the committed copies
+are stale) with:
+
+```bash
+uv run python scripts/labeling_ui/build_standalone.py
+```
+
 ## Keyboard shortcuts
 
 | key | action |

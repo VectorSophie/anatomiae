@@ -10,14 +10,9 @@
 <main>
   <section id="start">
     <h1>Commitment audit — local labeling</h1>
-    <p>Choose your audit and your annotator letter. Label independently; do not open the other annotator's session.</p>
-    <div class="choices">
-      <button data-audit="olmo" data-annotator="A">Audit 1 · Annotator A</button>
-      <button data-audit="olmo" data-annotator="C">Audit 1 · Annotator C</button>
-      <button data-audit="qwen" data-annotator="A">Audit 2 · Annotator A</button>
-      <button data-audit="qwen" data-annotator="C">Audit 2 · Annotator C</button>
-    </div>
-    <p class="small">Progress autosaves to a local draft file for this audit and annotator only. Nothing leaves this computer.</p>
+    <p id="intro"></p>
+    <div id="choices" class="choices"></div>
+    <p class="small">Nothing leaves this computer. Progress is saved per audit and annotator.</p>
   </section>
 
   <section id="label" hidden>
@@ -48,6 +43,10 @@
       <button id="nextOpen">Next incomplete (Enter)</button>
       <button id="export" class="primary">Export completed CSV</button>
     </nav>
+    <div id="draftFiles" class="small" hidden>
+      <button id="saveDraftFile" class="ghost">Download draft backup</button>
+      <label>Load draft backup <input id="loadDraftFile" type="file" accept="application/json,.json"></label>
+    </div>
     <div id="exportResult" class="small"></div>
 
     <details class="small">
@@ -68,6 +67,7 @@
     </details>
   </section>
 </main>
+<script src="/backend_server.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>
