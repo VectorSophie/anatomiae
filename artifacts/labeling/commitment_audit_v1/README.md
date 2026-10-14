@@ -23,3 +23,6 @@ columns below. They are exactly as in human validation v1
 
 Responses may end mid-sentence because of the length limit. Judge what is
 there.
+
+Optional: a local labeling UI (one row at a time, autosaved drafts, validated export) is described in
+`scripts/labeling_ui/README.md`. Launch: `uv run python scripts/labeling_ui/server.py`.

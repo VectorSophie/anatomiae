@@ -39,3 +39,7 @@ artifacts/labeling/commitment_audit_v1/key.csv
 
 # Qwen commitment audit answer key: local-only until both sheets are labelled (blinding)
 artifacts/labeling/commitment_audit_qwen_v1/key.csv
+
+# local labeling UI drafts and exports (submitting = manual copy over your own sheet)
+artifacts/labeling/_ui_drafts/
+artifacts/labeling/_ui_exports/

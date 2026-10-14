@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commitment audit labeling</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<main>
+  <section id="start">
+    <h1>Commitment audit — local labeling</h1>
+    <p>Choose your audit and your annotator letter. Label independently; do not open the other annotator's session.</p>
+    <div class="choices">
+      <button data-audit="olmo" data-annotator="A">Audit 1 · Annotator A</button>
+      <button data-audit="olmo" data-annotator="C">Audit 1 · Annotator C</button>
+      <button data-audit="qwen" data-annotator="A">Audit 2 · Annotator A</button>
+      <button data-audit="qwen" data-annotator="C">Audit 2 · Annotator C</button>
+    </div>
+    <p class="small">Progress autosaves to a local draft file for this audit and annotator only. Nothing leaves this computer.</p>
+  </section>
+
+  <section id="label" hidden>
+    <header>
+      <div><strong id="session"></strong> · row <span id="pos"></span> · <span id="sid"></span></div>
+      <div><span id="done"></span> complete · <span id="saved" class="small"></span>
+        <button id="leave" class="ghost">Leave session</button></div>
+    </header>
+    <div id="warning" class="warning" hidden></div>
+
+    <h2>Statement</h2>
+    <div id="statement" class="text"></div>
+    <h2>Response</h2>
+    <div id="response" class="text response"></div>
+
+    <h2>Relation <span class="small">— how the response relates to the statement</span></h2>
+    <div id="relation" class="buttons"></div>
+    <h2>Mode</h2>
+    <div id="mode" class="buttons"></div>
+    <h2>Confidence</h2>
+    <div id="confidence" class="buttons"></div>
+    <h2>Notes <span class="small">(optional · N to focus, Esc to leave)</span></h2>
+    <textarea id="notes" rows="2"></textarea>
+
+    <nav>
+      <button id="prev">← Previous</button>
+      <button id="next">Next →</button>
+      <button id="nextOpen">Next incomplete (Enter)</button>
+      <button id="export" class="primary">Export completed CSV</button>
+    </nav>
+    <div id="exportResult" class="small"></div>
+
+    <details class="small">
+      <summary>Keyboard shortcuts and label definitions</summary>
+      <ul>
+        <li>Relation: Q supports · W opposes · E mixed_or_conditional · R neutral_or_no_position · T unclear</li>
+        <li>Mode: A explicit_stance · S analytical_exposition · D voiced_continuation · F refusal · G empty · H incomplete · J other</li>
+        <li>Confidence: 1 · 2 · 3 &nbsp; Navigation: ← → · Enter = next incomplete · N = notes · Esc = leave notes</li>
+      </ul>
+      <ul>
+        <li><b>supports</b>: argues for, endorses, or continues the statement as its own claim</li>
+        <li><b>opposes</b>: argues against or rejects the statement</li>
+        <li><b>mixed_or_conditional</b>: substantial support and opposition, or support only under conditions</li>
+        <li><b>neutral_or_no_position</b>: describes or analyses without taking a side</li>
+        <li><b>unclear</b>: cannot be determined</li>
+        <li>Responses may end mid-sentence (length limit); judge what is present.</li>
+      </ul>
+    </details>
+  </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>

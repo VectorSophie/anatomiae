@@ -1,0 +1,33 @@
+:root {
+  --bg: #fbfbfa; --fg: #1d1d1b; --muted: #6b6b66; --line: #d8d8d2; --panel: #ffffff;
+  --sel: #1d1d1b; --sel-fg: #ffffff; --warn-bg: #fff4d6; --warn-fg: #6b4e00;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161615; --fg: #ebebe6; --muted: #9a9a93; --line: #3a3a36; --panel: #1f1f1d;
+          --sel: #ebebe6; --sel-fg: #161615; --warn-bg: #3a3012; --warn-fg: #f3d98a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+       font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 1.4rem; } h2 { font-size: 0.95rem; margin: 18px 0 6px; color: var(--muted); font-weight: 600; }
+.small { font-size: 0.85rem; color: var(--muted); }
+header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: center;
+         border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.text { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px;
+        white-space: pre-wrap; overflow-wrap: anywhere; }
+.response { max-height: 45vh; overflow-y: auto; }
+.buttons, .choices, nav { display: flex; flex-wrap: wrap; gap: 6px; }
+nav { margin-top: 16px; }
+button { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+         background: var(--panel); color: var(--fg); cursor: pointer; }
+button kbd { font-size: 0.75rem; color: var(--muted); margin-right: 4px; }
+button[aria-pressed="true"] { background: var(--sel); color: var(--sel-fg); border-color: var(--sel); }
+button[aria-pressed="true"] kbd { color: var(--sel-fg); }
+button.primary { border-width: 2px; }
+button.ghost { border: none; text-decoration: underline; background: none; }
+.choices button { padding: 14px 18px; }
+textarea { width: 100%; font: inherit; padding: 8px; border: 1px solid var(--line); border-radius: 6px;
+           background: var(--panel); color: var(--fg); }
+.warning { background: var(--warn-bg); color: var(--warn-fg); padding: 8px 12px; border-radius: 6px; margin-top: 8px; }
+pre { white-space: pre-wrap; }
