@@ -41,10 +41,17 @@ and the prospective selective-commitment confirmation (`docs/results/selective_c
 Qwen2.5-14B-Instruct arm replicates (`docs/results/selective_commitment_crosslineage_v1.md`). Commitment-audit
 sample frozen (`docs/experiments/commitment_audit_v1.md`); blind sheets in `artifacts/labeling/commitment_audit_v1/`.
 
-Next:
-1. When the DeepSeek-R1-Distill-Qwen-14B download finishes (`artifacts/logs/dl/r1distill.status`), run the q_r1 arm
-   per section 7 of the cross-lineage results doc and complete that document. Never kill/restart that download.
-2. Human labels for the commitment audit (A and C sheets) - a human action; then analyse per the audit protocol.
+2026-10-14: R1-Distill secondary arm complete (+0.34 [0.15, 0.54], no detectable sibling difference). Qwen
+self-judging audit frozen (`docs/experiments/commitment_audit_qwen_v1.md`). Consolidated status and recommendation:
+`docs/results/research_status_2026-10-14.md`. No further model families by default.
+
+Next (human action first):
+1. Human A and C fill `artifacts/labeling/commitment_audit_v1/sheet_{A,C}.csv` and
+   `artifacts/labeling/commitment_audit_qwen_v1/sheet_{A,C}.csv` independently. Never edit them afterwards.
+2. `uv run python scripts/analyze_commitment_audit.py check --audit olmo` (and `--audit qwen`): validation, A<->C
+   agreement, adjudication queue. Researcher fills the queue; then `consensus`, then `analyze` (only step that reads
+   the local key). Write `docs/results/commitment_audit_v1.md` / `commitment_audit_qwen_v1.md`.
+3. Then decide per section 6 of the status document: manuscript drafting, or the single human-C re-estimation.
 
 Environment note: `uv sync --extra dev` removes the `ml`/`analysis` extras from the venv; on the workstation use
 `uv sync --all-extras` (CI installs dev only).

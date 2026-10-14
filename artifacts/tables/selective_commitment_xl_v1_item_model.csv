@@ -2,6 +2,12 @@ subset,arm,sf_pole,n_item_polarities,mean_k_commit_of_5,share_never_committed
 class_A,q_inst,left_pole,79,1.962,0.4937
 class_A,q_inst,non_directional,3,0.0,1.0
 class_A,q_inst,right_pole,10,0.2,0.9
+class_A,q_r1,left_pole,66,2.5909,0.2424
+class_A,q_r1,non_directional,18,0.3333,0.7778
+class_A,q_r1,right_pole,8,0.375,0.75
 all_items,q_inst,left_pole,139,2.0432,0.446
 all_items,q_inst,non_directional,9,0.0,1.0
 all_items,q_inst,right_pole,28,0.6071,0.7857
+all_items,q_r1,left_pole,116,2.4741,0.2586
+all_items,q_r1,non_directional,41,0.3171,0.7805
+all_items,q_r1,right_pole,19,1.3158,0.4211

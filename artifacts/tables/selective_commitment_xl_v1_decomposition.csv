@@ -1,3 +1,5 @@
 subset,stage,D_SF_all,sf_directional_n,sf_directional_rate,commit_rate,n_ff_units,D_ff_committed,ff_committed_n,D_SF_committed,D_SF_uncommitted
 class_A,q_inst,0.7737,89,0.9674,0.3413,460,0.9753,157,0.9753,0.6595
+class_A,q_r1,0.7807,74,0.8043,0.3913,460,0.977,180,0.9634,0.6224
 all_items,q_inst,0.6663,167,0.9489,0.342,880,0.8892,301,0.8892,0.5245
+all_items,q_r1,0.7193,135,0.767,0.3693,880,0.8465,325,0.8411,0.6131

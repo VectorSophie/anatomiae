@@ -1,1 +1,9 @@
-
+subset,from,to,quantity,diff,ci95_low,ci95_high
+class_A,q_inst,q_r1,commit_rate,0.05,-0.0065,0.1087
+class_A,q_inst,q_r1,selection_gap,0.0252,-0.1486,0.2078
+class_A,q_inst,q_r1,D_SF_all,0.007,-0.0839,0.1003
+class_A,q_inst,q_r1,D_ff_committed,0.0017,-0.0035,0.0139
+all_items,q_inst,q_r1,commit_rate,0.0273,-0.0137,0.0693
+all_items,q_inst,q_r1,selection_gap,-0.1367,-0.301,0.0196
+all_items,q_inst,q_r1,D_SF_all,0.053,-0.0437,0.1519
+all_items,q_inst,q_r1,D_ff_committed,-0.0427,-0.0966,0.006

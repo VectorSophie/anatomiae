@@ -1,8 +1,9 @@
 # Selective commitment — cross-lineage replication v1 (Qwen2.5-14B family)
 
-**Status:** primary arm complete (2026-10-13T09:15:05Z, `e14a823`). The secondary arm,
-DeepSeek-R1-Distill-Qwen-14B, is **pending**: its weights are still
-downloading.
+**Status:** complete.
+- Primary arm (Qwen2.5-14B-Instruct): 2026-10-13T09:15:05Z, `e14a823`.
+- Secondary arm (DeepSeek-R1-Distill-Qwen-14B): generated and analysed
+  2026-10-14.
 
 **Amendment:** `docs/experiments/selective_commitment_crosslineage_v1.md`,
 frozen and CI-green at `ccabd8c` before any Qwen generation. Everything not
@@ -97,11 +98,13 @@ differ in everything, so no attribution is made.
     still marginally positive. That is consistent with some judge-dependent
     inflation, but it does not show it.
   - The human commitment audit (`docs/experiments/commitment_audit_v1.md`)
-    covers OLMo responses only.
+    covers OLMo responses only. A separate post-result Qwen audit
+    (`docs/experiments/commitment_audit_qwen_v1.md`) is frozen and awaits
+    labels.
 - **Default system prompt.** Qwen's chat template injects it. It is part
   of the native format, kept by design.
-- **One arm.** The R1-distilled sibling, which tests whether a different
-  post-training of the same base shows the gap, is pending.
+- **The R1-distilled sibling** is reported in §7. It was added after this
+  section was first written.
 
 ## 6. Status of the thesis
 
@@ -110,19 +113,89 @@ RLVR2) and in Qwen2.5-14B-Instruct, under identical prompts, items,
 evaluator and decision rule. The Qwen replication carries the self-judging
 confound.
 
-## 7. Pending: Q-R1 (secondary)
+## 7. Secondary arm: DeepSeek-R1-Distill-Qwen-14B (2026-10-14)
 
-Weights: `deepseek-ai/DeepSeek-R1-Distill-Qwen-14B@1df85071`, about 30 GB.
-The download runs detached with the project's resumable retry loop
-(status in `artifacts/logs/dl/r1distill.status`). When it finishes, run:
+**Provenance.**
+- Weights at `1df85071`, all 4 safetensors SHA-256-verified against the Hub
+  (`artifacts/logs/r1distill_weights_sha256.json`).
+- 1,056 generations under the amendment's R1 rules: 4,096 tokens, greedy,
+  answer = text after the last `</think>`.
+- 0 errors. 9 responses ran out of budget inside `<think>` and so have
+  **no answer**; under the frozen rule they count as `C = 0` or a
+  non-directional SF.
+- 1,047 J-qy judgements: 0 errors, 0 malformed.
 
-```bash
-export CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=1
-bash scripts/gpu_preflight.sh
-uv run python scripts/selective_commitment_xl_v1.py generate --arm q_r1
-uv run python scripts/selective_commitment_xl_v1.py judge     # judges only new responses
-uv run python scripts/selective_commitment_xl_v1.py score     # appends only new results
-uv run python scripts/selective_commitment_xl_v1.py analyze   # adds the q_r1 arm + sibling contrast
-```
+### Secondary decision (frozen rule; does not decide replication)
 
-Then complete this document, replacing this section.
+| arm | committed / 460 | D_SF committed (n) | D_SF uncommitted (n) | gap [95% CI] | |
+|---|---:|---:|---:|---|---|
+| R1-Distill-Qwen-14B | 180 | 0.96 (174) | 0.62 (196) | **+0.34 [0.15, 0.54]** | confirmed |
+
+**All items:** +0.23 [0.09, 0.37]. That is smaller than Qwen-Instruct's
++0.37, but the CIs overlap (see the contrast below).
+
+### Decomposition, class A
+
+| | Q-Inst | Q-R1 |
+|---|---:|---:|
+| D_SF_all (SF directional rate) | 0.77 (0.97) | 0.78 (**0.80**) |
+| free-form commit rate | 0.34 | 0.39 |
+| D_ff among committed | 0.98 | 0.98 |
+| D_SF on committed / uncommitted | 0.98 / 0.66 | 0.96 / 0.62 |
+
+### Sibling contrast Q-R1 − Q-Inst (descriptive, joint item bootstrap)
+
+| quantity | class A | all items |
+|---|---|---|
+| commit rate | +0.05 [−0.01, 0.11] | +0.03 [−0.01, 0.07] |
+| selection gap | +0.03 [−0.15, 0.21] | −0.14 [−0.30, 0.02] |
+| D_SF_all | +0.01 [−0.08, 0.10] | +0.05 [−0.04, 0.15] |
+| D_ff committed | +0.00 [−0.00, 0.01] | −0.04 [−0.10, 0.01] |
+
+None of these differences is detectable. R1-style distillation onto the
+same base **preserves** the effect on the primary item set. The smaller
+all-items gap is not distinguishable from Qwen-Instruct's.
+
+### Pre-specified secondary analyses
+
+| analysis | result |
+|---|---|
+| Stance-first read by the rule-based evaluator | class A +0.31 [0.06, 0.61]; all items +0.25 [0.01, 0.48] |
+| Per prompt | 7/10 CIs > 0 |
+
+The per-prompt cells that miss:
+- class A `ff_make_of`: +0.24 [−0.02, 0.53];
+- class A `ff_comment`: +0.20 [−0.10, 0.47];
+- all items `ff_comment`: +0.10 [−0.15, 0.33].
+
+All 10 point estimates are positive.
+
+**Response mechanics differ from every other arm.**
+- R1's non-commitment is mostly **mixed/conditional**: 0.42–0.57 of
+  free-form responses, against neutral 0.05–0.17.
+- Its stance-first responses are directional only 0.77 of the time (all
+  items), against 0.94–0.97 for the other arms. R1 often concludes
+  "conditionally" even when asked to state a side first.
+- `ff_where_stand` does not depress commitment in R1 (0.37). In OLMo it was
+  0.08–0.16, and in Q-Inst 0.26.
+
+**P(commit | SF pole):**
+
+| subset | left pole: mean k (n) | right pole: mean k (n) | non-directional: mean k (n) |
+|---|---|---|---|
+| class A | 2.59 (66) | 0.38 (8) | 0.33 (18) |
+| all items | 2.47 (116) | 1.32 (19) | 0.32 (41) |
+
+On all items, right-pole stances are volunteered more often than in Q-Inst
+(0.61, n = 28). With these small right-pole cells this is descriptive only.
+
+### Reading
+
+R1-style reasoning distillation onto the Qwen2.5-14B base **preserves** the
+selection gap on the primary items. It neither detectably strengthens nor
+weakens it relative to the chat-tuned sibling.
+
+R1 does change *how* it declines to commit: mostly "mixed/conditional"
+rather than neutral, including under stance-first. The judge is again a
+Qwen2.5 model judging a sibling of the same base. The self-judging caveat
+(§5) applies here in weaker form.

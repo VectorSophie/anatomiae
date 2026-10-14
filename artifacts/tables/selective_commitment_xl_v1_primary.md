@@ -5,15 +5,28 @@
 | subset    | arm    | aggregation      |   n_units |   n_committed_units |   committed_sf_directional_n |   uncommitted_sf_directional_n |   D_SF_committed |   D_SF_uncommitted |   selection_gap |   ci95_low |   ci95_high | estimable   | confirmed   |
 |:----------|:-------|:-----------------|----------:|--------------------:|-----------------------------:|-------------------------------:|-----------------:|-------------------:|----------------:|-----------:|------------:|:------------|:------------|
 | class_A   | q_inst | pooled_5_prompts |       460 |                 157 |                          157 |                            288 |            0.975 |              0.66  |           0.316 |      0.156 |       0.485 | True        | True        |
+| class_A   | q_r1   | pooled_5_prompts |       460 |                 180 |                          174 |                            196 |            0.963 |              0.622 |           0.341 |      0.145 |       0.542 | True        | True        |
 | all_items | q_inst | pooled_5_prompts |       880 |                 301 |                          301 |                            534 |            0.889 |              0.525 |           0.365 |      0.2   |       0.522 | True        | True        |
+| all_items | q_r1   | pooled_5_prompts |       880 |                 325 |                          312 |                            363 |            0.841 |              0.613 |           0.228 |      0.086 |       0.373 | True        | True        |
 
 ## Decomposition
 
 | subset    | stage   |   D_SF_all |   sf_directional_n |   sf_directional_rate |   commit_rate |   n_ff_units |   D_ff_committed |   ff_committed_n |   D_SF_committed |   D_SF_uncommitted |
 |:----------|:--------|-----------:|-------------------:|----------------------:|--------------:|-------------:|-----------------:|-----------------:|-----------------:|-------------------:|
 | class_A   | q_inst  |      0.774 |                 89 |                 0.967 |         0.341 |          460 |            0.975 |              157 |            0.975 |              0.66  |
+| class_A   | q_r1    |      0.781 |                 74 |                 0.804 |         0.391 |          460 |            0.977 |              180 |            0.963 |              0.622 |
 | all_items | q_inst  |      0.666 |                167 |                 0.949 |         0.342 |          880 |            0.889 |              301 |            0.889 |              0.525 |
+| all_items | q_r1    |      0.719 |                135 |                 0.767 |         0.369 |          880 |            0.847 |              325 |            0.841 |              0.613 |
 
 ## Sibling contrast (descriptive)
 
-
+| subset    | from   | to   | quantity       |   diff |   ci95_low |   ci95_high |
+|:----------|:-------|:-----|:---------------|-------:|-----------:|------------:|
+| class_A   | q_inst | q_r1 | commit_rate    |  0.05  |     -0.007 |       0.109 |
+| class_A   | q_inst | q_r1 | selection_gap  |  0.025 |     -0.149 |       0.208 |
+| class_A   | q_inst | q_r1 | D_SF_all       |  0.007 |     -0.084 |       0.1   |
+| class_A   | q_inst | q_r1 | D_ff_committed |  0.002 |     -0.003 |       0.014 |
+| all_items | q_inst | q_r1 | commit_rate    |  0.027 |     -0.014 |       0.069 |
+| all_items | q_inst | q_r1 | selection_gap  | -0.137 |     -0.301 |       0.02  |
+| all_items | q_inst | q_r1 | D_SF_all       |  0.053 |     -0.044 |       0.152 |
+| all_items | q_inst | q_r1 | D_ff_committed | -0.043 |     -0.097 |       0.006 |
