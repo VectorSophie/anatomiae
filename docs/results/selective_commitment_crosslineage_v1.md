@@ -1,6 +1,6 @@
 # Selective commitment — cross-lineage replication v1 (Qwen2.5-14B family)
 
-**Status:** primary arm complete (2026-10-14). The secondary arm,
+**Status:** primary arm complete (2026-10-13T09:15:05Z, `e14a823`). The secondary arm,
 DeepSeek-R1-Distill-Qwen-14B, is **pending**: its weights are still
 downloading.
 

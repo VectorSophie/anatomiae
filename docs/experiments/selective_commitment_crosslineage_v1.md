@@ -1,6 +1,6 @@
 # Protocol amendment: selective commitment — cross-lineage replication v1
 
-**Status:** frozen 2026-10-14, committed and pushed **before** any
+**Status:** frozen 2026-10-13T09:08:04Z (`ccabd8c`), committed and pushed **before** any
 cross-lineage generation.
 
 **Parent protocol:** `selective_commitment_confirmatory_v1.md` (frozen at

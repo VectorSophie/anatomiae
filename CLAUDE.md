@@ -37,7 +37,7 @@ Respect the repository GPU guard and minimum-power-limit preflight. Use tensor p
 Completed on 2026-10-13: human-consensus evaluator validation, E(y) vs E(q,y), the J-qy re-read of OLMo v2,
 and the prospective selective-commitment confirmation (`docs/results/selective_commitment_confirmatory_v1.md`).
 
-2026-10-14: cross-lineage amendment frozen (`docs/experiments/selective_commitment_crosslineage_v1.md`, `ccabd8c`);
+2026-10-13 (UTC 09:08-09:15): cross-lineage amendment frozen (`docs/experiments/selective_commitment_crosslineage_v1.md`, `ccabd8c`);
 Qwen2.5-14B-Instruct arm replicates (`docs/results/selective_commitment_crosslineage_v1.md`). Commitment-audit
 sample frozen (`docs/experiments/commitment_audit_v1.md`); blind sheets in `artifacts/labeling/commitment_audit_v1/`.
 

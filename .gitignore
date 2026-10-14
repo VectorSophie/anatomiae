@@ -36,3 +36,6 @@ artifacts/logs/dl/*.attempt.log
 
 # commitment audit answer key: local-only until both audit sheets are labelled (blinding)
 artifacts/labeling/commitment_audit_v1/key.csv
+
+# Qwen commitment audit answer key: local-only until both sheets are labelled (blinding)
+artifacts/labeling/commitment_audit_qwen_v1/key.csv

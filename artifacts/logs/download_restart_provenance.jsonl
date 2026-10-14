@@ -19,3 +19,4 @@
 {"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":8,"ts":1790215775,"partial_bytes_before":870318080,"partial_bytes_after":880803840}
 {"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":9,"ts":1790217297,"partial_bytes_before":880803840,"partial_bytes_after":2013265920}
 {"event":"http_attempt","repo":"allenai--OLMo-2-1124-13B-Instruct-RLVR2","attempt":10,"ts":1790218336,"partial_bytes_before":2013265920,"partial_bytes_after":0}
+{"event":"http_attempt","repo":"deepseek-ai--DeepSeek-R1-Distill-Qwen-14B","attempt":1,"ts":1791899317,"partial_bytes_before":0,"partial_bytes_after":0}

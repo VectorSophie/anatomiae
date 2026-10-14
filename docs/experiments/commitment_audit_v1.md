@@ -1,6 +1,8 @@
 # Protocol: human audit of the commitment indicator C — v1
 
-**Status:** sample frozen 2026-10-14. Labels pending: this needs human
+**Status:** sample frozen 2026-10-13T09:08:04Z (commit `ccabd8c`). The seed
+`20261014` is only a label; it was chosen before the date mistake was
+noticed and is kept because the sample is frozen. Labels pending: this needs human
 annotators.
 
 ## Why
