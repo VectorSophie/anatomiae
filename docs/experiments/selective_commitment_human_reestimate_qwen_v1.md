@@ -255,7 +255,9 @@ directional SF. A non-estimable gap counts as "does not survive".
 
 ## Freeze record
 
-(SHA of the freeze commit added in the next commit.)
+Freeze commit: `9776f7f74fffd89715bb6cf859231ba11dd4b63d` ("research: freeze Qwen human selection-gap
+re-estimation", 2026-11-04). It was pushed to `origin/research/human-commitment-audit-closeout`
+before any new label existed.
 
 ## Deviations
 

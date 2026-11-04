@@ -1,5 +1,8 @@
 # anatomiae continuation handoff — 2026-10-13
 
+> **Superseded for current state** by `docs/results/research_status_2026-11-04.md`. Sections 4–5 below are
+> complete; the frozen scientific rules (section 7) still apply.
+
 This document is the authoritative handoff for a fresh Claude Code session continuing the project.
 
 ## 0. Scientific question
