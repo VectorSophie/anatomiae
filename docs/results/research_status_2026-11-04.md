@@ -149,17 +149,16 @@ reproduces the +0.262 J-qy comparator and the +0.316 census.
   - 14/33 statement translations are reused verbatim from the earlier human-C
     French rerun (`prior_C_translation_reuse_reference.csv`; provenance
     `reused_from_human_C_retry150_FR_completed`).
-  - **19/33 are drafts that need researcher review before sending**
-    (provenance `draft_by_claude_2026-11-04_unvalidated_needs_review` in
-    `statements_fr.csv`).
+  - 19/33 were drafted and then **reviewed and corrected by the researcher**
+    (provenance `researcher_reviewed_2026-11-04`; 6 wordings changed). Page C was
+    rebuilt. **Both pages are ready to send.**
   - Translation reuse is display-only. The rerun is not an annotation source
     for any follow-up row.
 
 ## 5. Order of operations from here
 
-1. Review the 19 draft translations. If any is changed, rebuild with
-   `uv run python scripts/labeling_ui/build_standalone.py`, run the tests and
-   commit **before** C starts.
+1. Done: the translations are reviewed and page C is rebuilt. Any further change
+   must be committed, with the page rebuilt, **before** C starts.
 2. Send the two pages. When the exports return:
    ```bash
    uv run python scripts/labeling_ui/verify_export.py qwen_gap A <file>    # and C

@@ -147,18 +147,19 @@ def test_verify_export_accepts_followup_sheets(tmp_path):
     assert ve.verify("qwen_gap", "A", p)  # A's frozen order differs
 
 
-def test_prior_c_translations_reused_verbatim_and_rest_flagged_for_review():
+def test_prior_c_translations_reused_verbatim_and_rest_researcher_reviewed():
     root = ui.FOLLOWUP_FR.parent
-    with ui.FOLLOWUP_FR.open(newline="", encoding="utf-8") as f:
+    with ui.FOLLOWUP_FR.open(newline="", encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
     with (root / "prior_C_translation_reuse_reference.csv").open(newline="", encoding="utf-8") as f:
         prior = {r["statement"]: r["statement_fr"] for r in csv.DictReader(f)}
     assert len(rows) == 33 and len(prior) == 14
     reused = [r for r in rows if r["translation_provenance"] == "reused_from_human_C_retry150_FR_completed"]
-    review = [r for r in rows if r["translation_provenance"] == "draft_by_claude_2026-11-04_unvalidated_needs_review"]
+    review = [r for r in rows if r["translation_provenance"] == "researcher_reviewed_2026-11-04"]
     assert len(reused) == 14 and len(review) == 19
     assert {r["statement"] for r in reused} == set(prior)
     assert all(r["statement_fr"] == prior[r["statement"]] for r in reused)  # exact, not re-paraphrased
+    assert all(r["statement_fr"].strip() for r in review)  # no unreviewed draft or blank translation remains
     # the page shows exactly these translations; translation reuse is not annotation reuse: no labels embedded
     data = embedded(bs.build("C", FOLLOWUP["C"]))
     fr = {r["statement"]: r["statement_fr"] for r in rows}

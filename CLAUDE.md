@@ -53,9 +53,8 @@ manuscript draft in `paper/`. Current state and exact next commands: `docs/resul
 `commitment_audit_qwen_v1.md`). The Qwen +0.32 is measurement-qualified under the frozen rule. Paper integrated (`dc8753e`).
 
 Next (human action first):
-1. Review the 19 draft French translations (`draft_..._needs_review` in
-   `artifacts/labeling/selection_gap_human_qwen_v1/statements_fr.csv`; the other 14 are reused verbatim from the
-   prior C rerun). Rebuild pages and commit any change before C starts.
+1. Done: French translations reviewed (19 researcher-reviewed, 14 reused verbatim); page C rebuilt. Any further
+   change must be committed, with the page rebuilt, before C starts.
 2. Annotators A and C label the 142 follow-up rows (`artifacts/labeling/standalone/selection_gap_qwen_annotator_{A,C}.html`).
    Then `--audit qwen_gap` verify/import/check/adjudicate/consensus, `selection_gap_human_qwen_v1.py analyze`,
    `make_paper_artifacts.py`. Write `docs/results/selective_commitment_human_reestimate_qwen_v1.md`.

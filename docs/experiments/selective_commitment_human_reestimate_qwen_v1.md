@@ -268,8 +268,11 @@ existed, 14 of the 33 French statement translations were replaced verbatim by th
 translations shown in the earlier human-C French rerun. The source is
 `prior_C_translation_reuse_reference.csv`, SHA-256
 `71e646a48496c98a73e4ad3e3594cbd68f67fdcad6b82100435fc919223be63e`, and the exact English
-statements match. Page C was rebuilt. The remaining 19 drafts are flagged for researcher
-review. The sample, the sheets and page A are unchanged.
+statements match. Page C was rebuilt. The remaining 19 drafts were then reviewed and
+corrected by the researcher (provenance `researcher_reviewed_2026-11-04`; 6 wordings changed;
+English statements and the 14 reused translations byte-identical), and page C was rebuilt
+again. All of this happened before page C was sent. The sample, the sheets and page A are
+unchanged.
 
 **Analysis order.** The Qwen audit was analysed (`114ac04`) after this protocol was
 frozen. Its frozen reading rule judged the Qwen measurement *measurement-qualified*, which

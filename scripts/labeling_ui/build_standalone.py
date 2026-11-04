@@ -105,7 +105,8 @@ def _sha(text: str) -> str:
 
 
 def french_statements() -> dict[str, str]:
-    with ui.FOLLOWUP_FR.open(newline="", encoding="utf-8") as f:
+    # utf-8-sig: the researcher-reviewed file may carry a BOM (spreadsheet export); content is unaffected
+    with ui.FOLLOWUP_FR.open(newline="", encoding="utf-8-sig") as f:
         return {r["statement"]: r["statement_fr"] for r in csv.DictReader(f)}
 
 
