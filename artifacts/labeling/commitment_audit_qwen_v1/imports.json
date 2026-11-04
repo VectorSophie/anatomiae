@@ -1,0 +1,23 @@
+[
+ {
+  "artifact": "sheet_A",
+  "source_filename": "qwen_sheet_A.completed.csv",
+  "stored_as": "sheet_A.completed.csv",
+  "sha256": "655212c88a70004b6df796cb5112d3a5abe0b3b4d29348ee0f7d6ec82b3e9ace",
+  "imported_utc": "2026-11-04T02:54:00+00:00"
+ },
+ {
+  "artifact": "sheet_C",
+  "source_filename": "qwen_sheet_C.completed.csv",
+  "stored_as": "sheet_C.completed.csv",
+  "sha256": "92968fe869ff93f3169787150ded3aae2f7fdb4da34f35d0a834d4be9583b06c",
+  "imported_utc": "2026-11-04T02:54:00+00:00"
+ },
+ {
+  "artifact": "adjudication_queue",
+  "source_filename": "adjudication_queue_qwen.completed.csv",
+  "stored_as": "adjudication_queue.completed.csv",
+  "sha256": "b498655fc5147c81a5a5f1fd621def1a0a36198631b22cd0a6619921eb4d75b0",
+  "imported_utc": "2026-11-04T02:54:07+00:00"
+ }
+]

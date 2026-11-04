@@ -247,3 +247,12 @@ def test_analyze_end_to_end_on_synthetic_audit(tmp_path, monkeypatch):
     assert allc["overread_k"] == 1 and allc["underread_k"] == 1  # CA003 over-read, CA004 under-read
     assert set(m["reference"]) == {"consensus", "human_A", "human_C"}
     assert (tmp_path / "tables" / "syn_syn_report.md").exists()
+
+
+def test_cli_accepts_documented_argument_order(tmp_path, monkeypatch):
+    """Regression: `import-sheet --audit X --annotator A <path>` (path after the options) must parse."""
+    root, done_a, _ = _audit_dir(tmp_path, monkeypatch)
+    ca.main(["import-sheet", "--audit", "syn", "--annotator", "A", str(done_a)])
+    assert (root / "sheet_A.completed.csv").read_bytes() == done_a.read_bytes()
+    with pytest.raises(SystemExit):
+        ca.main(["import-sheet", "--audit", "syn", str(done_a)])  # missing --annotator

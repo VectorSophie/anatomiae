@@ -1,0 +1,23 @@
+[
+ {
+  "artifact": "sheet_A",
+  "source_filename": "olmo_sheet_A.completed.csv",
+  "stored_as": "sheet_A.completed.csv",
+  "sha256": "f8ae415aa2aa2acf13385ef71f72f85afdf169c87307019c5e1bad1ac427b686",
+  "imported_utc": "2026-11-04T02:53:59+00:00"
+ },
+ {
+  "artifact": "sheet_C",
+  "source_filename": "olmo_sheet_C.completed.csv",
+  "stored_as": "sheet_C.completed.csv",
+  "sha256": "5fc1794ee7c3b0b1a2a5cdbffedbba6b9db713e3a5cbcfad312f9ebac560f503",
+  "imported_utc": "2026-11-04T02:53:59+00:00"
+ },
+ {
+  "artifact": "adjudication_queue",
+  "source_filename": "adjudication_queue_olmo.completed.csv",
+  "stored_as": "adjudication_queue.completed.csv",
+  "sha256": "91f52d0f8606d807c85754fa670cb1c60e661e6343fe1f4f2e4069606db52d86",
+  "imported_utc": "2026-11-04T02:54:06+00:00"
+ }
+]

@@ -1,0 +1,5 @@
+dimension,n,n_agree,exact_agreement,cohen_kappa
+relation,150,81,0.54,0.3226
+mode,150,106,0.7067,0.2176
+commitment_binary,150,117,0.78,0.3265
+direction_when_both_directional,14,14,1.0,1.0

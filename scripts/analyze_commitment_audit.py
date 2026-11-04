@@ -474,13 +474,14 @@ def cmd_compare() -> None:
     print("Wilson CIs overlap:", overlap)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["import-sheet", "import-adjudication", "check", "consensus", "analyze", "compare"])
     ap.add_argument("--audit", choices=sorted(AUDITS))
     ap.add_argument("--annotator", choices=["A", "C"])
     ap.add_argument("path", nargs="?", type=Path)
-    args = ap.parse_args()
+    # intermixed: the documented usage puts the path after the options (`import-sheet --audit X --annotator A path`)
+    args = ap.parse_intermixed_args(argv)
     if args.cmd == "compare":
         return cmd_compare()
     if not args.audit:

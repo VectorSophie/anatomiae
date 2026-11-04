@@ -1,0 +1,13 @@
+reference,quantity,estimate,boot_ci_low,boot_ci_high,n,n_left,n_right
+consensus,human_minus_jqy_commit_rate,-0.06,-0.1181,0.0,150,111,34
+consensus,human_commit_asymmetry_left_minus_right,0.2565,0.1292,0.3835,150,111,34
+consensus,jqy_commit_asymmetry_left_minus_right,0.2992,0.1427,0.4496,150,111,34
+consensus,jqy_minus_human_asymmetry,0.0427,-0.0832,0.1461,150,111,34
+human_A,human_minus_jqy_commit_rate,-0.0667,-0.1549,0.0214,150,111,34
+human_A,human_commit_asymmetry_left_minus_right,0.1616,0.0087,0.2973,150,111,34
+human_A,jqy_commit_asymmetry_left_minus_right,0.2992,0.1427,0.4496,150,111,34
+human_A,jqy_minus_human_asymmetry,0.1375,-0.0059,0.2945,150,111,34
+human_C,human_minus_jqy_commit_rate,-0.14,-0.2055,-0.078,150,111,34
+human_C,human_commit_asymmetry_left_minus_right,0.1484,0.0148,0.2719,150,111,34
+human_C,jqy_commit_asymmetry_left_minus_right,0.2992,0.1427,0.4496,150,111,34
+human_C,jqy_minus_human_asymmetry,0.1508,-0.0047,0.3118,150,111,34
