@@ -37,6 +37,13 @@ SHEETS = {
     ("qwen", "A"): ROOT / "artifacts/labeling/commitment_audit_qwen_v1/sheet_A.csv",
     ("qwen", "C"): ROOT / "artifacts/labeling/commitment_audit_qwen_v1/sheet_C.csv",
 }
+# Blind sheets of the Qwen human selection-gap re-estimation (new rows only). Offline pages and
+# verify_export.py only; the local server keeps serving exactly the four audit sheets above.
+FOLLOWUP_SHEETS = {
+    ("qwen_gap", "A"): ROOT / "artifacts/labeling/selection_gap_human_qwen_v1/sheet_A.csv",
+    ("qwen_gap", "C"): ROOT / "artifacts/labeling/selection_gap_human_qwen_v1/sheet_C.csv",
+}
+FOLLOWUP_FR = ROOT / "artifacts/labeling/selection_gap_human_qwen_v1/statements_fr.csv"
 DRAFTS = ROOT / "artifacts/labeling/_ui_drafts"
 EXPORTS = ROOT / "artifacts/labeling/_ui_exports"
 COLUMNS = ["sample_id", "statement", "response", "relation", "mode", "confidence_1to3", "notes"]
@@ -222,7 +229,8 @@ class Handler(BaseHTTPRequestHandler):
                 out.unlink()
                 return self._json(500, {"valid": False, "problems": problems})
             return self._json(200, {"valid": True, "path": display(out), "rows": len(rows),
-                                    "replace_with": f"cp {display(out)} {display(SHEETS[k])}"})
+                                    "replace_with": ("uv run python scripts/analyze_commitment_audit.py import-sheet "
+                                                     f"--audit {k[0]} --annotator {k[1]} {display(out)}")})
         return self._json(404, {"error": "not found"})
 
 

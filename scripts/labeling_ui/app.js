@@ -11,6 +11,8 @@ const KEYS = {
 const state = { audit: null, annotator: null, rows: [], digest: null, labels: {}, i: 0, tax: null, timer: null };
 const $ = (id) => document.getElementById(id);
 const B = window.Backend;
+// Optional display strings (the French page); English is the default and the canonical taxonomy is never translated.
+const T = (s) => (B.strings && B.strings[s]) || s;
 
 function complete(sid) {
   const l = state.labels[sid] || {};
@@ -42,7 +44,10 @@ function render() {
   const l = state.labels[row.sample_id] || {};
   $("pos").textContent = `${state.i + 1} / ${state.rows.length}`;
   $("sid").textContent = row.sample_id;
-  $("statement").textContent = row.statement;
+  // A display-only translation may be embedded (statement_fr); the canonical English statement is what is exported.
+  $("statement").textContent = row.statement_fr || row.statement;
+  $("statementOrig").hidden = !row.statement_fr;
+  $("statementEn").textContent = row.statement_fr ? row.statement : "";
   $("response").textContent = row.response;
   $("response").scrollTop = 0;
   for (const [field, id] of [["relation", "relation"], ["mode", "mode"], ["confidence_1to3", "confidence"]]) {
@@ -53,11 +58,11 @@ function render() {
 }
 
 function scheduleSave() {
-  $("saved").textContent = "saving…";
+  $("saved").textContent = T("saving…");
   clearTimeout(state.timer);
   state.timer = setTimeout(async () => {
     const r = await B.saveDraft(state.audit, state.annotator, { digest: state.digest, labels: state.labels });
-    $("saved").textContent = r.ok ? "draft saved" : `save failed: ${r.message}`;
+    $("saved").textContent = r.ok ? T("draft saved") : `${T("save failed")}: ${r.message}`;
   }, 300);
 }
 
@@ -76,7 +81,7 @@ function nextIncomplete() {
 
 function applyDraft(draft, warn) {
   if (draft && draft.digest && draft.digest !== state.digest) {
-    warn.push("A draft exists but was made for different sheet contents; it was not loaded.");
+    warn.push(T("A draft exists but was made for different sheet contents; it was not loaded."));
     return false;
   }
   if (draft && draft.labels) {
@@ -137,7 +142,7 @@ async function exportCsv() {
   const r = await B.exportCsv(state.audit, state.annotator, state.rows,
     { digest: state.digest, labels: state.labels }, state.tax);
   if (r.ok) showResult(r.lines);
-  else showResult([{ text: `Not exported: ${r.problems.length} problem(s).` }], r.problems.slice(0, 50));
+  else showResult([{ text: `${T("Not exported")}: ${r.problems.length} ${T("problem(s).")}` }], r.problems.slice(0, 50));
 }
 
 function renderStart() {
@@ -170,9 +175,9 @@ $("loadDraftFile").addEventListener("change", async (e) => {
   if (!file) return;
   const warn = [];
   let draft;
-  try { draft = JSON.parse(await file.text()); } catch { return alert("Not a draft file."); }
+  try { draft = JSON.parse(await file.text()); } catch { return alert(T("Not a draft file.")); }
   if (draft.audit !== state.audit || draft.annotator !== state.annotator) {
-    return alert("This draft belongs to a different audit or annotator; not loaded.");
+    return alert(T("This draft belongs to a different audit or annotator; not loaded."));
   }
   if (applyDraft(draft, warn)) {
     scheduleSave();

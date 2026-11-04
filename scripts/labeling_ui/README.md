@@ -44,11 +44,12 @@ standard library.)
   `sample_id,statement,response,relation,mode,confidence_1to3,notes`.
 
 **Submitting a sheet is your explicit, manual step.** After checking the
-export, copy it over your own frozen sheet with the `cp` command the UI
-prints. For example:
+export, import it. This is non-destructive: the frozen sheet is never modified, and the
+import is stored as `sheet_<X>.completed.csv` next to it. (Older versions of this README,
+and the server's message, suggested `cp` over the frozen sheet. Use the import instead.)
 
 ```bash
-cp artifacts/labeling/_ui_exports/olmo_sheet_A.completed.csv artifacts/labeling/commitment_audit_v1/sheet_A.csv
+uv run python scripts/analyze_commitment_audit.py import-sheet --audit olmo --annotator A artifacts/labeling/_ui_exports/olmo_sheet_A.completed.csv
 ```
 
 Then run:
@@ -78,14 +79,24 @@ open it by double-clicking. No server and no internet are needed.
   annotator sends that file to the researcher.
 
 The researcher checks each returned file against the frozen sheet
-(read-only), then replaces the sheet manually:
+(read-only), then imports it. The import stores a byte-identical copy as
+`sheet_<X>.completed.csv` next to the frozen blank sheet, which is never modified, and
+records its SHA-256 in `imports.json`. An existing import is never replaced:
 
 ```bash
 uv run python scripts/labeling_ui/verify_export.py olmo A path/to/olmo_sheet_A.completed.csv
-cp path/to/olmo_sheet_A.completed.csv artifacts/labeling/commitment_audit_v1/sheet_A.csv   # only if VALID
+uv run python scripts/analyze_commitment_audit.py import-sheet --audit olmo --annotator A path/to/olmo_sheet_A.completed.csv
 ```
 
-(Use `qwen` and `artifacts/labeling/commitment_audit_qwen_v1/` for Audit 2.)
+(Use `qwen` for Audit 2 and `qwen_gap` for the follow-up.) This replaces the earlier
+`cp`-over-the-sheet instruction; the analysis reads `sheet_<X>.completed.csv` when present.
+
+### Follow-up pages (Audit 3: Qwen human selection-gap re-estimation)
+
+`selection_gap_qwen_annotator_A.html` (English) and `selection_gap_qwen_annotator_C.html`
+(French UI, French statement translation shown with the English original collapsible,
+English responses) hold only the 142 new rows. The canonical English statement and taxonomy
+are what is stored and exported. See `artifacts/labeling/selection_gap_human_qwen_v1/README.md`.
 
 Rebuild the two files (deterministic; a test fails if the committed copies
 are stale) with:

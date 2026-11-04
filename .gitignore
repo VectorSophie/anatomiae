@@ -43,3 +43,6 @@ artifacts/labeling/commitment_audit_qwen_v1/key.csv
 # local labeling UI drafts and exports (submitting = manual copy over your own sheet)
 artifacts/labeling/_ui_drafts/
 artifacts/labeling/_ui_exports/
+
+# Qwen human selection-gap re-estimation key: local-only until both new sheets are labelled (blinding)
+artifacts/labeling/selection_gap_human_qwen_v1/key.csv

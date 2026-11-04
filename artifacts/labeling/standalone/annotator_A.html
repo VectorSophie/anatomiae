@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-M2lfDO8ykorm+3xR4B5eFxieiXNe9ZLzxCGCVA0V/0k='; style-src 'sha256-rWOXDgBHz/Hzgc7654YRd/O2mxuT7O2zGyzGDl8hJpg='; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-nZkGbSEGx7TJqWFBmINUBcZXHXMDQklwqIJ4z9WTbcs='; style-src 'sha256-rWOXDgBHz/Hzgc7654YRd/O2mxuT7O2zGyzGDl8hJpg='; connect-src 'none'; img-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Commitment audit labeling — Annotator A</title>
 <style>:root {
@@ -59,6 +59,8 @@ pre { white-space: pre-wrap; }
 
     <h2>Statement</h2>
     <div id="statement" class="text"></div>
+    <details id="statementOrig" class="small" hidden><summary>English original</summary>
+      <div id="statementEn" class="text"></div></details>
     <h2>Response</h2>
     <div id="response" class="text response"></div>
 
@@ -109,7 +111,9 @@ pre { white-space: pre-wrap; }
 // No network access: the page's CSP sets connect-src 'none'.
 (() => {
   const DATA = JSON.parse(document.getElementById("sheet-data").textContent);
-  const NAMES = { olmo: "Audit 1", qwen: "Audit 2" };
+  const NAMES = DATA.names || { olmo: "Audit 1", qwen: "Audit 2" };
+  const STR = DATA.strings || {};
+  const T = (x) => STR[x] || x;
   const storeKey = (a, n) => `anatomiae-commitment-audit:${a}:${n}:${DATA.sheets[a].digest}`;
 
   function csvField(v) {
@@ -132,11 +136,12 @@ pre { white-space: pre-wrap; }
   }
 
   window.Backend = {
-    intro: `This file is for Annotator ${DATA.annotator} only. Label independently. ` +
-      "Progress is kept in this browser on this computer; use “Download draft backup” to keep a copy.",
+    intro: DATA.intro || (`This file is for Annotator ${DATA.annotator} only. Label independently. ` +
+      "Progress is kept in this browser on this computer; use “Download draft backup” to keep a copy."),
+    strings: STR,
     draftFiles: true,
     sessions: () => Object.keys(DATA.sheets).map((audit) => ({ audit, annotator: DATA.annotator })),
-    sessionLabel: (a, n) => `${NAMES[a]} · Annotator ${n}`,
+    sessionLabel: (a, n) => `${NAMES[a]} · ${T("Annotator")} ${n}`,
     taxonomy: async () => DATA.taxonomy,
     loadSheet: async (a) => ({ ok: true, rows: DATA.sheets[a].rows, digest: DATA.sheets[a].digest, source_has_labels: 0 }),
     loadDraft: async (a, n) => {
@@ -147,7 +152,7 @@ pre { white-space: pre-wrap; }
         localStorage.setItem(storeKey(a, n), JSON.stringify(draft));
         return { ok: true };
       } catch (err) {
-        return { ok: false, message: "browser storage unavailable — use “Download draft backup”" };
+        return { ok: false, message: T("browser storage unavailable — use “Download draft backup”") };
       }
     },
     downloadDraft: (a, n, draft) =>
@@ -159,9 +164,9 @@ pre { white-space: pre-wrap; }
         const l = draft.labels[r.sample_id] || {};
         const row = { sample_id: r.sample_id, statement: r.statement, response: r.response,
           relation: l.relation || "", mode: l.mode || "", confidence_1to3: l.confidence_1to3 || "", notes: l.notes || "" };
-        if (!tax.relations.includes(row.relation)) problems.push(`${r.sample_id}: relation missing or invalid`);
-        if (!tax.modes.includes(row.mode)) problems.push(`${r.sample_id}: mode missing or invalid`);
-        if (!tax.confidence.includes(row.confidence_1to3)) problems.push(`${r.sample_id}: confidence missing or invalid`);
+        if (!tax.relations.includes(row.relation)) problems.push(`${r.sample_id}: ${T("relation missing or invalid")}`);
+        if (!tax.modes.includes(row.mode)) problems.push(`${r.sample_id}: ${T("mode missing or invalid")}`);
+        if (!tax.confidence.includes(row.confidence_1to3)) problems.push(`${r.sample_id}: ${T("confidence missing or invalid")}`);
         return row;
       });
       if (out.length !== DATA.sheets[a].rows.length) problems.push("row count changed");
@@ -169,8 +174,8 @@ pre { white-space: pre-wrap; }
       const name = `${a}_sheet_${n}.completed.csv`;
       download(name, toCsv(out), "text/csv;charset=utf-8");
       return { ok: true, lines: [
-        { text: `Valid (${out.length} rows). Downloaded ${name}. Send that file to the researcher; ` +
-          "it is checked against the frozen sheet before it replaces anything:" },
+        { text: `${T("Valid")} (${out.length} ${T("rows")}). ${T("Downloaded")} ${name}. ` +
+          T("Send that file to the researcher; it is checked against the frozen sheet before it replaces anything:") },
         { text: `uv run python scripts/labeling_ui/verify_export.py ${a} ${n} path/to/${name}`, code: true }] };
     },
   };
@@ -189,6 +194,8 @@ const KEYS = {
 const state = { audit: null, annotator: null, rows: [], digest: null, labels: {}, i: 0, tax: null, timer: null };
 const $ = (id) => document.getElementById(id);
 const B = window.Backend;
+// Optional display strings (the French page); English is the default and the canonical taxonomy is never translated.
+const T = (s) => (B.strings && B.strings[s]) || s;
 
 function complete(sid) {
   const l = state.labels[sid] || {};
@@ -220,7 +227,10 @@ function render() {
   const l = state.labels[row.sample_id] || {};
   $("pos").textContent = `${state.i + 1} / ${state.rows.length}`;
   $("sid").textContent = row.sample_id;
-  $("statement").textContent = row.statement;
+  // A display-only translation may be embedded (statement_fr); the canonical English statement is what is exported.
+  $("statement").textContent = row.statement_fr || row.statement;
+  $("statementOrig").hidden = !row.statement_fr;
+  $("statementEn").textContent = row.statement_fr ? row.statement : "";
   $("response").textContent = row.response;
   $("response").scrollTop = 0;
   for (const [field, id] of [["relation", "relation"], ["mode", "mode"], ["confidence_1to3", "confidence"]]) {
@@ -231,11 +241,11 @@ function render() {
 }
 
 function scheduleSave() {
-  $("saved").textContent = "saving…";
+  $("saved").textContent = T("saving…");
   clearTimeout(state.timer);
   state.timer = setTimeout(async () => {
     const r = await B.saveDraft(state.audit, state.annotator, { digest: state.digest, labels: state.labels });
-    $("saved").textContent = r.ok ? "draft saved" : `save failed: ${r.message}`;
+    $("saved").textContent = r.ok ? T("draft saved") : `${T("save failed")}: ${r.message}`;
   }, 300);
 }
 
@@ -254,7 +264,7 @@ function nextIncomplete() {
 
 function applyDraft(draft, warn) {
   if (draft && draft.digest && draft.digest !== state.digest) {
-    warn.push("A draft exists but was made for different sheet contents; it was not loaded.");
+    warn.push(T("A draft exists but was made for different sheet contents; it was not loaded."));
     return false;
   }
   if (draft && draft.labels) {
@@ -315,7 +325,7 @@ async function exportCsv() {
   const r = await B.exportCsv(state.audit, state.annotator, state.rows,
     { digest: state.digest, labels: state.labels }, state.tax);
   if (r.ok) showResult(r.lines);
-  else showResult([{ text: `Not exported: ${r.problems.length} problem(s).` }], r.problems.slice(0, 50));
+  else showResult([{ text: `${T("Not exported")}: ${r.problems.length} ${T("problem(s).")}` }], r.problems.slice(0, 50));
 }
 
 function renderStart() {
@@ -348,9 +358,9 @@ $("loadDraftFile").addEventListener("change", async (e) => {
   if (!file) return;
   const warn = [];
   let draft;
-  try { draft = JSON.parse(await file.text()); } catch { return alert("Not a draft file."); }
+  try { draft = JSON.parse(await file.text()); } catch { return alert(T("Not a draft file.")); }
   if (draft.audit !== state.audit || draft.annotator !== state.annotator) {
-    return alert("This draft belongs to a different audit or annotator; not loaded.");
+    return alert(T("This draft belongs to a different audit or annotator; not loaded."));
   }
   if (applyDraft(draft, warn)) {
     scheduleSave();

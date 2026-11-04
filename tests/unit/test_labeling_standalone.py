@@ -57,11 +57,11 @@ def test_csp_pins_inline_code_and_blocks_network():
 
 
 def test_build_is_deterministic_and_committed_pages_are_current():
-    for annotator in ("A", "C"):
-        page = bs.OUT_DIR / f"annotator_{annotator}.html"
-        assert bs.build(annotator) == bs.build(annotator)
+    for stem, (annotator, _, _, _) in bs.PAGES.items():
+        page = bs.OUT_DIR / f"{stem}.html"
+        assert bs.build(annotator, stem) == bs.build(annotator, stem)
         if page.exists():
-            assert page.read_text(encoding="utf-8") == bs.build(annotator), "rebuild the standalone pages"
+            assert page.read_text(encoding="utf-8") == bs.build(annotator, stem), "rebuild the standalone pages"
 
 
 def _complete(audit, annotator, tmp_path, mutate=None):
@@ -99,3 +99,49 @@ def test_js_csv_writer_round_trips_through_python_csv(tmp_path):
         back = list(csv.DictReader(f))
     assert back == rows
     assert ve.verify("olmo", "C", p) == []
+
+
+FOLLOWUP = {"A": "selection_gap_qwen_annotator_A", "C": "selection_gap_qwen_annotator_C"}
+
+
+@pytest.mark.parametrize("annotator", ["A", "C"])
+def test_followup_page_embeds_only_new_blind_rows(annotator):
+    html = bs.build(annotator, FOLLOWUP[annotator])
+    data = embedded(html)
+    assert list(data["sheets"]) == ["qwen_gap"] and data["annotator"] == annotator
+    source = ui.read_sheet(ui.FOLLOWUP_SHEETS[("qwen_gap", annotator)])
+    rows = data["sheets"]["qwen_gap"]["rows"]
+    assert [{k: r[k] for k in ("sample_id", "statement", "response")} for r in rows] == ui.blind_rows(source)
+    assert all(r["sample_id"].startswith("QG") for r in rows)  # no reused audit rows (CQ...) are shown
+    expected = {"sample_id", "statement", "response"} | ({"statement_fr"} if annotator == "C" else set())
+    assert all(set(r) == expected for r in rows)
+    code = re.sub(r'<script type="application/json" id="sheet-data">.*?</script>', "", html, flags=re.DOTALL)
+    leaked = [w for w in ("key.csv", "C_jqy", "jqy_outcome", "sf_pole", "stratum", "item_lean", "cache_key",
+                          "label_source", "Qwen") if w in code]
+    assert leaked == []
+    csp = re.search(r'http-equiv="Content-Security-Policy" content="([^"]+)"', html).group(1)
+    assert "connect-src 'none'" in csp and not re.search(r'(src|href)="', html)
+
+
+def test_french_page_is_display_only_translation():
+    html = bs.build("C", FOLLOWUP["C"])
+    data = embedded(html)
+    assert data["lang"] == "fr" and '<html lang="fr">' in html and "Énoncé (traduction française)" in html
+    fr = bs.french_statements()
+    for r in data["sheets"]["qwen_gap"]["rows"]:
+        assert r["statement_fr"] == fr[r["statement"]] and r["statement_fr"] != r["statement"]
+    # the canonical English taxonomy is what the page stores and exports
+    assert data["taxonomy"]["relations"] == ui.RELATIONS and data["taxonomy"]["modes"] == ui.MODES
+    english = bs.build("A", FOLLOWUP["A"])
+    assert "lang" not in embedded(english) and '<html lang="en">' in english
+    assert all("statement_fr" not in r for r in embedded(english)["sheets"]["qwen_gap"]["rows"])
+
+
+def test_verify_export_accepts_followup_sheets(tmp_path):
+    rows = ui.read_sheet(ui.FOLLOWUP_SHEETS[("qwen_gap", "C")])
+    for r in rows:
+        r.update(relation="mixed_or_conditional", mode="analytical_exposition", confidence_1to3="2")
+    p = tmp_path / "qwen_gap_sheet_C.completed.csv"
+    p.write_text(ui.to_csv(rows), encoding="utf-8", newline="")
+    assert ve.verify("qwen_gap", "C", p) == []
+    assert ve.verify("qwen_gap", "A", p)  # A's frozen order differs

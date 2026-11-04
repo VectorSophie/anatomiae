@@ -1,0 +1,26 @@
+{
+ "protocol": "docs/experiments/selective_commitment_human_reestimate_qwen_v1.md",
+ "seed": 20261103,
+ "population_item_polarities_by_stratum": {
+  "left_pole": 79,
+  "right_pole": 10,
+  "non_directional": 3
+ },
+ "sampled_item_polarities_by_stratum": {
+  "left_pole": 20,
+  "right_pole": 10,
+  "non_directional": 3
+ },
+ "total_rows": 165,
+ "prompts_per_item_polarity": 5,
+ "rows_with_reused_A_label": 23,
+ "rows_with_reused_C_label": 23,
+ "rows_with_reused_adjudicated_consensus": 23,
+ "rows_requiring_new_A_label": 142,
+ "rows_requiring_new_C_label": 142,
+ "new_sheet_sha256": {
+  "A": "87411d5782cf11ff03c9f336df2aa72c789b4a98d1505ded3112cada9830fe3f",
+  "C": "30c3e2f15754c40545bfed7ee8ad7518318e2c9b60f93ef5d1869361368be2c6"
+ },
+ "key": "key.csv is local-only (gitignored) until both new sheets are labelled"
+}

@@ -1,10 +1,10 @@
 """Check a completed CSV (from either labeling UI) against its frozen blind sheet.
 
-  uv run python scripts/labeling_ui/verify_export.py <olmo|qwen> <A|C> path/to/completed.csv
+  uv run python scripts/labeling_ui/verify_export.py <olmo|qwen|qwen_gap> <A|C> path/to/completed.csv
 
 Read-only. Checks exact columns, row count, sample_ids and order, statement and
-response text byte-for-byte, completeness and taxonomy values. Prints the cp
-command to submit it; it never copies or writes anything itself.
+response text byte-for-byte, completeness and taxonomy values. Prints the
+import-sheet command to submit it; it never copies or writes anything itself.
 """
 
 from __future__ import annotations
@@ -14,9 +14,11 @@ from pathlib import Path
 
 import server as ui
 
+ALL_SHEETS = {**ui.SHEETS, **ui.FOLLOWUP_SHEETS}
+
 
 def verify(audit: str, annotator: str, path: Path) -> list[str]:
-    source = ui.read_sheet(ui.SHEETS[(audit, annotator)])
+    source = ui.read_sheet(ALL_SHEETS[(audit, annotator)])
     try:
         done = ui.read_sheet(path)
     except ValueError as e:
@@ -36,7 +38,7 @@ def verify(audit: str, annotator: str, path: Path) -> list[str]:
 
 
 def main() -> None:
-    if len(sys.argv) != 4 or (sys.argv[1], sys.argv[2]) not in ui.SHEETS:
+    if len(sys.argv) != 4 or (sys.argv[1], sys.argv[2]) not in ALL_SHEETS:
         raise SystemExit(__doc__)
     audit, annotator, path = sys.argv[1], sys.argv[2], Path(sys.argv[3])
     problems = verify(audit, annotator, path)
@@ -44,7 +46,8 @@ def main() -> None:
         print(f"INVALID: {len(problems)} problem(s)")
         print("\n".join(problems[:50]))
         raise SystemExit(1)
-    print(f"VALID. To submit (explicit, manual): cp {path} {ui.display(ui.SHEETS[(audit, annotator)])}")
+    print("VALID. To submit (explicit, manual; stores a copy next to the frozen sheet, which is never modified):\n"
+          f"  uv run python scripts/analyze_commitment_audit.py import-sheet --audit {audit} --annotator {annotator} {path}")
 
 
 if __name__ == "__main__":
