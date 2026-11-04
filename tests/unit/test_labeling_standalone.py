@@ -145,3 +145,32 @@ def test_verify_export_accepts_followup_sheets(tmp_path):
     p.write_text(ui.to_csv(rows), encoding="utf-8", newline="")
     assert ve.verify("qwen_gap", "C", p) == []
     assert ve.verify("qwen_gap", "A", p)  # A's frozen order differs
+
+
+def test_prior_c_translations_reused_verbatim_and_rest_flagged_for_review():
+    root = ui.FOLLOWUP_FR.parent
+    with ui.FOLLOWUP_FR.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    with (root / "prior_C_translation_reuse_reference.csv").open(newline="", encoding="utf-8") as f:
+        prior = {r["statement"]: r["statement_fr"] for r in csv.DictReader(f)}
+    assert len(rows) == 33 and len(prior) == 14
+    reused = [r for r in rows if r["translation_provenance"] == "reused_from_human_C_retry150_FR_completed"]
+    review = [r for r in rows if r["translation_provenance"] == "draft_by_claude_2026-11-04_unvalidated_needs_review"]
+    assert len(reused) == 14 and len(review) == 19
+    assert {r["statement"] for r in reused} == set(prior)
+    assert all(r["statement_fr"] == prior[r["statement"]] for r in reused)  # exact, not re-paraphrased
+    # the page shows exactly these translations; translation reuse is not annotation reuse: no labels embedded
+    data = embedded(bs.build("C", FOLLOWUP["C"]))
+    fr = {r["statement"]: r["statement_fr"] for r in rows}
+    page_rows = data["sheets"]["qwen_gap"]["rows"]
+    assert all(r["statement_fr"] == fr[r["statement"]] for r in page_rows)
+    assert all(set(r) == {"sample_id", "statement", "response", "statement_fr"} for r in page_rows)
+
+
+@pytest.mark.parametrize("annotator", ["A", "C"])
+def test_followup_pages_hold_142_unlabelled_rows(annotator):
+    data = embedded(bs.build(annotator, FOLLOWUP[annotator]))
+    rows = data["sheets"]["qwen_gap"]["rows"]
+    assert len(rows) == 142 and len({r["sample_id"] for r in rows}) == 142
+    source = ui.read_sheet(ui.FOLLOWUP_SHEETS[("qwen_gap", annotator)])
+    assert all(not (r["relation"] or r["mode"] or r["confidence_1to3"] or r["notes"]) for r in source)

@@ -28,6 +28,13 @@ uv run python scripts/selection_gap_human_qwen_v1.py analyze                    
 
 Files:
 - `manifest.json`: public counts and sheet hashes only.
-- `statements_fr.csv`: the display-only French translations, drafted 2026-11-04 and
-  unvalidated. The researcher reviews them before sending page C.
+- `statements_fr.csv`: the display-only French translations.
+  - 14/33 are reused verbatim from the earlier human-C French rerun
+    (`reused_from_human_C_retry150_FR_completed`; source
+    `prior_C_translation_reuse_reference.csv`, SHA-256 `71e646a4…`).
+  - 19/33 are drafts (`draft_by_claude_2026-11-04_unvalidated_needs_review`), which the
+    researcher reviews before sending page C.
+
+  Translation reuse is not annotation reuse: no label from the earlier run is used for any
+  follow-up row.
 - `key.csv`: local-only and gitignored.

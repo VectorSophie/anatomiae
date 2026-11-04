@@ -161,3 +161,33 @@ def test_committed_sample_is_reproducible_and_matches_manifest(real_units):
         committed = pd.read_csv(REPO / g.ROOT / f"sheet_{a}.csv", keep_default_na=False, dtype=str)
         pd.testing.assert_frame_equal(sh[g.COLUMNS].astype(str).reset_index(drop=True), committed)
     g.check_reuse_text(key, real_units)
+
+
+def test_analyze_pipeline_runs_once_followup_labels_exist(real_units, tmp_path, monkeypatch):
+    """Readiness check with SYNTHETIC follow-up labels in a temp dir (never written to the repo).
+    Needs the local key and the imported Qwen audit consensus; skipped otherwise."""
+    import analyze_commitment_audit as ca
+
+    if not (REPO / g.KEY).exists() or not (REPO / g.AUDIT_ROOT / "labels_consensus.csv").exists():
+        pytest.skip("local key or Qwen audit consensus not present")
+    pytest.importorskip("tabulate")
+    root = tmp_path / "qwen_gap"
+    root.mkdir()
+    for a in "AC":
+        sh = pd.read_csv(REPO / g.ROOT / f"sheet_{a}.csv", keep_default_na=False, dtype=str)
+        sh["relation"], sh["mode"], sh["confidence_1to3"] = "neutral_or_no_position", "analytical_exposition", "2"
+        sh.to_csv(root / f"sheet_{a}.completed.csv", index=False)
+        sh.to_csv(root / f"sheet_{a}.csv", index=False)
+    pd.DataFrame({"sample_id": sh["sample_id"], "relation": sh["relation"], "mode": sh["mode"],
+                  "provenance": "human_A_C_agreed"}).to_csv(root / "labels_consensus.csv", index=False)
+    monkeypatch.setitem(ca.AUDITS, "qwen_gap", (str(root), 142, "QG"))
+    monkeypatch.chdir(REPO)
+    monkeypatch.setattr(g, "OUT", str(tmp_path / "out" / "sg"))
+    g.cmd_analyze()
+    prim = pd.read_csv(tmp_path / "out" / "sg_primary.csv").set_index("label_source")
+    # the J-qy comparator on the same units reproduces the label-free design check in the protocol
+    assert prim.at["jqy_same_units", "selection_gap"] == pytest.approx(0.2619, abs=1e-3)
+    census = pd.read_csv(tmp_path / "out" / "sg_design_check_census.csv").iloc[0]
+    assert census["selection_gap"] == pytest.approx(0.3158, abs=1e-3)
+    assert "human_consensus_minus_jqy_same_units" in prim.index
+    assert not (REPO / g.ROOT / "labels_consensus.csv").exists()  # nothing written to the real follow-up dir

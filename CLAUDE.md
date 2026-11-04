@@ -49,15 +49,17 @@ self-judging audit frozen (`docs/experiments/commitment_audit_qwen_v1.md`). Cons
 human selection-gap re-estimation frozen (`9776f7f`, protocol `docs/experiments/selective_commitment_human_reestimate_qwen_v1.md`);
 manuscript draft in `paper/`. Current state and exact next commands: `docs/results/research_status_2026-11-04.md`.
 
+2026-11-04 (later): both human commitment audits closed (`114ac04`; `docs/results/commitment_audit_v1.md`,
+`commitment_audit_qwen_v1.md`). The Qwen +0.32 is measurement-qualified under the frozen rule. Paper integrated (`dc8753e`).
+
 Next (human action first):
-1. Import the six completed audit files (A/C sheets and adjudication queues for olmo and qwen) with
-   `analyze_commitment_audit.py import-sheet` / `import-adjudication`. Never cp over the frozen sheets. Then
-   `check`, `consensus`, `analyze`, `compare`, `make_paper_artifacts.py`. Write `docs/results/commitment_audit_v1.md` and
-   `commitment_audit_qwen_v1.md`.
-2. Annotators A and C label the 142 follow-up rows (pages in `artifacts/labeling/standalone/selection_gap_qwen_annotator_*.html`;
-   review `statements_fr.csv` before sending C). Then `--audit qwen_gap` import/check/consensus and
-   `selection_gap_human_qwen_v1.py analyze`.
-3. Finalize the manuscript per the frozen reading rules. No further model/GPU experiments by default.
+1. Review the 19 draft French translations (`draft_..._needs_review` in
+   `artifacts/labeling/selection_gap_human_qwen_v1/statements_fr.csv`; the other 14 are reused verbatim from the
+   prior C rerun). Rebuild pages and commit any change before C starts.
+2. Annotators A and C label the 142 follow-up rows (`artifacts/labeling/standalone/selection_gap_qwen_annotator_{A,C}.html`).
+   Then `--audit qwen_gap` verify/import/check/adjudicate/consensus, `selection_gap_human_qwen_v1.py analyze`,
+   `make_paper_artifacts.py`. Write `docs/results/selective_commitment_human_reestimate_qwen_v1.md`.
+3. Finalize the manuscript per the frozen reading rule. No further model/GPU experiments.
 
 Environment note: `uv sync --extra dev` removes the `ml`/`analysis` extras from the venv; on the workstation use
 `uv sync --all-extras` (CI installs dev only).
