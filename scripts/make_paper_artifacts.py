@@ -129,6 +129,37 @@ def table2() -> bool:
     return ready
 
 
+def table3() -> bool:
+    """Pole-conditioned J-qy error and commitment asymmetry, consensus reference, both audits."""
+    rows = []
+    for audit, label in (("olmo", "OLMo-2-13B"), ("qwen", "Qwen2.5-14B-Instruct")):
+        pc, me = T / f"commitment_audit_{audit}_pole_contrasts.csv", T / f"commitment_audit_{audit}_measurement_effect.csv"
+        if not pc.exists():
+            return False
+        c = pd.read_csv(pc)
+        c = c[c["reference"] == "consensus"].set_index("quantity")
+        for q, name in (("overread", "over-read"), ("underread", "under-read"), ("human_commit", "human commitment"),
+                        ("jqy_commit", "J-qy commitment")):
+            x = c.loc[f"{q}_left_minus_right"]
+            rows.append({"audit": label, "quantity": name,
+                         "left k/n": f"{int(x['left_k'])}/{int(x['left_n'])}",
+                         "right k/n": f"{int(x['right_k'])}/{int(x['right_n'])}",
+                         "left − right": f2(x["diff"]),
+                         "Newcombe 95% CI": f"[{p2(x['newcombe_low'])}, {p2(x['newcombe_high'])}]",
+                         "Fisher p": f"{x['fisher_p']:.3f}" if x["fisher_p"] < 0.01 else p2(x["fisher_p"])})
+        m = pd.read_csv(me)
+        x = m[(m["reference"] == "consensus") & (m["quantity"] == "jqy_minus_human_asymmetry")].iloc[0]
+        rows.append({"audit": label, "quantity": "J-qy − human commitment asymmetry", "left k/n": "", "right k/n": "",
+                     "left − right": f2(x["estimate"]),
+                     "Newcombe 95% CI": f"bootstrap [{p2(x['boot_ci_low'])}, {p2(x['boot_ci_high'])}]",
+                     "Fisher p": ""})
+    write("table3_pole_conditioned_error", pd.DataFrame(rows),
+          "Table 3. J-qy commitment error and commitment asymmetry by stance-first pole (consensus reference).",
+          "Over-read base: human non-committed; under-read base: human committed. Fisher p is descriptive. "
+          "Cells with n < 10 (OLMo right-pole under-read n = 2; Qwen n = 4) are not interpreted.")
+    return True
+
+
 def figure_audit_by_pole() -> bool:
     ms = {a: audit_metrics(a) for a in ("olmo", "qwen")}
     if any(m is None for m in ms.values()):
@@ -281,7 +312,7 @@ def main() -> None:
     table1()
     figure_framework()
     figure_commit_by_pole()
-    status = {"table2_human_audit": table2(), "figure3_audit_commitment_by_pole": figure_audit_by_pole(),
+    status = {"table2_human_audit": table2(), "table3_pole_conditioned_error": table3(), "figure3_audit_commitment_by_pole": figure_audit_by_pole(),
               "table4b_human_reestimate_result": table4()}
     print("generated; pending-human-label artifacts:", [k for k, v in status.items() if not v] or "none")
 

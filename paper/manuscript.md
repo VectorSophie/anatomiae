@@ -9,8 +9,8 @@ bibliography: ../CITATIONS.bib
 DRAFT STATUS (2026-11-04)
 - Every number comes from a committed artifact. Tables and figures come from
   scripts/make_paper_artifacts.py (paper/tables, paper/figures). Do not type numbers by hand.
-- [PENDING-AUDIT]: sections that depend on the two human commitment audits. The completed
-  sheets exist but are not yet imported (docs/results/research_status_2026-11-04.md).
+- Human commitment audits: closed 2026-11-04 (`114ac04`); §9 follows
+  docs/results/commitment_audit_v1.md and commitment_audit_qwen_v1.md.
 - [PENDING-REESTIMATE]: depends on the frozen Qwen human selection-gap re-estimation
   (docs/experiments/selective_commitment_human_reestimate_qwen_v1.md).
 - [CITE NEEDED: ...]: a claim that needs a reference not in CITATIONS.bib. Do not fill from memory;
@@ -41,14 +41,26 @@ direction index bounded in [−1, 1], every 95% CI above 0. It replicates
 prospectively in Qwen2.5-14B-Instruct (+0.32) and its R1-distilled sibling
 (+0.34). That is five checkpoints from two lineages.
 
-Commitment is itself measured, and the measurement is contested. On a difficult
-validation sample, humans disagree mostly about *whether* a response commits,
-rarely about its direction (97/100 same direction when both see one). An LLM
-judge shown the statement removes polarity errors but still reads most hedged
-answers as committed. [PENDING-AUDIT: representative human audits of the
-commitment variable in both lineages.] [PENDING-REESTIMATE: the Qwen gap
-re-estimated with human-labelled commitment.] Until those return, the
-magnitude of the Qwen estimate is reported as measurement-qualified.
+Commitment is itself measured, and the measurement is contested. Humans
+disagree mostly about *whether* a response commits, rarely about its
+direction. We audited the LLM judge's commitment variable against two
+independent humans and an adjudicated consensus on representative samples:
+150 OLMo and 100 Qwen free-form responses.
+
+- **Agreement:** the judge agrees with the consensus at κ = 0.62 and 0.64.
+- **Direction:** it reverses direction in 0/30 and 1/30 responses that both
+  call directional.
+- **Errors:** its errors lie at the commitment boundary.
+
+In OLMo, the selective pattern is present under human labels. Humans see a
+side in 35/111 responses whose explicit stance is on the left pole of the item
+coding, but in only 2/34 right-pole ones. The judge preserves this asymmetry.
+
+In Qwen, where the judge rates its own outputs, the audit cannot exclude
+pole-dependent over-reading: left 9/48 vs right 0/11, a difference not
+detectable at this n. Under the frozen reading rule, the Qwen magnitude
+(+0.32) is therefore *measurement-qualified*. A frozen, pole-stratified human
+re-estimate of that gap is pending (165 responses, 142 newly labelled).
 
 # 1 Introduction
 
@@ -388,44 +400,95 @@ it judges its own outputs. With the stance-first side read by the rule-based
 evaluator instead, the class-A gap is +0.14 [0.00, 0.30]. That is the most
 judge-dependent number in the study. Its human validation is in §9–10.
 
-# 9 Human audits of the commitment variable [PENDING-AUDIT]
+# 9 Human audits of the commitment variable
 
-**Design.** Two frozen representative audits of J-qy's `C`:
-- **OLMo:** 150 responses, 10 per stage × prompt cell, frozen at `ccabd8c`.
-- **Qwen-Instruct:** 100 responses, 20 per prompt. This is a post-result
-  validation.
+**Design.** Two frozen representative audits of J-qy's commitment variable `C`
+(post-result validations):
+- **OLMo:** 150 free-form responses, 10 random per stage × prompt cell, frozen
+  at `ccabd8c`.
+- **Qwen2.5-14B-Instruct:** 100 responses, 20 per prompt.
 
-**Analyses (frozen):**
-- A↔C agreement;
-- J-qy vs consensus: accuracy, κ, over-read and under-read with Wilson CIs, and
-  direction reversals;
-- **the deciding analysis: J-qy error by stance-first pole.**
+Both span all 88 items (82 and 57 rows are class A). They validate `C`. They do
+**not** re-estimate the selection gap.
 
-**What would make the gap an evaluator artefact.** J-qy over-reading more on
-left-pole item-polarities, or under-reading more on right-pole ones.
+**Labels.** Two independent humans, A and C, labelled each audit. Disagreements
+(95 and 78 rows) were adjudicated by the researcher. `C_human = 1` iff the
+consensus relation is supports or opposes.
 
-**Secondary calculations, frozen in code before the labels were imported:**
-- the evaluator measurement effect: human minus J-qy commitment, and the
-  left−right commitment asymmetry under each;
-- pole-conditioned error differences with item-cluster bootstrap, Newcombe CI
-  and Fisher exact p (descriptive);
-- A-only and C-only sensitivity analyses.
+**Inter-human agreement on commitment is low** on these representative,
+mostly analytical responses (consensus mode "analytical exposition": 121/150
+and 81/100):
 
-Table 2 and Figure 3 are generated automatically once the completed sheets
-are imported.
+| | A↔C commitment κ | A↔C relation κ |
+|---|---:|---:|
+| OLMo | 0.33 | 0.32 |
+| Qwen | 0.17 | 0.17 |
 
-[PENDING-AUDIT: insert Table 2, Figure 3, and the reading-rule outcome for
-Qwen. The prose must follow the keyed results.]
+When both humans see a side, they almost always agree on its direction: 14/14
+and 13/14. This reproduces, on representative data, the pattern of the
+difficult validation sample (§6). Because the consensus leans heavily on
+adjudication, every result is also reported against A alone and C alone.
 
-The provisional expectation from a pre-analysis outside the repository is:
-- J-qy errors concentrate at the commitment boundary;
-- direction reversals among jointly directional responses are rare;
-- the OLMo asymmetry survives;
-- Qwen shows pole-dependent error.
+## 9.1 Overall validity
 
-It is **not** a result. It is recorded only to explain why §10 was frozen.
+**Table 2** (`paper/tables/table2_human_audit.md`).
+
+| | OLMo | Qwen |
+|---|---|---|
+| human commitment | 37/150 | 38/100 |
+| J-qy commitment | 46/150 | 39/100 |
+| accuracy | 0.85 | 0.83 |
+| κ | 0.62 | 0.64 |
+| over-read [Wilson 95% CI] | 16/113 [0.09, 0.22] | 9/62 [0.08, 0.25] |
+| under-read [Wilson 95% CI] | 7/37 [0.09, 0.34] | 8/38 [0.11, 0.36] |
+| reversals / both directional | 0/30 | 1/30 |
+
+The self-judge's overall error rates on Qwen overlap those on OLMo.
+
+## 9.2 Pole dependence: the deciding analysis
+
+![Figure 3. Free-form commitment by stance-first pole under human consensus and J-qy, both audits. Counts k/n and Wilson 95% CIs.](figures/figure3_audit_commitment_by_pole.pdf)
+
+**Table 3** (`paper/tables/table3_pole_conditioned_error.md`).
+
+**OLMo.**
+- **Over-read:** slightly higher on left-pole than right-pole responses
+  (13/76 vs 3/32; +0.08, Newcombe 95% CI [−0.09, 0.19]). Not detectable.
+- **Right-pole under-read:** 2/2. That cell is too small to interpret.
+- **Under human labels**, the commitment asymmetry is clear:
+  - consensus: 35/111 left vs 2/34 right, +0.26 [0.10, 0.36];
+  - A alone: +0.16;
+  - C alone: +0.15.
+- **J-qy's asymmetry** is +0.30. Relative to the consensus it exceeds the human
+  one by +0.04 [−0.08, 0.15] (item-cluster bootstrap), so J-qy *preserves* it.
+  Relative to either single annotator the excess is about +0.14 to +0.15, with
+  CIs touching 0.
+
+**Qwen.**
+- **Over-read:** concentrated on left-pole responses (9/48 vs 0/11; +0.19,
+  Newcombe [−0.09, 0.32], Fisher p = 0.19).
+- **Human commitment asymmetry:** not distinguishable from 0 under any
+  reference:
+  - consensus: +0.15 [−0.12, 0.34];
+  - A alone: +0.06;
+  - C alone: +0.02.
+- **J-qy's asymmetry** is +0.24. It exceeds the human one under every
+  reference: +0.09, +0.18 and +0.22, with no CI excluding 0.
+
+**Frozen reading rule (Qwen).**
+- **Condition 1 (error CIs overlap OLMo's):** met.
+- **Condition 2 (no pole-dependent error large enough to account for the
+  gap):** cannot be established. The pattern points in the direction that
+  would inflate the gap, and its plausible size is not small.
+
+The Qwen replication is therefore reported as **measurement-qualified**. Its
+sign and lower bound hold under J-qy measurement. Whether its magnitude holds
+under human measurement is §10.
 
 # 10 Re-estimating the Qwen gap with human commitment [PENDING-REESTIMATE]
+
+The Qwen audit's reading rule (§9.2) triggers this follow-up. It was frozen
+before the audit was analysed and before any new label existed.
 
 Protocol `selective_commitment_human_reestimate_qwen_v1`, frozen at `9776f7f`
 before any new label.
@@ -481,13 +544,31 @@ tuning, hedging norms on particular topics and item properties. None is tested
 here.
 
 **Measurement decides commitment.** Humans themselves disagree mostly about
-commitment. Judges and classifiers differ mainly in their commitment threshold.
-Direction, once commitment is agreed, is comparatively stable. The selection
-effect is therefore defined relative to a measurement threshold, and whether it
-survives a human threshold is an empirical question. §9–10 answer it, not the
-judge.
+commitment, and on representative free-form responses they disagree a lot
+(commitment κ 0.17–0.33). They rarely disagree on direction.
 
-[PENDING: final wording of the headline claim depends on §9–10.]
+A capable judge conditioned on the statement reaches κ ≈ 0.6 against an
+adjudicated consensus. It almost never reverses direction. Its errors, like the
+humans' disagreements, sit on the commitment boundary.
+
+The selection effect is therefore defined relative to a commitment threshold,
+and its robustness has to be checked against human thresholds:
+- **In OLMo it holds.** Humans, individually and in consensus, see sides far
+  more often on left-pole than on right-pole items, and the judge preserves
+  that asymmetry.
+- **In Qwen, where the judge rates its own model,** the representative audit
+  is too small to separate a genuine asymmetry from a pole-dependent
+  over-reading that would inflate it.
+
+**Headline wording (current).** Selective commitment is confirmed in OLMo-2-13B
+under LLM-judge measurement and survives human audit of the commitment
+variable. It replicates in the Qwen2.5-14B lineage under LLM-judge measurement,
+with a magnitude that is measurement-qualified pending the human re-estimate
+(§10).
+
+[PENDING-REESTIMATE: revise per the frozen reading rule. If the human gap's
+CI excludes 0, report it alongside +0.32. If not, restrict the replicated claim
+to OLMo, and qualify R1-Distill the same way.]
 
 # 12 Limitations
 
@@ -506,7 +587,12 @@ judge.
 - **Small right-pole cells:** n = 8–16 item-polarities per checkpoint on
   class A.
 - **Human references:**
-  - two annotators plus researcher adjudication;
+  - two annotators plus researcher adjudication; inter-human agreement on
+    commitment is low on representative responses (κ 0.33 OLMo, 0.17 Qwen), so
+    most contested labels are adjudicated, and results are also reported per
+    annotator;
+  - the audits' right-pole cells are small (34 and 15 responses; 2 and 4
+    human-committed);
   - the French presentation for one annotator adds a translation layer, which
     is display-only.
 - **Detecting the effect is not explaining it:** no causal claim beyond
@@ -532,10 +618,12 @@ A political score from free-form answers is not a direct readout of a model's
 position. It is the explicit direction on the statements the model chose to
 take a side on, as judged by an evaluator's commitment threshold.
 
-This selective commitment is prospectively confirmed in one lineage and
-replicated in a second. Whether its magnitude in the second survives
-human-measured commitment is the last open measurement question, and it is
-frozen and awaiting labels.
+This selective commitment is prospectively confirmed in one lineage, where it
+also survives a human audit of the commitment variable. It is replicated in a
+second lineage under LLM-judge measurement.
+
+Whether its magnitude there survives human-measured commitment is the last
+open measurement question. It is frozen and awaiting labels.
 
 Reporting coverage, explicit-elicitation contrasts and evaluator validity
 alongside any direction score would make such scores interpretable.

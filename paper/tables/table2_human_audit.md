@@ -2,9 +2,9 @@
 
 **Table 2. J-qy commitment vs researcher-adjudicated human consensus on representative free-form samples (Wilson 95% CIs).**
 
-| audit                          | n       | human commit (k)   | J-qy commit (k)   | accuracy   | Cohen κ   | over-read k/n [95% CI]   | under-read k/n [95% CI]   | reversals / both directional   |
-|:-------------------------------|:--------|:-------------------|:------------------|:-----------|:----------|:-------------------------|:--------------------------|:-------------------------------|
-| OLMo-2-13B SFT/DPO/RLVR2 (150) | pending | pending            | pending           | pending    | pending   | pending                  | pending                   | pending                        |
-| Qwen2.5-14B-Instruct (100)     | pending | pending            | pending           | pending    | pending   | pending                  | pending                   | pending                        |
+| audit                          | n   | human commit (k)   | J-qy commit (k)   | accuracy   | Cohen κ   | over-read k/n [95% CI]   | under-read k/n [95% CI]   | reversals / both directional   |
+|:-------------------------------|:----|:-------------------|:------------------|:-----------|:----------|:-------------------------|:--------------------------|:-------------------------------|
+| OLMo-2-13B SFT/DPO/RLVR2 (150) | 150 | 0.25 (37)          | 0.31 (46)         | 0.85       | 0.62      | 16/113 [0.09, 0.22]      | 7/37 [0.09, 0.34]         | 0/30                           |
+| Qwen2.5-14B-Instruct (100)     | 100 | 0.38 (38)          | 0.39 (39)         | 0.83       | 0.64      | 9/62 [0.08, 0.25]        | 8/38 [0.11, 0.36]         | 1/30                           |
 
-Status: PENDING: completed human sheets not yet imported; filled automatically by `analyze_commitment_audit.py analyze`.
+Status: complete.
